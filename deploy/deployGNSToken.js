@@ -1,11 +1,11 @@
-const { timeout } = require("../utils/delay");
-const { createDeployFunction } = require("../utils/deploy");
-const { addMinterRole } = require("../utils/role");
+const { timeout } = require('../utils/delay');
+const { createDeployFunction } = require('../utils/deploy');
+const { addMinterRole } = require('../utils/role');
 
-const constructorContracts = ["Owner"];
+const constructorContracts = ['Owner'];
 
 const func = createDeployFunction({
-  contractName: "GainsNetworkToken",
+  contractName: 'GainsNetworkToken',
   afterDeploy: async ({
     deployedContract,
     getNamedAccounts,
@@ -24,3 +24,4 @@ const func = createDeployFunction({
 });
 
 module.exports = func;
+module.exports.tags = ['gns_token'];

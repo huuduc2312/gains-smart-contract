@@ -1,4 +1,4 @@
-const { getConfigs } = require("../config/config");
+const { getConfigs } = require('../config/config');
 
 async function deployContract(name, args, contractOptions = {}) {
   const contractFactory = await ethers.getContractFactory(
@@ -23,6 +23,7 @@ function createDeployFunction({
   libraryNames = [],
   afterDeploy = null,
   id,
+  getProxyConfig = null,
 }) {
   const func = async ({ getNamedAccounts, deployments, gmx, network }) => {
     const { deploy, get } = deployments;
@@ -59,6 +60,12 @@ function createDeployFunction({
       }
     }
 
+    let proxy = false;
+
+    if (getProxyConfig) {
+      proxy = getProxyConfig({ dependencyContracts });
+    }
+
     let deployedContract;
 
     try {
@@ -67,6 +74,7 @@ function createDeployFunction({
         log: true,
         args: deployArgs,
         libraries,
+        proxy: proxy,
       });
     } catch (e) {
       // the caught error might not be very informative

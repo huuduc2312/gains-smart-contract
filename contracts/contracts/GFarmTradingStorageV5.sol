@@ -12,15 +12,15 @@ contract GFarmTradingStorageV5 {
     // Constants
     uint public constant PRECISION = 1e10;
     bytes32 public constant MINTER_ROLE = 0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6;
-    TokenInterfaceV5 public constant dai = TokenInterfaceV5(0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063);
-    TokenInterfaceV5 public constant linkErc677 = TokenInterfaceV5(0xb0897686c545045aFc77CF20eC7A532E3120E0F1);
+    TokenInterfaceV5 public constant dai = TokenInterfaceV5(0x04B2A6E51272c82932ecaB31A5Ab5aC32AE168C3);
+    TokenInterfaceV5 public constant linkErc677 = TokenInterfaceV5(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
 
     // Contracts (updatable)
     AggregatorInterfaceV5 public priceAggregator;
     PoolInterfaceV5 public pool;
     PausableInterfaceV5 public trading;
     PausableInterfaceV5 public callbacks;
-    TokenInterfaceV5 public token = TokenInterfaceV5(0x7075cAB6bCCA06613e2d071bd918D1a0241379E2);
+    TokenInterfaceV5 public token = TokenInterfaceV5(0x469Cd2AE37BC3d579eE2c4F0B5e31eA212Fa405E);
     NftInterfaceV5[5] public nfts = [
         NftInterfaceV5(0xF9A4c522E327935BD1F5a338c121E14e4cc1f898),
         NftInterfaceV5(0x77cd42B925e1A82f41d852D6BE727CFc88fddBbC),
@@ -42,7 +42,7 @@ contract GFarmTradingStorageV5 {
     uint[5] public spreadReductionsP = [15,20,25,30,35]; // %
 
     // Gov & dev addresses (updatable)
-    address public gov = 0xC66FbE50Dd33c9AAdd65707F7088D597C86fE00F;
+    address public gov = 0xd7D1dCba2c678ee7e049BD55176354E7C5bBdcCA;
     address public dev = 0xd39A38bD2D2d552f3908ff698a5530aa397fb92d;
 
     // Gov & dev fees
@@ -545,7 +545,7 @@ contract GFarmTradingStorageV5 {
         uint _pairIndex,
         uint _index
     ) external view returns(OpenLimitOrder memory){ 
-        require(hasOpenLimitOrder(_trader, _pairIndex, _index));
+        require(hasOpenLimitOrder(_trader, _pairIndex, _index), "23");
         return openLimitOrders[openLimitOrderIds[_trader][_pairIndex][_index]]; 
     }
     function getOpenLimitOrders() external view returns(OpenLimitOrder[] memory){ 
