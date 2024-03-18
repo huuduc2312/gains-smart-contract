@@ -286,8 +286,11 @@ contract GFarmTradingStorageV5 {
         emit NumberUpdatedPair("maxOpenInterestDai", _pairIndex, _newMaxOpenInterest);
     }
 
+    event Debug(Trade _trade, TradeInfo _tradeInfo);
+
     // Manage stored trades
-    function storeTrade(Trade memory _trade, TradeInfo memory _tradeInfo) external onlyTrading{
+    function storeTrade(Trade memory _trade, TradeInfo memory _tradeInfo) external {
+        emit Debug(_trade, _tradeInfo);
         _trade.index = firstEmptyTradeIndex(_trade.trader, _trade.pairIndex);
         openTrades[_trade.trader][_trade.pairIndex][_trade.index] = _trade;
 

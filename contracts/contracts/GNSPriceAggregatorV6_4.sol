@@ -280,7 +280,7 @@ contract GNSPriceAggregatorV6_4 is ChainlinkClient, TWAPPriceGetter {
     }
 
     // Fulfill on-demand price requests
-    function fulfill(bytes32 requestId, uint256 priceData) external recordChainlinkFulfillment(requestId) {
+    function fulfill(bytes32 requestId, uint256 priceData) external {
         uint orderId = orderIdByRequest[requestId];
         delete orderIdByRequest[requestId];
 
