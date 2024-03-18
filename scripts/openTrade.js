@@ -1,7 +1,7 @@
 const hre = require('hardhat');
 const deployment = require('../deployments/mumbai/GNSTradingV6_4_1.json');
-const callbacksAddr =
-  require('../deployments/mumbai/GNSTradingCallbacksV6_4_1.json').address;
+const tradingStorageAddr =
+  require('../deployments/mumbai/GFarmTradingStorageV5.json').address;
 const rewardsAddr =
   require('../deployments/mumbai/GNSOracleRewardsV6_4_1.json').address;
 
@@ -14,36 +14,18 @@ async function main() {
     owner
   );
 
-  const callbacks = await hre.ethers.getContractAt(
-    'GNSTradingCallbacksV6_4_1',
-    callbacksAddr
+  const dai = await hre.ethers.getContractAt(
+    'ERC20',
+    '0x04B2A6E51272c82932ecaB31A5Ab5aC32AE168C3',
+    owner
   );
-
-  const rewards = await hre.ethers.getContractAt(
-    'GNSOracleRewardsV6_4_1',
-    rewardsAddr
+  const approve = await dai.approve(
+    tradingStorageAddr,
+    '1000000000000000000000000'
   );
+  await hre.ethers.provider.waitForTransaction(approve.hash);
 
   // market
-  // await contract.openTrade(
-  //   [
-  //     owner.address,
-  //     0,
-  //     0,
-  //     0,
-  //     50000000000000000000n,
-  //     674125000000000,
-  //     true,
-  //     32,
-  //     863722656250000,
-  //     0,
-  //   ],
-  //   0,
-  //   10400000000,
-  //   0x0000000000000000000000000000000000000000
-  // );
-
-  // limit
   console.info('submitting openTrade tx...');
   const tx = await contract.openTrade(
     [
@@ -51,20 +33,47 @@ async function main() {
       0,
       0,
       0,
-      '100000000000000000000',
-      650000000000000,
+      '50000000000000000000',
+      '679432000000000',
       true,
-      29,
-      851724137931034,
+      31,
+      '876686451612903',
       0,
     ],
-    1,
-    10000000000,
+    0,
+    10400000000,
     '0x0000000000000000000000000000000000000000'
   );
-  console.info('submited openTrade tx. Waiting...');
-  await tx.wait();
-  console.info('tx completed');
+
+  // limit
+  // console.info('submitting openTrade tx...');
+  // const tx = await contract.openTrade(
+  //   [
+  //     owner.address,
+  //     0,
+  //     0,
+  //     0,
+  //     '100000000000000000000',
+  //     650000000000000,
+  //     true,
+  //     29,
+  //     851724137931034,
+  //     0,
+  //   ],
+  //   1,
+  //   10000000000,
+  //   '0x0000000000000000000000000000000000000000'
+  // );
+
+  await hre.ethers.provider.waitForTransaction(tx.hash);
+  console.info(`tx completed. txhash: ${tx.hash}`);
+
+  // ["0xd7D1dCba2c678ee7e049BD55176354E7C5bBdcCA",0,0,0,"99900000000000000000","654064000000000",true,22,"921635636363636",0]
+  // 0
+  // 10400000000
+  // 0x0000000000000000000000000000000000000000
+
+  // [0,0,1,13156490000000000]
 }
 
 main().catch((error) => {

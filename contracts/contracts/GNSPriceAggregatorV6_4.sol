@@ -10,9 +10,9 @@ import "../libraries/PackingUtils.sol";
 
 pragma solidity 0.8.7;
 
-contract GNSPriceAggregatorV6_4 is ChainlinkClient {
+contract GNSPriceAggregatorV6_4 is ChainlinkClient, TWAPPriceGetter {
     using Chainlink for Chainlink.Request;
-    using PackingUtils for uint;
+    using PackingUtils for uint256;
 
     // Contracts (constant)
     StorageInterfaceV5 public immutable storageT;
@@ -24,7 +24,7 @@ contract GNSPriceAggregatorV6_4 is ChainlinkClient {
     // Params (constant)
     uint constant PRECISION = 1e10;
     uint constant MAX_ORACLE_NODES = 20;
-    uint constant MIN_ANSWERS = 3;
+    uint constant MIN_ANSWERS = 1;
 
     // Params (adjustable)
     uint public minAnswers;
@@ -99,15 +99,15 @@ contract GNSPriceAggregatorV6_4 is ChainlinkClient {
 
     constructor(
         address _linkToken,
-        // IUniswapV3Pool _tokenDaiLp,
-        // uint32 _twapInterval,
+        IUniswapV3Pool _tokenDaiLp,
+        uint32 _twapInterval,
         StorageInterfaceV5 _storageT,
         PairsStorageInterfaceV6 _pairsStorage,
         ChainlinkFeedInterfaceV5 _linkPriceFeed,
         uint _minAnswers,
         address[] memory _nodes,
         bytes32[2] memory _jobIds
-    ) {
+    ) TWAPPriceGetter(_tokenDaiLp, address(_storageT.token()), _twapInterval, PRECISION) {
         require(
             address(_storageT) != address(0) &&
                 address(_pairsStorage) != address(0) &&
@@ -163,13 +163,13 @@ contract GNSPriceAggregatorV6_4 is ChainlinkClient {
     }
 
     // // Manage TWAP variables
-    // function updateUniV3Pool(IUniswapV3Pool _uniV3Pool) external onlyGov {
-    //     _updateUniV3Pool(_uniV3Pool);
-    // }
+    function updateUniV3Pool(IUniswapV3Pool _uniV3Pool) external onlyGov {
+        _updateUniV3Pool(_uniV3Pool);
+    }
 
-    // function updateTwapInterval(uint32 _twapInterval) external onlyGov {
-    //     _updateTwapInterval(_twapInterval);
-    // }
+    function updateTwapInterval(uint32 _twapInterval) external onlyGov {
+        _updateTwapInterval(_twapInterval);
+    }
 
     // Manage params
     function updateMinAnswers(uint value) external onlyGov {
@@ -280,7 +280,7 @@ contract GNSPriceAggregatorV6_4 is ChainlinkClient {
     }
 
     // Fulfill on-demand price requests
-    function fulfill(bytes32 requestId, uint priceData) external recordChainlinkFulfillment(requestId) {
+    function fulfill(bytes32 requestId, uint256 priceData) external recordChainlinkFulfillment(requestId) {
         uint orderId = orderIdByRequest[requestId];
         delete orderIdByRequest[requestId];
 

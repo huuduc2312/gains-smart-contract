@@ -8,7 +8,7 @@ pragma solidity 0.8.7;
 
 abstract contract TWAPPriceGetter {
     // Constants
-    uint32 constant MIN_TWAP_PERIOD = 1 hours / 2;
+    uint32 constant MIN_TWAP_PERIOD = 1 hours / 4;
     uint32 constant MAX_TWAP_PERIOD = 4 hours;
 
     uint immutable precision;

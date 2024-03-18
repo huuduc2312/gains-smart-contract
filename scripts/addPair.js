@@ -6,25 +6,23 @@ async function addPair() {
   const [owner] = await hre.ethers.getSigners();
   const contract = await hre.ethers.getContractAt(
     'GNSPairsStorageV6',
-    contractAddr
+    contractAddr,
+    owner
   );
-  const signedContract = contract.connect(owner);
 
-  const txPromises = [];
-
-  console.info('Submitting addGroup tx...');
-
-  const addGroupTx = await signedContract.addGroup([
+  console.info('Executing addGroup...');
+  const addGroupTx = await contract.addGroup([
     'crypto',
     '0x3235656562353536636165343464366561303166623233363466616363613131',
     2,
     150,
     15,
   ]);
+  await ethers.provider.waitForTransaction(addGroupTx.hash);
+  console.info('Done addGroup');
 
-  console.info('Submitting addFee tx...');
-
-  const addFeeTx = await signedContract.addFee([
+  console.info('Executing addFee...');
+  const addFeeTx = await contract.addFee([
     'crypto',
     300000000,
     600000000,
@@ -33,15 +31,11 @@ async function addPair() {
     1,
     '1500000000000000000000',
   ]);
+  await ethers.provider.waitForTransaction(addFeeTx.hash);
+  console.info('Done addFee');
 
-  await ethers.provider.waitForTransaction(addGroupTx.hash);
-  console.info('addGroup completed.');
-  await ethers.provider.waitForTransaction(addFeeTx.hash),
-    console.info('addFee completed.');
-
-  console.info('Submitting addPair tx...');
-
-  const addPairTx = await signedContract.addPair([
+  console.info('Executing addPair...');
+  const addPairTx = await contract.addPair([
     'BTC',
     'USD',
     [
@@ -54,9 +48,8 @@ async function addPair() {
     0,
     0,
   ]);
-
   await ethers.provider.waitForTransaction(addPairTx.hash);
-  console.info('addPair completed.');
+  console.info('Done addPair');
 }
 
 module.exports = addPair;

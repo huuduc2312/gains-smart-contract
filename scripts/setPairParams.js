@@ -1,4 +1,6 @@
 const addr = require('../deployments/mumbai/GNSPairInfosV6_1.json').address;
+const borrowingFeesAddr =
+  require('../deployments/mumbai/GNSBorrowingFeesV6_4_Proxy.json').address;
 
 async function setPairParams() {
   const [owner] = await hre.ethers.getSigners();
@@ -20,6 +22,21 @@ async function setPairParams() {
   console.info('Waiting setPairParams to complete...');
   await hre.ethers.provider.waitForTransaction(tx.hash);
   console.info('setPairParams completed.');
+
+  const borrowingFeesContract = await hre.ethers.getContractAt(
+    'GNSBorrowingFeesV6_4',
+    borrowingFeesAddr,
+    owner
+  );
+  console.info('Executing setPairParams...');
+  const setPairParamsTx = await borrowingFeesContract.setPairParams(0, [
+    0,
+    0,
+    1,
+    '13156490000000000',
+  ]);
+  await ethers.provider.waitForTransaction(setPairParamsTx.hash);
+  console.info('Done setPairParams');
 }
 
 module.exports = setPairParams;

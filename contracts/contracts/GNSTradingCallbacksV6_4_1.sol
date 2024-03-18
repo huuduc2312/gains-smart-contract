@@ -742,7 +742,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         }
 
         // 3.3 Distribute SSS fee (previous dev fee + market/limit fee - oracle reward)
-        _distributeStakingReward(trade.trader, v.reward1 + v.reward2 - v.reward3);
+        // _distributeStakingReward(trade.trader, v.reward1 + v.reward2 - v.reward3);
 
         // 4. Set trade final details
         trade.index = storageT.firstEmptyTradeIndex(trade.trader, trade.pairIndex);
@@ -752,16 +752,16 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         trade.sl = _correctSl(trade.openPrice, trade.leverage, trade.sl, trade.buy);
 
         // 5. Call other contracts
-        pairInfos.storeTradeInitialAccFees(trade.trader, trade.pairIndex, trade.index, trade.buy);
+        // pairInfos.storeTradeInitialAccFees(trade.trader, trade.pairIndex, trade.index, trade.buy);
         pairsStored.updateGroupCollateral(trade.pairIndex, trade.positionSizeDai, trade.buy, true);
-        borrowingFees.handleTradeAction(
-            trade.trader,
-            trade.pairIndex,
-            trade.index,
-            trade.positionSizeDai * trade.leverage,
-            true,
-            trade.buy
-        );
+        // borrowingFees.handleTradeAction(
+        //     trade.trader,
+        //     trade.pairIndex,
+        //     trade.index,
+        //     trade.positionSizeDai * trade.leverage,
+        //     true,
+        //     trade.buy
+        // );
 
         // 6. Store final trade in storage contract
         storageT.storeTrade(

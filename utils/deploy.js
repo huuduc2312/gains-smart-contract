@@ -77,6 +77,12 @@ function createDeployFunction({
         proxy: proxy,
       });
     } catch (e) {
+      console.error(
+        `Deploy failed at the first try for contract ${contractName}: ${e.reason}`
+      );
+
+      console.info('Try to deploy using hardhat...');
+
       // the caught error might not be very informative
       // e.g. if some library dependency is missing, which library it is
       // is not shown in the error
@@ -88,13 +94,15 @@ function createDeployFunction({
 
       // throw an error even if the hardhat deploy works
       // because the actual deploy did not succeed
-      throw new Error(`Deploy failed with error ${e}`);
+      throw new Error(`Deploy failed with error ${e.reason}`);
     }
 
     if (afterDeploy) {
+      const [signer] = await hre.ethers.getSigners();
       await afterDeploy({
         deployedContract,
         deployer,
+        signer,
         getNamedAccounts,
         deployments,
         gmx,
