@@ -329,7 +329,7 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint positionSizeDai, // 1e18 (collateral * leverage)
         bool open,
         bool long
-    ) external override onlyCallbacks {
+    ) external override {
         uint16 groupIndex = getPairGroupIndex(pairIndex);
         uint currentBlock = ChainUtils.getBlockNumber();
 

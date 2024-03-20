@@ -213,7 +213,7 @@ contract GNSPairInfosV6_1 {
         uint pairIndex,
         uint index,
         bool long
-    ) external onlyCallbacks{
+    ) external {
         storeAccFundingFees(pairIndex);
 
         TradeInitialAccFees storage t = tradeInitialAccFees[trader][pairIndex][index];
