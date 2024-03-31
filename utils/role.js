@@ -21,15 +21,29 @@ async function addMinterRole(address, tradingContractAddress) {
   }
 }
 
-async function grantGNSMinterRole(gnsContract, contractName, address) {
-  console.info(`grantRole MINTER_ROLE to ${contractName}...`);
-  const tx = await gnsContract.grantRole(
+async function grantGNSMinterRole(deployments, deployer, name, address) {
+  const { read, execute } = deployments;
+  const hasRole = await read(
+    'GainsNetworkToken',
+    'hasRole',
+    '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
+    address
+  );
+  if (hasRole) {
+    console.info(`Contract has MINTER_ROLE: ${name}`);
+    return;
+  }
+
+  console.info(`Executing grantRole MINTER_ROLE to ${name}...`);
+  await execute(
+    'GainsNetworkToken',
+    { from: deployer },
+    'grantRole',
     // @TODO: get MINTER_ROLE value from .env
     '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
     address
   );
-  await hre.ethers.provider.waitForTransaction(tx.hash);
-  console.info(`grantRole MINTER_ROLE to ${contractName} done`);
+  console.info(`Done grantRole MINTER_ROLE to ${name}`);
 }
 
 module.exports = {

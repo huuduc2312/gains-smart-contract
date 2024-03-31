@@ -1,9 +1,10 @@
 // const { addTradingContract } = require("../utils/trading");
-const { timeout } = require("../utils/delay");
-const { createDeployFunction } = require("../utils/deploy");
+const { timeout } = require('../utils/delay');
+const { createDeployFunction } = require('../utils/deploy');
 
 const func = createDeployFunction({
-  contractName: "GFarmTradingStorageV5",
+  contractName: 'GFarmTradingStorageV5',
+  dependencyNames: ['GainsNetworkToken'],
   afterDeploy: async ({
     deployedContract,
     getNamedAccounts,

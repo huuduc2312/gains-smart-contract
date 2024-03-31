@@ -16,6 +16,8 @@ pragma solidity 0.8.7;
 contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable, OwnableUpgradeable, IGToken {
     using MathUpgradeable for uint;
 
+    // Contracts & Addresses (constant)
+    address public gnsToken;
     INft public lockedDepositNft;
 
     // Contracts & Addresses (adjustable)
@@ -24,6 +26,12 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     address public pnlHandler;
     IOpenTradesPnlFeed public openTradesPnlFeed;
+    GnsPriceProvider public gnsPriceProvider;
+
+    struct GnsPriceProvider {
+        address addr;
+        bytes signature;
+    }
 
     // Parameters (constant)
     uint constant PRECISION = 1e18; // 18 decimals (acc values & price)
@@ -32,6 +40,7 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     uint constant MIN_DAILY_ACC_PNL_DELTA = PRECISION / 10; // 0.1 (price delta)
     uint constant MAX_SUPPLY_INCREASE_DAILY_P = 50 * PRECISION; // 50% / day (when under collat)
     uint constant MAX_LOSSES_BURN_P = 25 * PRECISION; // 25% of all losses
+    uint constant MAX_GNS_SUPPLY_MINT_DAILY_P = PRECISION / 20; // 0.05% / day (18.25% / yr max)
     uint constant MAX_DISCOUNT_P = 10 * PRECISION; // 10%
     uint public MIN_LOCK_DURATION; // min locked asset deposit duration
     uint constant MAX_LOCK_DURATION = 365 days; // max locked asset deposit duration
@@ -43,6 +52,7 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     uint[2] public withdrawLockThresholdsP; // PRECISION (% of over collat, used with WITHDRAW_EPOCHS_LOCKS)
     uint public maxSupplyIncreaseDailyP; // PRECISION (% per day, when under collat)
     uint public lossesBurnP; // PRECISION (% of all losses)
+    uint public maxGnsSupplyMintDailyP; // PRECISION (% of gns supply)
     uint public maxDiscountP; // PRECISION (%, maximum discount for locked deposits)
     uint public maxDiscountThresholdP; // PRECISION (maximum collat %, for locked deposits)
 
@@ -91,7 +101,7 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     // Events
     event AddressParamUpdated(string name, address newValue);
-    // event GnsPriceProviderUpdated(GnsPriceProvider newValue);
+    event GnsPriceProviderUpdated(GnsPriceProvider newValue);
     event NumberParamUpdated(string name, uint newValue);
     event WithdrawLockThresholdsPUpdated(uint[2] newValue);
 
@@ -153,7 +163,7 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         address lockedDepositNft;
         address pnlHandler;
         address openTradesPnlFeed;
-        // GnsPriceProvider gnsPriceProvider;
+        GnsPriceProvider gnsPriceProvider;
     }
 
     // Initializer function called when this contract is deployed
@@ -167,7 +177,7 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         uint[2] memory _withdrawLockThresholdsP,
         uint _maxSupplyIncreaseDailyP,
         uint _lossesBurnP,
-        // uint _maxGnsSupplyMintDailyP,
+        uint _maxGnsSupplyMintDailyP,
         uint _maxDiscountP,
         uint _maxDiscountThresholdP
     ) external initializer {
@@ -185,6 +195,7 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
                 _withdrawLockThresholdsP[1] > _withdrawLockThresholdsP[0] &&
                 _maxSupplyIncreaseDailyP <= MAX_SUPPLY_INCREASE_DAILY_P &&
                 _lossesBurnP <= MAX_LOSSES_BURN_P &&
+                _maxGnsSupplyMintDailyP <= MAX_GNS_SUPPLY_MINT_DAILY_P &&
                 _maxDiscountP <= MAX_DISCOUNT_P &&
                 _maxDiscountThresholdP >= 100 * PRECISION,
             "WRONG_PARAMS"
@@ -194,11 +205,13 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         __ERC4626_init(IERC20MetadataUpgradeable(_contractAddresses.asset));
         _transferOwnership(_contractAddresses.owner);
 
+        gnsToken = _contractAddresses.gnsToken;
         lockedDepositNft = INft(_contractAddresses.lockedDepositNft);
         manager = _contractAddresses.manager;
         admin = _contractAddresses.admin;
         pnlHandler = _contractAddresses.pnlHandler;
         openTradesPnlFeed = IOpenTradesPnlFeed(_contractAddresses.openTradesPnlFeed);
+        gnsPriceProvider = _contractAddresses.gnsPriceProvider;
 
         MIN_LOCK_DURATION = _MIN_LOCK_DURATION;
 
@@ -267,12 +280,12 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         emit AddressParamUpdated("pnlHandler", newValue);
     }
 
-    // function updateGnsPriceProvider(GnsPriceProvider memory newValue) external onlyManager {
-    //     require(newValue.addr != address(0), "ADDRESS_0");
-    //     require(newValue.signature.length > 0, "BYTES_0");
-    //     gnsPriceProvider = newValue;
-    //     emit GnsPriceProviderUpdated(newValue);
-    // }
+    function updateGnsPriceProvider(GnsPriceProvider memory newValue) external onlyManager {
+        require(newValue.addr != address(0), "ADDRESS_0");
+        require(newValue.signature.length > 0, "BYTES_0");
+        gnsPriceProvider = newValue;
+        emit GnsPriceProviderUpdated(newValue);
+    }
 
     function updateOpenTradesPnlFeed(address newValue) external onlyOwner {
         require(newValue != address(0), "ADDRESS_0");
@@ -310,11 +323,11 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         emit NumberParamUpdated("lossesBurnP", newValue);
     }
 
-    // function updateMaxGnsSupplyMintDailyP(uint newValue) external onlyManager {
-    //     require(newValue <= MAX_GNS_SUPPLY_MINT_DAILY_P, "ABOVE_MAX");
-    //     maxGnsSupplyMintDailyP = newValue;
-    //     emit NumberParamUpdated("maxGnsSupplyMintDailyP", newValue);
-    // }
+    function updateMaxGnsSupplyMintDailyP(uint newValue) external onlyManager {
+        require(newValue <= MAX_GNS_SUPPLY_MINT_DAILY_P, "ABOVE_MAX");
+        maxGnsSupplyMintDailyP = newValue;
+        emit NumberParamUpdated("maxGnsSupplyMintDailyP", newValue);
+    }
 
     function updateMaxDiscountP(uint newValue) external onlyManager {
         require(newValue <= MAX_DISCOUNT_P, "ABOVE_MAX_DISCOUNT");
@@ -347,15 +360,15 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
                 PRECISION) / _maxAccPnlPerToken;
     }
 
-    // function gnsTokenToAssetsPrice() public view returns (uint price) {
-    //     // GNS_PRECISION
-    //     (bool success, bytes memory result) = gnsPriceProvider.addr.staticcall(gnsPriceProvider.signature);
+    function gnsTokenToAssetsPrice() public view returns (uint price) {
+        // GNS_PRECISION
+        (bool success, bytes memory result) = gnsPriceProvider.addr.staticcall(gnsPriceProvider.signature);
 
-    //     require(success == true, "GNS_PRICE_CALL_FAILED");
-    //     (price) = abi.decode(result, (uint));
+        require(success == true, "GNS_PRICE_CALL_FAILED");
+        (price) = abi.decode(result, (uint));
 
-    //     require(price > 0, "GNS_TOKEN_PRICE_0");
-    // }
+        require(price > 0, "GNS_TOKEN_PRICE_0");
+    }
 
     function withdrawEpochsTimelock() public view returns (uint) {
         uint collatP = collateralizationP();

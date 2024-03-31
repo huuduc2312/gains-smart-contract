@@ -370,7 +370,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
     }
 
     // Callbacks
-    function openTradeMarketCallback(AggregatorAnswer memory a) external notDone {
+    function openTradeMarketCallback(AggregatorAnswer memory a) external onlyPriceAggregator notDone {
         StorageInterfaceV5.PendingMarketOrder memory o = _getPendingMarketOrder(a.orderId);
 
         if (o.block == 0) {

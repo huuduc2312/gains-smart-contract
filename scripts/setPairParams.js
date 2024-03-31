@@ -1,42 +1,34 @@
-const addr = require('../deployments/mumbai/GNSPairInfosV6_1.json').address;
-const borrowingFeesAddr =
-  require('../deployments/mumbai/GNSBorrowingFeesV6_4_Proxy.json').address;
+const { deployments, getNamedAccounts } = require('hardhat');
 
 async function setPairParams() {
-  const [owner] = await hre.ethers.getSigners();
-  const contract = await hre.ethers.getContractAt(
+  const { deployer } = await getNamedAccounts();
+  const { execute } = deployments;
+
+  await execute('GNSPairInfosV6_1', { from: deployer }, 'setManager', deployer);
+
+  console.info('Executing GNSPairInfosV6_1.setManager...');
+  await execute('GNSPairInfosV6_1', { from: deployer }, 'setManager', deployer);
+  console.info('Done GNSPairInfosV6_1.setManager');
+
+  console.info('Executing GNSPairInfosV6_1.setPairParams...');
+  await execute(
     'GNSPairInfosV6_1',
-    addr,
-    owner
+    { from: deployer },
+    'setPairParams',
+    0,
+    [0, 0, 0, 0]
   );
+  console.info('Done GNSPairInfosV6_1.setPairParams');
 
-  console.info('Setting GNSPairInfosV6_1 params...');
-  console.info('Submitting setManager transaction...');
-  const setManagerTx = await contract.setManager(owner.address);
-  console.info('Waiting setManager to complete...');
-  await hre.ethers.provider.waitForTransaction(setManagerTx.hash);
-  console.info('setManager completed.');
-
-  console.info('Submitting setPairParams transaction...');
-  const tx = await contract.setPairParams(0, [0, 0, 0, 0]);
-  console.info('Waiting setPairParams to complete...');
-  await hre.ethers.provider.waitForTransaction(tx.hash);
-  console.info('setPairParams completed.');
-
-  const borrowingFeesContract = await hre.ethers.getContractAt(
+  console.info('Executing GNSBorrowingFeesV6_4.setPairParams...');
+  await execute(
     'GNSBorrowingFeesV6_4',
-    borrowingFeesAddr,
-    owner
+    { from: deployer },
+    'setPairParams',
+    0,
+    [0, 0, 1, '13156490000000000']
   );
-  console.info('Executing setPairParams...');
-  const setPairParamsTx = await borrowingFeesContract.setPairParams(0, [
-    0,
-    0,
-    1,
-    '13156490000000000',
-  ]);
-  await ethers.provider.waitForTransaction(setPairParamsTx.hash);
-  console.info('Done setPairParams');
+  console.info('Done GNSBorrowingFeesV6_4.setPairParams');
 }
 
 module.exports = setPairParams;

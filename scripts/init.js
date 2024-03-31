@@ -5,7 +5,7 @@ const setTradingStorageParams = require('./setTradingStorageParams.js');
 const setupRoles = require('./setupRoles.js');
 
 async function main() {
-  await addPair();
+  // await addPair();
   await setPairParams();
   // await setupRoles();
 

@@ -1,28 +1,21 @@
-const hre = require('hardhat');
-const contractAddr =
-  require('../deployments/mumbai/GNSPairsStorageV6.json').address;
+const { deployments, getNamedAccounts } = require('hardhat');
 
 async function addPair() {
-  const [owner] = await hre.ethers.getSigners();
-  const contract = await hre.ethers.getContractAt(
-    'GNSPairsStorageV6',
-    contractAddr,
-    owner
-  );
+  const { deployer } = await getNamedAccounts();
+  const { execute } = deployments;
 
   console.info('Executing addGroup...');
-  const addGroupTx = await contract.addGroup([
+  await execute('GNSPairsStorageV6', { from: deployer }, 'addGroup', [
     'crypto',
     '0x3235656562353536636165343464366561303166623233363466616363613131',
     2,
     150,
     15,
   ]);
-  await ethers.provider.waitForTransaction(addGroupTx.hash);
   console.info('Done addGroup');
 
   console.info('Executing addFee...');
-  const addFeeTx = await contract.addFee([
+  await execute('GNSPairsStorageV6', { from: deployer }, 'addFee', [
     'crypto',
     300000000,
     600000000,
@@ -31,11 +24,10 @@ async function addPair() {
     1,
     '1500000000000000000000',
   ]);
-  await ethers.provider.waitForTransaction(addFeeTx.hash);
   console.info('Done addFee');
 
   console.info('Executing addPair...');
-  const addPairTx = await contract.addPair([
+  await execute('GNSPairsStorageV6', { from: deployer }, 'addPair', [
     'BTC',
     'USD',
     [
@@ -48,7 +40,6 @@ async function addPair() {
     0,
     0,
   ]);
-  await ethers.provider.waitForTransaction(addPairTx.hash);
   console.info('Done addPair');
 }
 

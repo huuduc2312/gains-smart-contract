@@ -1,7 +1,11 @@
 const { timeout } = require('../utils/delay');
 const { createDeployFunction } = require('../utils/deploy');
 
-const constructorContracts = ['GFarmTradingStorageV5', 'GNSPairsStorageV6'];
+const constructorContracts = [
+  'GFarmTradingStorageV5',
+  'GNSPairsStorageV6',
+  // 'Operator',
+];
 
 const func = createDeployFunction({
   contractName: 'GNSPriceAggregatorV6_4',
@@ -21,8 +25,14 @@ const func = createDeployFunction({
       '0x3236323335663431613834383465356439393537393466383665646534656163',
     ], // _jobIds
   ],
-  afterDeploy: async ({ deployedContract, signer, deployments }) => {
-    const { get } = deployments;
+  afterDeploy: async ({
+    deployedContract,
+    signer,
+    deployments,
+    getNamedAccounts,
+    network,
+  }) => {
+    const { get, execute, read } = deployments;
 
     const tradingStorageAddr = (await get('GFarmTradingStorageV5')).address;
     const tradingStorage = await hre.ethers.getContractAt(
@@ -31,11 +41,31 @@ const func = createDeployFunction({
       signer
     );
 
+    const { deployer } = await getNamedAccounts();
+    const priceAggregator = await read(
+      'GFarmTradingStorageV5',
+      'priceAggregator'
+    );
+    if (priceAggregator == deployedContract.address) {
+      console.log('check priceAggregator', priceAggregator);
+      return;
+    }
     console.info('Executing setPriceAggregator...');
-    const tx = await tradingStorage.setPriceAggregator(
+
+    await execute(
+      'GFarmTradingStorageV5',
+      { from: deployer },
+      'setPriceAggregator',
       deployedContract.address
     );
-    await hre.ethers.provider.waitForTransaction(tx.hash);
+
+    console.log(
+      'double check -----',
+      await read('GFarmTradingStorageV5', 'priceAggregator')
+    );
+
+    // tradingStorage.setPriceAggregator(deployedContract.address);
+    // await hre.ethers.provider.waitForTransaction(tx.hash);
     console.info('Done setPriceAggregator');
   },
 });

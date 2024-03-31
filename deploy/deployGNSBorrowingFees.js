@@ -7,6 +7,12 @@ const func = createDeployFunction({
   contractName: 'GNSBorrowingFeesV6_4',
   dependencyNames: [...constructorContracts, 'GNSTradingCallbacksV6_4_1'],
   getProxyConfig: ({ dependencyContracts }) => {
+    console.log(
+      'borrow',
+      constructorContracts.map(
+        (dependencyName) => dependencyContracts[dependencyName].address
+      )
+    );
     return {
       execute: {
         init: {
@@ -25,23 +31,24 @@ const func = createDeployFunction({
     deployments,
     signer,
   }) => {
-    const { get } = deployments;
+    const { execute, read } = deployments;
+    const { deployer } = await getNamedAccounts();
 
-    const callbacks = await get('GNSTradingCallbacksV6_4_1');
-    const callbacksContract = await hre.ethers.getContractAt(
+    const currentValue = await read(
       'GNSTradingCallbacksV6_4_1',
-      callbacks.address,
-      signer
+      'borrowingFees'
     );
-
-    const currentValue = await callbacksContract.borrowingFees();
     if (currentValue == deployedContract.address) {
       return;
     }
 
     console.log('Executing GNSTradingCallbacksV6_4_1.initializeV2...');
-    const tx = await callbacksContract.initializeV2(deployedContract.address);
-    await hre.ethers.provider.waitForTransaction(tx.hash);
+    await execute(
+      'GNSTradingCallbacksV6_4_1',
+      { from: deployer },
+      'initializeV2',
+      deployedContract.address
+    );
     console.log('Done GNSTradingCallbacksV6_4_1.initializeV2');
   },
 });

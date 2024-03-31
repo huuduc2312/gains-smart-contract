@@ -63,7 +63,7 @@ function createDeployFunction({
     let proxy = false;
 
     if (getProxyConfig) {
-      proxy = getProxyConfig({ dependencyContracts });
+      proxy = await getProxyConfig({ dependencyContracts });
     }
 
     let deployedContract;

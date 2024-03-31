@@ -2,57 +2,64 @@
 const hre = require('hardhat');
 const { grantGNSMinterRole } = require('./role');
 
-async function addTradingContract(address) {
-  const { deployments, getNamedAccounts } = hre;
-  const { read, execute, log } = deployments;
-  const { deployer } = await getNamedAccounts();
+// async function addTradingContract(address) {
+//   const { deployments, getNamedAccounts } = hre;
+//   const { read, execute, log } = deployments;
+//   const { deployer } = await getNamedAccounts();
 
-  try {
-    await execute(
-      'GFarmTradingStorageV5',
-      { from: deployer, log: true },
-      'addTradingContract',
-      address
-    );
-  } catch (err) {
-    console.log(
-      `🚀 ~ file: trading.js:19 ~ addTradingContract at contract ${address} ~ error: ${err}`
-    );
-  }
-}
+//   try {
+//     await execute(
+//       'GFarmTradingStorageV5',
+//       { from: deployer, log: true },
+//       'addTradingContract',
+//       address
+//     );
+//   } catch (err) {
+//     console.log(
+//       `🚀 ~ file: trading.js:19 ~ addTradingContract at contract ${address} ~ error: ${err}`
+//     );
+//   }
+// }
 
-async function afterDeployTradingContract(
+async function addTradingContract(
   deployments,
-  setContract,
-  signer,
-  contractName,
-  address
+  deployer,
+  name,
+  address,
+  setParam
 ) {
-  const { get } = deployments;
+  const { read, execute } = deployments;
 
-  const tradingStorageAddr = (await get('GFarmTradingStorageV5')).address;
-  const tradingStorage = await hre.ethers.getContractAt(
+  await grantGNSMinterRole(deployments, deployer, name, address);
+
+  if (setParam) {
+    console.log('vao roi', name);
+    const { param, method } = setParam;
+    if ((await read('GFarmTradingStorageV5', param)) != address) {
+      await execute(
+        'GFarmTradingStorageV5',
+        { from: deployer },
+        method,
+        address
+      );
+    }
+  }
+
+  if (await read('GFarmTradingStorageV5', 'isTradingContract', address)) {
+    console.info(`Contract ${name} is tradingContract`);
+    return;
+  }
+
+  console.info(`Executing addTradingContract: ${name}`);
+  await execute(
     'GFarmTradingStorageV5',
-    tradingStorageAddr,
-    signer
+    { from: deployer },
+    'addTradingContract',
+    address
   );
-
-  const gnsContract = await hre.ethers.getContractAt(
-    'GainsNetworkToken',
-    '0x469Cd2AE37BC3d579eE2c4F0B5e31eA212Fa405E',
-    signer
-  );
-  await grantGNSMinterRole(gnsContract, contractName, address);
-
-  if (setContract) await setContract(tradingStorage);
-
-  console.info(`Executing addTradingContract: ${contractName}`);
-  const addTradingContractTx = await tradingStorage.addTradingContract(address);
-  await hre.ethers.provider.waitForTransaction(addTradingContractTx.hash);
-  console.info(`Done addTradingContract: ${contractName}`);
+  console.info(`Done addTradingContract: ${name}`);
 }
 
 module.exports = {
   addTradingContract,
-  afterDeployTradingContract,
 };

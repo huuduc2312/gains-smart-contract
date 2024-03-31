@@ -28,7 +28,7 @@ module.exports = {
           },
           optimizer: {
             enabled: true,
-            runs: 800,
+            runs: 200,
           },
           viaIR: true,
         },
@@ -74,7 +74,17 @@ module.exports = {
       accounts: process.env.ACCOUNT_KEYS?.split(',') || [],
       allowUnlimitedContractSize: true,
     },
-    hardhat: {},
+    localhost: {
+      accounts: process.env.ACCOUNT_KEYS?.split(',') || [],
+    },
+    hardhat: {
+      accounts: [
+        {
+          privateKey: process.env.ACCOUNT_KEYS?.split(',')[0],
+          balance: '5000000000000000000000',
+        },
+      ],
+    },
   },
   verify: {
     etherscan: {
@@ -85,7 +95,10 @@ module.exports = {
     enabled: true,
   },
   namedAccounts: {
-    deployer: 0,
+    deployer: {
+      default: 0,
+      hardhat: '0xd7D1dCba2c678ee7e049BD55176354E7C5bBdcCA',
+    },
   },
   mocha: {
     timeout: 100000000,

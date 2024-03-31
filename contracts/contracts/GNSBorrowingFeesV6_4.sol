@@ -455,22 +455,21 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         return (pairs[pairIndex], pairOis[pairIndex]);
     }
 
-    // TODO
-    // function getAllPairs() external view returns (Pair[] memory, PairOi[] memory) {
-    //     uint len = storageT.priceAggregator().pairsStorage().pairsCount();
-    //     Pair[] memory p = new Pair[](len);
-    //     PairOi[] memory pairOi = new PairOi[](len);
+    function getAllPairs() external view returns (Pair[] memory, PairOi[] memory) {
+        uint len = storageT.priceAggregator().pairsStorage().pairsCount();
+        Pair[] memory p = new Pair[](len);
+        PairOi[] memory pairOi = new PairOi[](len);
 
-    //     for (uint i; i < len; ) {
-    //         p[i] = pairs[i];
-    //         pairOi[i] = pairOis[i];
-    //         unchecked {
-    //             ++i;
-    //         }
-    //     }
+        for (uint i; i < len; ) {
+            p[i] = pairs[i];
+            pairOi[i] = pairOis[i];
+            unchecked {
+                ++i;
+            }
+        }
 
-    //     return (p, pairOi);
-    // }
+        return (p, pairOi);
+    }
 
     function getGroups(uint16[] calldata indices) external view returns (Group[] memory, uint48[] memory) {
         Group[] memory g = new Group[](indices.length);

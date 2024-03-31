@@ -39,7 +39,7 @@ abstract contract TWAPPriceGetter {
         twapInterval = _twapInterval;
         precision = _precision;
 
-        isGnsToken0InLp = uniV3Pool.token0() == _token;
+        // isGnsToken0InLp = uniV3Pool.token0() == _token;
     }
 
     // Manage variables
