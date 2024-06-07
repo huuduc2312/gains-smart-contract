@@ -13,8 +13,6 @@ const constructorContracts = [
   "GNSReferralsV6_2",
   "GNSStakingV6_4_1",
   "GNSBorrowingFeesV6_4",
-  "GNSOracleRewardsV6_4_1",
-  "GTokenV6_3_2",
 ];
 
 const func = createDeployFunction({

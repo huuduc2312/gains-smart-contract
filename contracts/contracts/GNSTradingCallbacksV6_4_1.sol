@@ -211,7 +211,6 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         GNSReferralsInterfaceV6_2 _referrals,
         GNSStakingInterfaceV6_4_1 _staking,
         GNSBorrowingFeesInterfaceV6_4 _borrowingFees,
-        IGNSOracleRewardsV6_4_1 _oracleRewards,
         address vaultToApprove,
         uint _daiVaultFeeP,
         uint _lpFeeP,
@@ -225,7 +224,6 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             address(_referrals) == address(0) ||
             address(_staking) == address(0) ||
             address(_borrowingFees) == address(0) ||
-            address(_oracleRewards) == address(0) ||
             vaultToApprove == address(0) ||
             _daiVaultFeeP + _lpFeeP + _sssFeeP != 100 ||
             _canExecuteTimeout > MAX_EXECUTE_TIMEOUT
@@ -239,7 +237,6 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         referrals = _referrals;
         staking = _staking;
         borrowingFees = _borrowingFees;
-        nftRewards = _oracleRewards;
 
         daiVaultFeeP = _daiVaultFeeP;
         lpFeeP = _lpFeeP;
