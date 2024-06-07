@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 pragma abicoder v2;
 
 interface IGToken {
@@ -13,7 +13,10 @@ interface IGToken {
 
     function currentEpochPositiveOpenPnl() external view returns (uint);
 
-    function updateAccPnlPerTokenUsed(uint prevPositiveOpenPnl, uint newPositiveOpenPnl) external returns (uint);
+    function updateAccPnlPerTokenUsed(
+        uint prevPositiveOpenPnl,
+        uint newPositiveOpenPnl
+    ) external returns (uint);
 
     struct LockedDeposit {
         address owner;
@@ -24,7 +27,9 @@ interface IGToken {
         uint lockDuration; // timestamp
     }
 
-    function getLockedDeposit(uint depositId) external view returns (LockedDeposit memory);
+    function getLockedDeposit(
+        uint depositId
+    ) external view returns (LockedDeposit memory);
 
     function sendAssets(uint assets, address receiver) external;
 
@@ -38,5 +43,7 @@ interface IGToken {
 
     function marketCap() external view returns (uint);
 
-    function getPendingAccBlockWeightedMarketCap(uint currentBlock) external view returns (uint);
+    function getPendingAccBlockWeightedMarketCap(
+        uint currentBlock
+    ) external view returns (uint);
 }

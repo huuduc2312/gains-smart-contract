@@ -1,6 +1,6 @@
 // GNSToken::addMinterRole: (add mint GNS role for trading contract)
-const hre = require('hardhat');
-const { grantGNSMinterRole } = require('./role');
+const hre = require("hardhat");
+const { grantGNSMinterRole } = require("./role");
 
 // async function addTradingContract(address) {
 //   const { deployments, getNamedAccounts } = hre;
@@ -21,23 +21,18 @@ const { grantGNSMinterRole } = require('./role');
 //   }
 // }
 
-async function addTradingContract(
-  deployments,
-  deployer,
-  name,
-  address,
-  setParam
-) {
-  const { read, execute } = deployments;
+async function addTradingContract(deployments, deployer, name, setParam) {
+  const { read, execute, get } = deployments;
+  const deployedContract = await get(name);
+  const address = deployedContract.address;
 
   await grantGNSMinterRole(deployments, deployer, name, address);
 
   if (setParam) {
-    console.log('vao roi', name);
     const { param, method } = setParam;
-    if ((await read('GFarmTradingStorageV5', param)) != address) {
+    if ((await read("GFarmTradingStorageV5", param)) != address) {
       await execute(
-        'GFarmTradingStorageV5',
+        "GFarmTradingStorageV5",
         { from: deployer },
         method,
         address
@@ -45,16 +40,16 @@ async function addTradingContract(
     }
   }
 
-  if (await read('GFarmTradingStorageV5', 'isTradingContract', address)) {
+  if (await read("GFarmTradingStorageV5", "isTradingContract", address)) {
     console.info(`Contract ${name} is tradingContract`);
     return;
   }
 
-  console.info(`Executing addTradingContract: ${name}`);
+  console.info(`Executing addTradingContract: ${name}, address ${address}`);
   await execute(
-    'GFarmTradingStorageV5',
+    "GFarmTradingStorageV5",
     { from: deployer },
-    'addTradingContract',
+    "addTradingContract",
     address
   );
   console.info(`Done addTradingContract: ${name}`);

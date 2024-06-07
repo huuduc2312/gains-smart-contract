@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 interface GNSStakingInterfaceV6_4_1 {
     // Structs
@@ -36,11 +36,22 @@ interface GNSStakingInterfaceV6_4_1 {
 
     function distributeRewardDai(uint amount) external;
 
-    function createUnlockSchedule(UnlockScheduleInput memory schedule, address user) external;
+    function createUnlockSchedule(
+        UnlockScheduleInput memory schedule,
+        address user
+    ) external;
 
-    function getUnlockSchedules(address user) external view returns (UnlockSchedule[] memory schedules);
+    function getUnlockSchedules(
+        address user
+    ) external view returns (UnlockSchedule[] memory schedules);
 
-    function unlockedAmount(UnlockSchedule memory v, uint48 timestamp) external view returns (uint128 amount);
+    function unlockedAmount(
+        UnlockSchedule memory v,
+        uint48 timestamp
+    ) external view returns (uint128 amount);
 
-    function releasable(UnlockSchedule memory v, uint48 timestamp) external view returns (uint128 amount);
+    function releasable(
+        UnlockSchedule memory v,
+        uint48 timestamp
+    ) external view returns (uint128 amount);
 }

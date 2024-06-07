@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 interface GNSPairInfosInterfaceV6 {
     // Trade initial acc fees
@@ -9,11 +9,20 @@ interface GNSPairInfosInterfaceV6 {
         bool openedAfterUpdate;
     }
 
-    function tradeInitialAccFees(address, uint, uint) external view returns (TradeInitialAccFees memory);
+    function tradeInitialAccFees(
+        address,
+        uint,
+        uint
+    ) external view returns (TradeInitialAccFees memory);
 
     function maxNegativePnlOnOpenP() external view returns (uint); // PRECISION (%)
 
-    function storeTradeInitialAccFees(address trader, uint pairIndex, uint index, bool long) external;
+    function storeTradeInitialAccFees(
+        address trader,
+        uint pairIndex,
+        uint index,
+        bool long
+    ) external;
 
     function getTradePriceImpact(
         uint openPrice, // PRECISION

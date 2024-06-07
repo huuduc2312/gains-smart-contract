@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
-import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
-import '@openzeppelin/contracts/interfaces/IERC20Metadata.sol';
-import '@openzeppelin/contracts/interfaces/IERC4626.sol';
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/interfaces/IERC20Metadata.sol";
+import "@openzeppelin/contracts/interfaces/IERC4626.sol";
 
-import '../interfaces/IGTokenLockedDepositNftDesign.sol';
+import "../interfaces/IGTokenLockedDepositNftDesign.sol";
 
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
-contract GTokenLockedDepositNft is ERC721Enumerable{
+contract GTokenLockedDepositNft is ERC721Enumerable {
     address public immutable gToken;
     IGTokenLockedDepositNftDesign public design;
 
@@ -22,50 +22,55 @@ contract GTokenLockedDepositNft is ERC721Enumerable{
         address _gToken,
         IGTokenLockedDepositNftDesign _design,
         uint8 _designDecimals
-    ) ERC721(name, symbol){
+    ) ERC721(name, symbol) {
         gToken = _gToken;
         design = _design;
         designDecimals = _designDecimals;
     }
 
-    modifier onlyGToken{
+    modifier onlyGToken() {
         require(msg.sender == gToken, "ONLY_GTOKEN");
         _;
     }
 
-    modifier onlyGTokenManager{
+    modifier onlyGTokenManager() {
         require(msg.sender == IGToken(gToken).manager(), "ONLY_MANAGER");
         _;
     }
 
-    function updateDesign(IGTokenLockedDepositNftDesign newValue) external onlyGTokenManager{
+    function updateDesign(
+        IGTokenLockedDepositNftDesign newValue
+    ) external onlyGTokenManager {
         design = newValue;
         emit DesignUpdated(newValue);
     }
 
-    function updateDesignDecimals(uint8 newValue) external onlyGTokenManager{
+    function updateDesignDecimals(uint8 newValue) external onlyGTokenManager {
         designDecimals = newValue;
         emit DesignDecimalsUpdated(newValue);
     }
 
-    function mint(address to, uint tokenId) external onlyGToken{
+    function mint(address to, uint tokenId) external onlyGToken {
         _safeMint(to, tokenId);
     }
 
-    function burn(uint tokenId) external onlyGToken{
+    function burn(uint tokenId) external onlyGToken {
         _burn(tokenId);
     }
 
-    function tokenURI(uint tokenId) public view override returns (string memory) {
+    function tokenURI(
+        uint tokenId
+    ) public view override returns (string memory) {
         _requireMinted(tokenId);
 
-        return design.buildTokenURI(
-            tokenId,
-            IGToken(gToken).getLockedDeposit(tokenId),
-            IERC20Metadata(gToken).symbol(),
-            IERC20Metadata(IERC4626(gToken).asset()).symbol(),
-            IERC20Metadata(gToken).decimals(),
-            designDecimals
-        );
+        return
+            design.buildTokenURI(
+                tokenId,
+                IGToken(gToken).getLockedDeposit(tokenId),
+                IERC20Metadata(gToken).symbol(),
+                IERC20Metadata(IERC4626(gToken).asset()).symbol(),
+                IERC20Metadata(gToken).decimals(),
+                designDecimals
+            );
     }
 }

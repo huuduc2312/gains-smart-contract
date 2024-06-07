@@ -1,0 +1,192 @@
+{
+  "_format": "hh-zksolc-artifact-1",
+  "contractName": "CallbacksInterfaceV6_4",
+  "sourceName": "contracts/interfaces/CallbacksInterfaceV6_4.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "orderId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "spreadP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "open",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "high",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "low",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CallbacksInterfaceV6_4.AggregatorAnswer",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "name": "closeTradeMarketCallback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "orderId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "spreadP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "open",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "high",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "low",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CallbacksInterfaceV6_4.AggregatorAnswer",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "name": "executeNftCloseOrderCallback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "orderId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "spreadP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "open",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "high",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "low",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CallbacksInterfaceV6_4.AggregatorAnswer",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "name": "executeNftOpenOrderCallback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "orderId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "spreadP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "open",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "high",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "low",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CallbacksInterfaceV6_4.AggregatorAnswer",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "name": "openTradeMarketCallback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "factoryDeps": {}
+}

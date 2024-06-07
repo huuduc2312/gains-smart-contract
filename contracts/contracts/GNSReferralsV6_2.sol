@@ -1,36 +1,35 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 import "../interfaces/StorageInterfaceV5.sol";
 
 contract GNSReferralsV6_2 {
-
     // CONSTANTS
     uint constant PRECISION = 1e10;
     StorageInterfaceV5 public immutable storageT;
 
     // ADJUSTABLE PARAMETERS
-    uint public allyFeeP;           // % (of referrer fees going to allies, eg. 10)
-    uint public startReferrerFeeP;  // % (of referrer fee when 0 volume referred, eg. 75)
-    uint public openFeeP;           // % (of opening fee used for referral system, eg. 33)
-    uint public targetVolumeDai;    // DAI (to reach maximum referral system fee, eg. 1e8)
+    uint public allyFeeP; // % (of referrer fees going to allies, eg. 10)
+    uint public startReferrerFeeP; // % (of referrer fee when 0 volume referred, eg. 75)
+    uint public openFeeP; // % (of opening fee used for referral system, eg. 33)
+    uint public targetVolumeDai; // DAI (to reach maximum referral system fee, eg. 1e8)
 
     // CUSTOM TYPES
-    struct AllyDetails{
+    struct AllyDetails {
         address[] referrersReferred;
-        uint volumeReferredDai;    // 1e18
-        uint pendingRewardsToken;  // 1e18
-        uint totalRewardsToken;    // 1e18
+        uint volumeReferredDai; // 1e18
+        uint pendingRewardsToken; // 1e18
+        uint totalRewardsToken; // 1e18
         uint totalRewardsValueDai; // 1e18
         bool active;
     }
 
-    struct ReferrerDetails{
+    struct ReferrerDetails {
         address ally;
         address[] tradersReferred;
-        uint volumeReferredDai;    // 1e18
-        uint pendingRewardsToken;  // 1e18
-        uint totalRewardsToken;    // 1e18
+        uint volumeReferredDai; // 1e18
+        uint pendingRewardsToken; // 1e18
+        uint totalRewardsToken; // 1e18
         uint totalRewardsValueDai; // 1e18
         bool active;
     }
@@ -50,15 +49,9 @@ contract GNSReferralsV6_2 {
     event AllyWhitelisted(address indexed ally);
     event AllyUnwhitelisted(address indexed ally);
 
-    event ReferrerWhitelisted(
-        address indexed referrer,
-        address indexed ally
-    );
+    event ReferrerWhitelisted(address indexed referrer, address indexed ally);
     event ReferrerUnwhitelisted(address indexed referrer);
-    event ReferrerRegistered(
-        address indexed trader,
-        address indexed referrer
-    );
+    event ReferrerRegistered(address indexed trader, address indexed referrer);
 
     event AllyRewardDistributed(
         address indexed ally,
@@ -75,14 +68,8 @@ contract GNSReferralsV6_2 {
         uint amountValueDai
     );
 
-    event AllyRewardsClaimed(
-        address indexed ally,
-        uint amountToken
-    );
-    event ReferrerRewardsClaimed(
-        address indexed referrer,
-        uint amountToken
-    );
+    event AllyRewardsClaimed(address indexed ally, uint amountToken);
+    event ReferrerRewardsClaimed(address indexed referrer, uint amountToken);
 
     constructor(
         StorageInterfaceV5 _storageT,
@@ -90,12 +77,15 @@ contract GNSReferralsV6_2 {
         uint _startReferrerFeeP,
         uint _openFeeP,
         uint _targetVolumeDai
-    ){
-        require(address(_storageT) != address(0)
-            && _allyFeeP <= 50
-            && _startReferrerFeeP <= 100
-            && _openFeeP <= 50
-            && _targetVolumeDai > 0, "WRONG_PARAMS");
+    ) {
+        require(
+            address(_storageT) != address(0) &&
+                _allyFeeP <= 50 &&
+                _startReferrerFeeP <= 100 &&
+                _openFeeP <= 50 &&
+                _targetVolumeDai > 0,
+            "WRONG_PARAMS"
+        );
 
         storageT = _storageT;
 
@@ -106,51 +96,54 @@ contract GNSReferralsV6_2 {
     }
 
     // MODIFIERS
-    modifier onlyGov(){
+    modifier onlyGov() {
         require(msg.sender == storageT.gov(), "GOV_ONLY");
         _;
     }
-    modifier onlyTrading(){
+    modifier onlyTrading() {
         require(msg.sender == storageT.trading(), "TRADING_ONLY");
         _;
     }
-    modifier onlyCallbacks(){
+    modifier onlyCallbacks() {
         require(msg.sender == storageT.callbacks(), "CALLBACKS_ONLY");
         _;
     }
 
     // MANAGE PARAMETERS
-    function updateAllyFeeP(uint value) external onlyGov{
+    function updateAllyFeeP(uint value) external onlyGov {
         require(value <= 50, "VALUE_ABOVE_50");
 
         allyFeeP = value;
-        
+
         emit UpdatedAllyFeeP(value);
     }
-    function updateStartReferrerFeeP(uint value) external onlyGov{
+
+    function updateStartReferrerFeeP(uint value) external onlyGov {
         require(value <= 100, "VALUE_ABOVE_100");
 
         startReferrerFeeP = value;
 
         emit UpdatedStartReferrerFeeP(value);
     }
-    function updateOpenFeeP(uint value) external onlyGov{
+
+    function updateOpenFeeP(uint value) external onlyGov {
         require(value <= 50, "VALUE_ABOVE_50");
 
         openFeeP = value;
 
         emit UpdatedOpenFeeP(value);
     }
-    function updateTargetVolumeDai(uint value) external onlyGov{
+
+    function updateTargetVolumeDai(uint value) external onlyGov {
         require(value > 0, "VALUE_0");
 
         targetVolumeDai = value;
-        
+
         emit UpdatedTargetVolumeDai(value);
     }
 
     // MANAGE ALLIES
-    function whitelistAlly(address ally) external onlyGov{
+    function whitelistAlly(address ally) external onlyGov {
         require(ally != address(0), "ADDRESS_0");
 
         AllyDetails storage a = allyDetails[ally];
@@ -160,7 +153,8 @@ contract GNSReferralsV6_2 {
 
         emit AllyWhitelisted(ally);
     }
-    function unwhitelistAlly(address ally) external onlyGov{
+
+    function unwhitelistAlly(address ally) external onlyGov {
         AllyDetails storage a = allyDetails[ally];
         require(a.active, "ALREADY_UNACTIVE");
 
@@ -173,16 +167,15 @@ contract GNSReferralsV6_2 {
     function whitelistReferrer(
         address referrer,
         address ally
-    ) external onlyGov{
-        
+    ) external onlyGov {
         require(referrer != address(0), "ADDRESS_0");
 
-        ReferrerDetails storage r = referrerDetails[referrer];      
+        ReferrerDetails storage r = referrerDetails[referrer];
         require(!r.active, "REFERRER_ALREADY_ACTIVE");
 
         r.active = true;
-        
-        if(ally != address(0)){
+
+        if (ally != address(0)) {
             AllyDetails storage a = allyDetails[ally];
             require(a.active, "ALLY_NOT_ACTIVE");
 
@@ -192,7 +185,8 @@ contract GNSReferralsV6_2 {
 
         emit ReferrerWhitelisted(referrer, ally);
     }
-    function unwhitelistReferrer(address referrer) external onlyGov{
+
+    function unwhitelistReferrer(address referrer) external onlyGov {
         ReferrerDetails storage r = referrerDetails[referrer];
         require(r.active, "ALREADY_UNACTIVE");
 
@@ -204,13 +198,14 @@ contract GNSReferralsV6_2 {
     function registerPotentialReferrer(
         address trader,
         address referrer
-    ) external onlyTrading{
-
+    ) external onlyTrading {
         ReferrerDetails storage r = referrerDetails[referrer];
 
-        if(referrerByTrader[trader] != address(0)
-        || referrer == address(0)
-        || !r.active){
+        if (
+            referrerByTrader[trader] != address(0) ||
+            referrer == address(0) ||
+            !r.active
+        ) {
             return;
         }
 
@@ -226,32 +221,32 @@ contract GNSReferralsV6_2 {
         uint volumeDai,
         uint pairOpenFeeP,
         uint tokenPriceDai
-    ) external onlyCallbacks returns(uint){
-
+    ) external onlyCallbacks returns (uint) {
         address referrer = referrerByTrader[trader];
         ReferrerDetails storage r = referrerDetails[referrer];
 
-        if(!r.active){
+        if (!r.active) {
             return 0;
         }
 
-        uint referrerRewardValueDai = volumeDai * getReferrerFeeP(
-            pairOpenFeeP,
-            r.volumeReferredDai
-        ) / PRECISION / 100;
+        uint referrerRewardValueDai = (volumeDai *
+            getReferrerFeeP(pairOpenFeeP, r.volumeReferredDai)) /
+            PRECISION /
+            100;
 
-        uint referrerRewardToken = referrerRewardValueDai * PRECISION / tokenPriceDai;
+        uint referrerRewardToken = (referrerRewardValueDai * PRECISION) /
+            tokenPriceDai;
 
         storageT.handleTokens(address(this), referrerRewardToken, true);
 
         AllyDetails storage a = allyDetails[r.ally];
-        
+
         uint allyRewardValueDai;
         uint allyRewardToken;
 
-        if(a.active){
-            allyRewardValueDai = referrerRewardValueDai * allyFeeP / 100;
-            allyRewardToken = referrerRewardToken * allyFeeP / 100;
+        if (a.active) {
+            allyRewardValueDai = (referrerRewardValueDai * allyFeeP) / 100;
+            allyRewardToken = (referrerRewardToken * allyFeeP) / 100;
 
             a.volumeReferredDai += volumeDai;
             a.pendingRewardsToken += allyRewardToken;
@@ -287,10 +282,10 @@ contract GNSReferralsV6_2 {
     }
 
     // REWARDS CLAIMING
-    function claimAllyRewards() external{
+    function claimAllyRewards() external {
         AllyDetails storage a = allyDetails[msg.sender];
         uint rewardsToken = a.pendingRewardsToken;
-        
+
         require(rewardsToken > 0, "NO_PENDING_REWARDS");
 
         a.pendingRewardsToken = 0;
@@ -298,10 +293,11 @@ contract GNSReferralsV6_2 {
 
         emit AllyRewardsClaimed(msg.sender, rewardsToken);
     }
-    function claimReferrerRewards() external{
+
+    function claimReferrerRewards() external {
         ReferrerDetails storage r = referrerDetails[msg.sender];
         uint rewardsToken = r.pendingRewardsToken;
-        
+
         require(rewardsToken > 0, "NO_PENDING_REWARDS");
 
         r.pendingRewardsToken = 0;
@@ -314,51 +310,59 @@ contract GNSReferralsV6_2 {
     function getReferrerFeeP(
         uint pairOpenFeeP,
         uint volumeReferredDai
-    ) public view returns(uint){
+    ) public view returns (uint) {
+        uint maxReferrerFeeP = (pairOpenFeeP * 2 * openFeeP) / 100;
+        uint minFeeP = (maxReferrerFeeP * startReferrerFeeP) / 100;
 
-        uint maxReferrerFeeP = pairOpenFeeP * 2 * openFeeP / 100;
-        uint minFeeP = maxReferrerFeeP * startReferrerFeeP / 100;
-
-        uint feeP = minFeeP + (maxReferrerFeeP - minFeeP)
-            * volumeReferredDai / 1e18 / targetVolumeDai;
+        uint feeP = minFeeP +
+            ((maxReferrerFeeP - minFeeP) * volumeReferredDai) /
+            1e18 /
+            targetVolumeDai;
 
         return feeP > maxReferrerFeeP ? maxReferrerFeeP : feeP;
     }
 
-    function getPercentOfOpenFeeP(
-        address trader
-    ) external view returns(uint){
-        return getPercentOfOpenFeeP_calc(referrerDetails[referrerByTrader[trader]].volumeReferredDai);
+    function getPercentOfOpenFeeP(address trader) external view returns (uint) {
+        return
+            getPercentOfOpenFeeP_calc(
+                referrerDetails[referrerByTrader[trader]].volumeReferredDai
+            );
     }
 
     function getPercentOfOpenFeeP_calc(
         uint volumeReferredDai
-    ) public view returns(uint resultP){
-        resultP = (openFeeP * (
-            startReferrerFeeP * PRECISION +
-            volumeReferredDai * PRECISION * (100 - startReferrerFeeP) / 1e18 / targetVolumeDai)
-        ) / 100;
+    ) public view returns (uint resultP) {
+        resultP =
+            (openFeeP *
+                (startReferrerFeeP *
+                    PRECISION +
+                    (volumeReferredDai *
+                        PRECISION *
+                        (100 - startReferrerFeeP)) /
+                    1e18 /
+                    targetVolumeDai)) /
+            100;
 
-        resultP = resultP > openFeeP * PRECISION ?
-            openFeeP * PRECISION :
-            resultP;
+        resultP = resultP > openFeeP * PRECISION
+            ? openFeeP * PRECISION
+            : resultP;
     }
 
-    function getTraderReferrer(
-        address trader
-    ) external view returns(address){
+    function getTraderReferrer(address trader) external view returns (address) {
         address referrer = referrerByTrader[trader];
 
         return referrerDetails[referrer].active ? referrer : address(0);
     }
+
     function getReferrersReferred(
         address ally
-    ) external view returns (address[] memory){
+    ) external view returns (address[] memory) {
         return allyDetails[ally].referrersReferred;
     }
+
     function getTradersReferred(
         address referred
-    ) external view returns (address[] memory){
+    ) external view returns (address[] memory) {
         return referrerDetails[referred].tradersReferred;
     }
 }

@@ -1,4 +1,4 @@
-const { getConfigs } = require('../config/config');
+const { getConfigs } = require("../config/config");
 
 async function deployContract(name, args, contractOptions = {}) {
   const contractFactory = await ethers.getContractFactory(
@@ -63,7 +63,7 @@ function createDeployFunction({
     let proxy = false;
 
     if (getProxyConfig) {
-      proxy = await getProxyConfig({ dependencyContracts });
+      proxy = await getProxyConfig({ dependencyContracts, network });
     }
 
     let deployedContract;
@@ -78,10 +78,10 @@ function createDeployFunction({
       });
     } catch (e) {
       console.error(
-        `Deploy failed at the first try for contract ${contractName}: ${e.reason}`
+        `Deploy failed at the first try for contract ${contractName}: ${e}`
       );
 
-      console.info('Try to deploy using hardhat...');
+      console.info("Try to deploy using hardhat...");
 
       // the caught error might not be very informative
       // e.g. if some library dependency is missing, which library it is

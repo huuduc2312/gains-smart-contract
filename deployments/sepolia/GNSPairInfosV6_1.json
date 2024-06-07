@@ -1,0 +1,1746 @@
+{
+  "address": "0xdA7C0Fb006Af55e8e350e7532438382E550fcA11",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract StorageInterfaceV5",
+          "name": "_storageT",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "valueLong",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "valueShort",
+          "type": "int256"
+        }
+      ],
+      "name": "AccFundingFeesStored",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "AccRolloverFeesStored",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "leverage",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "percentProfit",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "rolloverFees",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "fundingFees",
+          "type": "int256"
+        }
+      ],
+      "name": "FeesCharged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "FundingFeePerBlockPUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "value",
+          "type": "address"
+        }
+      ],
+      "name": "ManagerUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "MaxNegativePnlOnOpenPUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "valueAbove",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "valueBelow",
+          "type": "uint256"
+        }
+      ],
+      "name": "OnePercentDepthUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthAbove",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthBelow",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rolloverFeePerBlockP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "fundingFeePerBlockP",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct GNSPairInfosV6_1.PairParams",
+          "name": "value",
+          "type": "tuple"
+        }
+      ],
+      "name": "PairParamsUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "RolloverFeePerBlockPUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "rollover",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "funding",
+          "type": "int256"
+        }
+      ],
+      "name": "TradeInitialAccFeesStored",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAccFundingFeesLong",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAccFundingFeesShort",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAccFundingFeesUpdateBlock",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAccRolloverFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAccRolloverFeesUpdateBlock",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getFundingFeePerBlockP",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getOnePercentDepthAbove",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getOnePercentDepthBelow",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "indices",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "getPairInfos",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthAbove",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthBelow",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rolloverFeePerBlockP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "fundingFeePerBlockP",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GNSPairInfosV6_1.PairParams[]",
+          "name": "",
+          "type": "tuple[]"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "accPerCollateral",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdateBlock",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GNSPairInfosV6_1.PairRolloverFees[]",
+          "name": "",
+          "type": "tuple[]"
+        },
+        {
+          "components": [
+            {
+              "internalType": "int256",
+              "name": "accPerOiLong",
+              "type": "int256"
+            },
+            {
+              "internalType": "int256",
+              "name": "accPerOiShort",
+              "type": "int256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdateBlock",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GNSPairInfosV6_1.PairFundingFees[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPendingAccFundingFees",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "valueLong",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "valueShort",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPendingAccRolloverFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getRolloverFeePerBlockP",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "leverage",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeFundingFee",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "accFundingFeesPerOi",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "endAccFundingFeesPerOi",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "leverage",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeFundingFeePure",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeInitialAccFundingFeesPerOi",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeInitialAccRolloverFeesPerCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "openPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "leverage",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeLiquidationPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "openPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "leverage",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rolloverFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "fundingFee",
+          "type": "int256"
+        }
+      ],
+      "name": "getTradeLiquidationPricePure",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeOpenedAfterUpdate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "openPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tradeOpenInterest",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradePriceImpact",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "priceImpactP",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "priceAfterImpact",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "openPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startOpenInterest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tradeOpenInterest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "onePercentDepth",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradePriceImpactPure",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "priceImpactP",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "priceAfterImpact",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeRolloverFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "accRolloverFeesPerCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endAccRolloverFeesPerCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeRolloverFeePure",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "leverage",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "percentProfit",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "closingFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "percentProfit",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rolloverFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "fundingFee",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "closingFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTradeValuePure",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "manager",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "maxNegativePnlOnOpenP",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "pairFundingFees",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "accPerOiLong",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "accPerOiShort",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastUpdateBlock",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "pairParams",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "onePercentDepthAbove",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "onePercentDepthBelow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rolloverFeePerBlockP",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "fundingFeePerBlockP",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "pairRolloverFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "accPerCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastUpdateBlock",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "setFundingFeePerBlockP",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "indices",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "setFundingFeePerBlockPArray",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_manager",
+          "type": "address"
+        }
+      ],
+      "name": "setManager",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "setMaxNegativePnlOnOpenP",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "valueAbove",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "valueBelow",
+          "type": "uint256"
+        }
+      ],
+      "name": "setOnePercentDepth",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "indices",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "valuesAbove",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "valuesBelow",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "setOnePercentDepthArray",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthAbove",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthBelow",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rolloverFeePerBlockP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "fundingFeePerBlockP",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GNSPairInfosV6_1.PairParams",
+          "name": "value",
+          "type": "tuple"
+        }
+      ],
+      "name": "setPairParams",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "indices",
+          "type": "uint256[]"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthAbove",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "onePercentDepthBelow",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rolloverFeePerBlockP",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "fundingFeePerBlockP",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GNSPairInfosV6_1.PairParams[]",
+          "name": "values",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "setPairParamsArray",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "setRolloverFeePerBlockP",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "indices",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "setRolloverFeePerBlockPArray",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pairIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "long",
+          "type": "bool"
+        }
+      ],
+      "name": "storeTradeInitialAccFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "tradeInitialAccFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "rollover",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "funding",
+          "type": "int256"
+        },
+        {
+          "internalType": "bool",
+          "name": "openedAfterUpdate",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x3e2f92107ebb30b756d3de25509f3d770208505c45a178f047e1ca0ca0b3a8ce",
+  "receipt": {
+    "to": null,
+    "from": "0xd7D1dCba2c678ee7e049BD55176354E7C5bBdcCA",
+    "contractAddress": "0xdA7C0Fb006Af55e8e350e7532438382E550fcA11",
+    "transactionIndex": 62,
+    "gasUsed": "1830179",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x047b7154d238b9f80c56010fc3d23ab7a3c59d0fa724e4c5d00ffd114eee29f2",
+    "transactionHash": "0x3e2f92107ebb30b756d3de25509f3d770208505c45a178f047e1ca0ca0b3a8ce",
+    "logs": [],
+    "blockNumber": 6030583,
+    "cumulativeGasUsed": "13111525",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xc74ACa58E57FcDF118B94E6ca85F7ab49f17A679"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "edab1d0feb7ffa5be1c95101a46d74db",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract StorageInterfaceV5\",\"name\":\"_storageT\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"int256\",\"name\":\"valueLong\",\"type\":\"int256\"},{\"indexed\":false,\"internalType\":\"int256\",\"name\":\"valueShort\",\"type\":\"int256\"}],\"name\":\"AccFundingFeesStored\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"AccRolloverFeesStored\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"leverage\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"int256\",\"name\":\"percentProfit\",\"type\":\"int256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"rolloverFees\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"int256\",\"name\":\"fundingFees\",\"type\":\"int256\"}],\"name\":\"FeesCharged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"FundingFeePerBlockPUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"value\",\"type\":\"address\"}],\"name\":\"ManagerUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"MaxNegativePnlOnOpenPUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"valueAbove\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"valueBelow\",\"type\":\"uint256\"}],\"name\":\"OnePercentDepthUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"onePercentDepthAbove\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"onePercentDepthBelow\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFeePerBlockP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fundingFeePerBlockP\",\"type\":\"uint256\"}],\"indexed\":false,\"internalType\":\"struct GNSPairInfosV6_1.PairParams\",\"name\":\"value\",\"type\":\"tuple\"}],\"name\":\"PairParamsUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"RolloverFeePerBlockPUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"rollover\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"int256\",\"name\":\"funding\",\"type\":\"int256\"}],\"name\":\"TradeInitialAccFeesStored\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getAccFundingFeesLong\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getAccFundingFeesShort\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getAccFundingFeesUpdateBlock\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getAccRolloverFees\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getAccRolloverFeesUpdateBlock\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getFundingFeePerBlockP\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getOnePercentDepthAbove\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getOnePercentDepthBelow\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"indices\",\"type\":\"uint256[]\"}],\"name\":\"getPairInfos\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"onePercentDepthAbove\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"onePercentDepthBelow\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFeePerBlockP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fundingFeePerBlockP\",\"type\":\"uint256\"}],\"internalType\":\"struct GNSPairInfosV6_1.PairParams[]\",\"name\":\"\",\"type\":\"tuple[]\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"accPerCollateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdateBlock\",\"type\":\"uint256\"}],\"internalType\":\"struct GNSPairInfosV6_1.PairRolloverFees[]\",\"name\":\"\",\"type\":\"tuple[]\"},{\"components\":[{\"internalType\":\"int256\",\"name\":\"accPerOiLong\",\"type\":\"int256\"},{\"internalType\":\"int256\",\"name\":\"accPerOiShort\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdateBlock\",\"type\":\"uint256\"}],\"internalType\":\"struct GNSPairInfosV6_1.PairFundingFees[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getPendingAccFundingFees\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"valueLong\",\"type\":\"int256\"},{\"internalType\":\"int256\",\"name\":\"valueShort\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getPendingAccRolloverFees\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"}],\"name\":\"getRolloverFeePerBlockP\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"leverage\",\"type\":\"uint256\"}],\"name\":\"getTradeFundingFee\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"int256\",\"name\":\"accFundingFeesPerOi\",\"type\":\"int256\"},{\"internalType\":\"int256\",\"name\":\"endAccFundingFeesPerOi\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"leverage\",\"type\":\"uint256\"}],\"name\":\"getTradeFundingFeePure\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getTradeInitialAccFundingFeesPerOi\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getTradeInitialAccRolloverFeesPerCollateral\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"openPrice\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"leverage\",\"type\":\"uint256\"}],\"name\":\"getTradeLiquidationPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"openPrice\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"leverage\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFee\",\"type\":\"uint256\"},{\"internalType\":\"int256\",\"name\":\"fundingFee\",\"type\":\"int256\"}],\"name\":\"getTradeLiquidationPricePure\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getTradeOpenedAfterUpdate\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"openPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"tradeOpenInterest\",\"type\":\"uint256\"}],\"name\":\"getTradePriceImpact\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"priceImpactP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"priceAfterImpact\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"openPrice\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"startOpenInterest\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tradeOpenInterest\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"onePercentDepth\",\"type\":\"uint256\"}],\"name\":\"getTradePriceImpactPure\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"priceImpactP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"priceAfterImpact\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"}],\"name\":\"getTradeRolloverFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"accRolloverFeesPerCollateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"endAccRolloverFeesPerCollateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"}],\"name\":\"getTradeRolloverFeePure\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"leverage\",\"type\":\"uint256\"},{\"internalType\":\"int256\",\"name\":\"percentProfit\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"closingFee\",\"type\":\"uint256\"}],\"name\":\"getTradeValue\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"int256\",\"name\":\"percentProfit\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFee\",\"type\":\"uint256\"},{\"internalType\":\"int256\",\"name\":\"fundingFee\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"closingFee\",\"type\":\"uint256\"}],\"name\":\"getTradeValuePure\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"manager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"maxNegativePnlOnOpenP\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"pairFundingFees\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"accPerOiLong\",\"type\":\"int256\"},{\"internalType\":\"int256\",\"name\":\"accPerOiShort\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdateBlock\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"pairParams\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"onePercentDepthAbove\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"onePercentDepthBelow\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFeePerBlockP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fundingFeePerBlockP\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"pairRolloverFees\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"accPerCollateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdateBlock\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"setFundingFeePerBlockP\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"indices\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"values\",\"type\":\"uint256[]\"}],\"name\":\"setFundingFeePerBlockPArray\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_manager\",\"type\":\"address\"}],\"name\":\"setManager\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"setMaxNegativePnlOnOpenP\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"valueAbove\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"valueBelow\",\"type\":\"uint256\"}],\"name\":\"setOnePercentDepth\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"indices\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"valuesAbove\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"valuesBelow\",\"type\":\"uint256[]\"}],\"name\":\"setOnePercentDepthArray\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"onePercentDepthAbove\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"onePercentDepthBelow\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFeePerBlockP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fundingFeePerBlockP\",\"type\":\"uint256\"}],\"internalType\":\"struct GNSPairInfosV6_1.PairParams\",\"name\":\"value\",\"type\":\"tuple\"}],\"name\":\"setPairParams\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"indices\",\"type\":\"uint256[]\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"onePercentDepthAbove\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"onePercentDepthBelow\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rolloverFeePerBlockP\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fundingFeePerBlockP\",\"type\":\"uint256\"}],\"internalType\":\"struct GNSPairInfosV6_1.PairParams[]\",\"name\":\"values\",\"type\":\"tuple[]\"}],\"name\":\"setPairParamsArray\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"setRolloverFeePerBlockP\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"indices\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"values\",\"type\":\"uint256[]\"}],\"name\":\"setRolloverFeePerBlockPArray\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"pairIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"long\",\"type\":\"bool\"}],\"name\":\"storeTradeInitialAccFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"tradeInitialAccFees\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rollover\",\"type\":\"uint256\"},{\"internalType\":\"int256\",\"name\":\"funding\",\"type\":\"int256\"},{\"internalType\":\"bool\",\"name\":\"openedAfterUpdate\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/contracts/GNSPairInfosV6_1.sol\":\"GNSPairInfosV6_1\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1},\"remappings\":[],\"viaIR\":true},\"sources\":{\"contracts/contracts/GNSPairInfosV6_1.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\nimport \\\"../interfaces/StorageInterfaceV5.sol\\\";\\n\\ncontract GNSPairInfosV6_1 {\\n    // Addresses\\n    StorageInterfaceV5 immutable storageT;\\n    address public manager;\\n\\n    // Constant parameters\\n    uint constant PRECISION = 1e10; // 10 decimals\\n    uint constant LIQ_THRESHOLD_P = 90; // -90% (of collateral)\\n\\n    // Adjustable parameters\\n    uint public maxNegativePnlOnOpenP = 40 * PRECISION; // PRECISION (%)\\n\\n    // Pair parameters\\n    struct PairParams {\\n        uint onePercentDepthAbove; // DAI\\n        uint onePercentDepthBelow; // DAI\\n        uint rolloverFeePerBlockP; // PRECISION (%)\\n        uint fundingFeePerBlockP; // PRECISION (%)\\n    }\\n\\n    mapping(uint => PairParams) public pairParams;\\n\\n    // Pair acc funding fees\\n    struct PairFundingFees {\\n        int accPerOiLong; // 1e18 (DAI)\\n        int accPerOiShort; // 1e18 (DAI)\\n        uint lastUpdateBlock;\\n    }\\n\\n    mapping(uint => PairFundingFees) public pairFundingFees;\\n\\n    // Pair acc rollover fees\\n    struct PairRolloverFees {\\n        uint accPerCollateral; // 1e18 (DAI)\\n        uint lastUpdateBlock;\\n    }\\n\\n    mapping(uint => PairRolloverFees) public pairRolloverFees;\\n\\n    // Trade initial acc fees\\n    struct TradeInitialAccFees {\\n        uint rollover; // 1e18 (DAI)\\n        int funding; // 1e18 (DAI)\\n        bool openedAfterUpdate;\\n    }\\n\\n    mapping(address => mapping(uint => mapping(uint => TradeInitialAccFees)))\\n        public tradeInitialAccFees;\\n\\n    // Events\\n    event ManagerUpdated(address value);\\n    event MaxNegativePnlOnOpenPUpdated(uint value);\\n\\n    event PairParamsUpdated(uint pairIndex, PairParams value);\\n    event OnePercentDepthUpdated(\\n        uint pairIndex,\\n        uint valueAbove,\\n        uint valueBelow\\n    );\\n    event RolloverFeePerBlockPUpdated(uint pairIndex, uint value);\\n    event FundingFeePerBlockPUpdated(uint pairIndex, uint value);\\n\\n    event TradeInitialAccFeesStored(\\n        address trader,\\n        uint pairIndex,\\n        uint index,\\n        uint rollover,\\n        int funding\\n    );\\n\\n    event AccFundingFeesStored(uint pairIndex, int valueLong, int valueShort);\\n    event AccRolloverFeesStored(uint pairIndex, uint value);\\n\\n    event FeesCharged(\\n        uint pairIndex,\\n        bool long,\\n        uint collateral, // 1e18 (DAI)\\n        uint leverage,\\n        int percentProfit, // PRECISION (%)\\n        uint rolloverFees, // 1e18 (DAI)\\n        int fundingFees // 1e18 (DAI)\\n    );\\n\\n    constructor(StorageInterfaceV5 _storageT) {\\n        storageT = _storageT;\\n    }\\n\\n    // Modifiers\\n    modifier onlyGov() {\\n        require(msg.sender == storageT.gov(), \\\"GOV_ONLY\\\");\\n        _;\\n    }\\n    modifier onlyManager() {\\n        require(msg.sender == manager, \\\"MANAGER_ONLY\\\");\\n        _;\\n    }\\n    modifier onlyCallbacks() {\\n        require(msg.sender == storageT.callbacks(), \\\"CALLBACKS_ONLY\\\");\\n        _;\\n    }\\n\\n    // Set manager address\\n    function setManager(address _manager) external onlyGov {\\n        manager = _manager;\\n\\n        emit ManagerUpdated(_manager);\\n    }\\n\\n    // Set max negative PnL % on trade opening\\n    function setMaxNegativePnlOnOpenP(uint value) external onlyManager {\\n        maxNegativePnlOnOpenP = value;\\n\\n        emit MaxNegativePnlOnOpenPUpdated(value);\\n    }\\n\\n    // Set parameters for pair\\n    function setPairParams(\\n        uint pairIndex,\\n        PairParams memory value\\n    ) public onlyManager {\\n        storeAccRolloverFees(pairIndex);\\n        storeAccFundingFees(pairIndex);\\n\\n        pairParams[pairIndex] = value;\\n\\n        emit PairParamsUpdated(pairIndex, value);\\n    }\\n\\n    function setPairParamsArray(\\n        uint[] memory indices,\\n        PairParams[] memory values\\n    ) external onlyManager {\\n        require(indices.length == values.length, \\\"WRONG_LENGTH\\\");\\n\\n        for (uint i = 0; i < indices.length; i++) {\\n            setPairParams(indices[i], values[i]);\\n        }\\n    }\\n\\n    // Set one percent depth for pair\\n    function setOnePercentDepth(\\n        uint pairIndex,\\n        uint valueAbove,\\n        uint valueBelow\\n    ) public onlyManager {\\n        PairParams storage p = pairParams[pairIndex];\\n\\n        p.onePercentDepthAbove = valueAbove;\\n        p.onePercentDepthBelow = valueBelow;\\n\\n        emit OnePercentDepthUpdated(pairIndex, valueAbove, valueBelow);\\n    }\\n\\n    function setOnePercentDepthArray(\\n        uint[] memory indices,\\n        uint[] memory valuesAbove,\\n        uint[] memory valuesBelow\\n    ) external onlyManager {\\n        require(\\n            indices.length == valuesAbove.length &&\\n                indices.length == valuesBelow.length,\\n            \\\"WRONG_LENGTH\\\"\\n        );\\n\\n        for (uint i = 0; i < indices.length; i++) {\\n            setOnePercentDepth(indices[i], valuesAbove[i], valuesBelow[i]);\\n        }\\n    }\\n\\n    // Set rollover fee for pair\\n    function setRolloverFeePerBlockP(\\n        uint pairIndex,\\n        uint value\\n    ) public onlyManager {\\n        require(value <= 25000000, \\\"TOO_HIGH\\\"); // \\u2248 100% per day\\n\\n        storeAccRolloverFees(pairIndex);\\n\\n        pairParams[pairIndex].rolloverFeePerBlockP = value;\\n\\n        emit RolloverFeePerBlockPUpdated(pairIndex, value);\\n    }\\n\\n    function setRolloverFeePerBlockPArray(\\n        uint[] memory indices,\\n        uint[] memory values\\n    ) external onlyManager {\\n        require(indices.length == values.length, \\\"WRONG_LENGTH\\\");\\n\\n        for (uint i = 0; i < indices.length; i++) {\\n            setRolloverFeePerBlockP(indices[i], values[i]);\\n        }\\n    }\\n\\n    // Set funding fee for pair\\n    function setFundingFeePerBlockP(\\n        uint pairIndex,\\n        uint value\\n    ) public onlyManager {\\n        require(value <= 10000000, \\\"TOO_HIGH\\\"); // \\u2248 40% per day\\n\\n        storeAccFundingFees(pairIndex);\\n\\n        pairParams[pairIndex].fundingFeePerBlockP = value;\\n\\n        emit FundingFeePerBlockPUpdated(pairIndex, value);\\n    }\\n\\n    function setFundingFeePerBlockPArray(\\n        uint[] memory indices,\\n        uint[] memory values\\n    ) external onlyManager {\\n        require(indices.length == values.length, \\\"WRONG_LENGTH\\\");\\n\\n        for (uint i = 0; i < indices.length; i++) {\\n            setFundingFeePerBlockP(indices[i], values[i]);\\n        }\\n    }\\n\\n    // Store trade details when opened (acc fee values)\\n    function storeTradeInitialAccFees(\\n        address trader,\\n        uint pairIndex,\\n        uint index,\\n        bool long\\n    ) external {\\n        storeAccFundingFees(pairIndex);\\n\\n        TradeInitialAccFees storage t = tradeInitialAccFees[trader][pairIndex][\\n            index\\n        ];\\n\\n        t.rollover = getPendingAccRolloverFees(pairIndex);\\n\\n        t.funding = long\\n            ? pairFundingFees[pairIndex].accPerOiLong\\n            : pairFundingFees[pairIndex].accPerOiShort;\\n\\n        t.openedAfterUpdate = true;\\n\\n        emit TradeInitialAccFeesStored(\\n            trader,\\n            pairIndex,\\n            index,\\n            t.rollover,\\n            t.funding\\n        );\\n    }\\n\\n    // Acc rollover fees (store right before fee % update)\\n    function storeAccRolloverFees(uint pairIndex) private {\\n        PairRolloverFees storage r = pairRolloverFees[pairIndex];\\n\\n        r.accPerCollateral = getPendingAccRolloverFees(pairIndex);\\n        r.lastUpdateBlock = block.number;\\n\\n        emit AccRolloverFeesStored(pairIndex, r.accPerCollateral);\\n    }\\n\\n    function getPendingAccRolloverFees(\\n        uint pairIndex\\n    ) public view returns (uint) {\\n        // 1e18 (DAI)\\n        PairRolloverFees storage r = pairRolloverFees[pairIndex];\\n\\n        return\\n            r.accPerCollateral +\\n            ((block.number - r.lastUpdateBlock) *\\n                pairParams[pairIndex].rolloverFeePerBlockP *\\n                1e18) /\\n            PRECISION /\\n            100;\\n    }\\n\\n    // Acc funding fees (store right before trades opened / closed and fee % update)\\n    function storeAccFundingFees(uint pairIndex) private {\\n        PairFundingFees storage f = pairFundingFees[pairIndex];\\n\\n        (f.accPerOiLong, f.accPerOiShort) = getPendingAccFundingFees(pairIndex);\\n        f.lastUpdateBlock = block.number;\\n\\n        emit AccFundingFeesStored(pairIndex, f.accPerOiLong, f.accPerOiShort);\\n    }\\n\\n    function getPendingAccFundingFees(\\n        uint pairIndex\\n    ) public view returns (int valueLong, int valueShort) {\\n        PairFundingFees storage f = pairFundingFees[pairIndex];\\n\\n        valueLong = f.accPerOiLong;\\n        valueShort = f.accPerOiShort;\\n\\n        int openInterestDaiLong = int(storageT.openInterestDai(pairIndex, 0));\\n        int openInterestDaiShort = int(storageT.openInterestDai(pairIndex, 1));\\n\\n        int fundingFeesPaidByLongs = ((openInterestDaiLong -\\n            openInterestDaiShort) *\\n            int(block.number - f.lastUpdateBlock) *\\n            int(pairParams[pairIndex].fundingFeePerBlockP)) /\\n            int(PRECISION) /\\n            100;\\n\\n        if (openInterestDaiLong > 0) {\\n            valueLong += (fundingFeesPaidByLongs * 1e18) / openInterestDaiLong;\\n        }\\n\\n        if (openInterestDaiShort > 0) {\\n            valueShort +=\\n                (fundingFeesPaidByLongs * 1e18 * (-1)) /\\n                openInterestDaiShort;\\n        }\\n    }\\n\\n    // Dynamic price impact value on trade opening\\n    function getTradePriceImpact(\\n        uint openPrice, // PRECISION\\n        uint pairIndex,\\n        bool long,\\n        uint tradeOpenInterest // 1e18 (DAI)\\n    )\\n        external\\n        view\\n        returns (\\n            uint priceImpactP, // PRECISION (%)\\n            uint priceAfterImpact // PRECISION\\n        )\\n    {\\n        (priceImpactP, priceAfterImpact) = getTradePriceImpactPure(\\n            openPrice,\\n            long,\\n            storageT.openInterestDai(pairIndex, long ? 0 : 1),\\n            tradeOpenInterest,\\n            long\\n                ? pairParams[pairIndex].onePercentDepthAbove\\n                : pairParams[pairIndex].onePercentDepthBelow\\n        );\\n    }\\n\\n    function getTradePriceImpactPure(\\n        uint openPrice, // PRECISION\\n        bool long,\\n        uint startOpenInterest, // 1e18 (DAI)\\n        uint tradeOpenInterest, // 1e18 (DAI)\\n        uint onePercentDepth\\n    )\\n        public\\n        pure\\n        returns (\\n            uint priceImpactP, // PRECISION (%)\\n            uint priceAfterImpact // PRECISION\\n        )\\n    {\\n        if (onePercentDepth == 0) {\\n            return (0, openPrice);\\n        }\\n\\n        priceImpactP =\\n            ((startOpenInterest + tradeOpenInterest / 2) * PRECISION) /\\n            1e18 /\\n            onePercentDepth;\\n\\n        uint priceImpact = (priceImpactP * openPrice) / PRECISION / 100;\\n\\n        priceAfterImpact = long\\n            ? openPrice + priceImpact\\n            : openPrice - priceImpact;\\n    }\\n\\n    // Rollover fee value\\n    function getTradeRolloverFee(\\n        address trader,\\n        uint pairIndex,\\n        uint index,\\n        uint collateral // 1e18 (DAI)\\n    ) public view returns (uint) {\\n        // 1e18 (DAI)\\n        TradeInitialAccFees memory t = tradeInitialAccFees[trader][pairIndex][\\n            index\\n        ];\\n\\n        if (!t.openedAfterUpdate) {\\n            return 0;\\n        }\\n\\n        return\\n            getTradeRolloverFeePure(\\n                t.rollover,\\n                getPendingAccRolloverFees(pairIndex),\\n                collateral\\n            );\\n    }\\n\\n    function getTradeRolloverFeePure(\\n        uint accRolloverFeesPerCollateral,\\n        uint endAccRolloverFeesPerCollateral,\\n        uint collateral // 1e18 (DAI)\\n    ) public pure returns (uint) {\\n        // 1e18 (DAI)\\n        return\\n            ((endAccRolloverFeesPerCollateral - accRolloverFeesPerCollateral) *\\n                collateral) / 1e18;\\n    }\\n\\n    // Funding fee value\\n    function getTradeFundingFee(\\n        address trader,\\n        uint pairIndex,\\n        uint index,\\n        bool long,\\n        uint collateral, // 1e18 (DAI)\\n        uint leverage\\n    )\\n        public\\n        view\\n        returns (\\n            int // 1e18 (DAI) | Positive => Fee, Negative => Reward\\n        )\\n    {\\n        TradeInitialAccFees memory t = tradeInitialAccFees[trader][pairIndex][\\n            index\\n        ];\\n\\n        if (!t.openedAfterUpdate) {\\n            return 0;\\n        }\\n\\n        (int pendingLong, int pendingShort) = getPendingAccFundingFees(\\n            pairIndex\\n        );\\n\\n        return\\n            getTradeFundingFeePure(\\n                t.funding,\\n                long ? pendingLong : pendingShort,\\n                collateral,\\n                leverage\\n            );\\n    }\\n\\n    function getTradeFundingFeePure(\\n        int accFundingFeesPerOi,\\n        int endAccFundingFeesPerOi,\\n        uint collateral, // 1e18 (DAI)\\n        uint leverage\\n    )\\n        public\\n        pure\\n        returns (\\n            int // 1e18 (DAI) | Positive => Fee, Negative => Reward\\n        )\\n    {\\n        return\\n            ((endAccFundingFeesPerOi - accFundingFeesPerOi) *\\n                int(collateral) *\\n                int(leverage)) / 1e18;\\n    }\\n\\n    // Liquidation price value after rollover and funding fees\\n    function getTradeLiquidationPrice(\\n        address trader,\\n        uint pairIndex,\\n        uint index,\\n        uint openPrice, // PRECISION\\n        bool long,\\n        uint collateral, // 1e18 (DAI)\\n        uint leverage\\n    ) external view returns (uint) {\\n        // PRECISION\\n        return\\n            getTradeLiquidationPricePure(\\n                openPrice,\\n                long,\\n                collateral,\\n                leverage,\\n                getTradeRolloverFee(trader, pairIndex, index, collateral),\\n                getTradeFundingFee(\\n                    trader,\\n                    pairIndex,\\n                    index,\\n                    long,\\n                    collateral,\\n                    leverage\\n                )\\n            );\\n    }\\n\\n    function getTradeLiquidationPricePure(\\n        uint openPrice, // PRECISION\\n        bool long,\\n        uint collateral, // 1e18 (DAI)\\n        uint leverage,\\n        uint rolloverFee, // 1e18 (DAI)\\n        int fundingFee // 1e18 (DAI)\\n    ) public pure returns (uint) {\\n        // PRECISION\\n        int liqPriceDistance = (int(openPrice) *\\n            (int((collateral * LIQ_THRESHOLD_P) / 100) -\\n                int(rolloverFee) -\\n                fundingFee)) /\\n            int(collateral) /\\n            int(leverage);\\n\\n        int liqPrice = long\\n            ? int(openPrice) - liqPriceDistance\\n            : int(openPrice) + liqPriceDistance;\\n\\n        return liqPrice > 0 ? uint(liqPrice) : 0;\\n    }\\n\\n    // Dai sent to trader after PnL and fees\\n    function getTradeValue(\\n        address trader,\\n        uint pairIndex,\\n        uint index,\\n        bool long,\\n        uint collateral, // 1e18 (DAI)\\n        uint leverage,\\n        int percentProfit, // PRECISION (%)\\n        uint closingFee // 1e18 (DAI)\\n    ) external onlyCallbacks returns (uint amount) {\\n        // 1e18 (DAI)\\n        storeAccFundingFees(pairIndex);\\n\\n        uint r = getTradeRolloverFee(trader, pairIndex, index, collateral);\\n        int f = getTradeFundingFee(\\n            trader,\\n            pairIndex,\\n            index,\\n            long,\\n            collateral,\\n            leverage\\n        );\\n\\n        amount = getTradeValuePure(collateral, percentProfit, r, f, closingFee);\\n\\n        emit FeesCharged(\\n            pairIndex,\\n            long,\\n            collateral,\\n            leverage,\\n            percentProfit,\\n            r,\\n            f\\n        );\\n    }\\n\\n    function getTradeValuePure(\\n        uint collateral, // 1e18 (DAI)\\n        int percentProfit, // PRECISION (%)\\n        uint rolloverFee, // 1e18 (DAI)\\n        int fundingFee, // 1e18 (DAI)\\n        uint closingFee // 1e18 (DAI)\\n    ) public pure returns (uint) {\\n        // 1e18 (DAI)\\n        int value = int(collateral) +\\n            (int(collateral) * percentProfit) /\\n            int(PRECISION) /\\n            100 -\\n            int(rolloverFee) -\\n            fundingFee;\\n\\n        if (value <= (int(collateral) * int(100 - LIQ_THRESHOLD_P)) / 100) {\\n            return 0;\\n        }\\n\\n        value -= int(closingFee);\\n\\n        return value > 0 ? uint(value) : 0;\\n    }\\n\\n    // Useful getters\\n    function getPairInfos(\\n        uint[] memory indices\\n    )\\n        external\\n        view\\n        returns (\\n            PairParams[] memory,\\n            PairRolloverFees[] memory,\\n            PairFundingFees[] memory\\n        )\\n    {\\n        PairParams[] memory params = new PairParams[](indices.length);\\n        PairRolloverFees[] memory rolloverFees = new PairRolloverFees[](\\n            indices.length\\n        );\\n        PairFundingFees[] memory fundingFees = new PairFundingFees[](\\n            indices.length\\n        );\\n\\n        for (uint i = 0; i < indices.length; i++) {\\n            uint index = indices[i];\\n\\n            params[i] = pairParams[index];\\n            rolloverFees[i] = pairRolloverFees[index];\\n            fundingFees[i] = pairFundingFees[index];\\n        }\\n\\n        return (params, rolloverFees, fundingFees);\\n    }\\n\\n    function getOnePercentDepthAbove(\\n        uint pairIndex\\n    ) external view returns (uint) {\\n        return pairParams[pairIndex].onePercentDepthAbove;\\n    }\\n\\n    function getOnePercentDepthBelow(\\n        uint pairIndex\\n    ) external view returns (uint) {\\n        return pairParams[pairIndex].onePercentDepthBelow;\\n    }\\n\\n    function getRolloverFeePerBlockP(\\n        uint pairIndex\\n    ) external view returns (uint) {\\n        return pairParams[pairIndex].rolloverFeePerBlockP;\\n    }\\n\\n    function getFundingFeePerBlockP(\\n        uint pairIndex\\n    ) external view returns (uint) {\\n        return pairParams[pairIndex].fundingFeePerBlockP;\\n    }\\n\\n    function getAccRolloverFees(uint pairIndex) external view returns (uint) {\\n        return pairRolloverFees[pairIndex].accPerCollateral;\\n    }\\n\\n    function getAccRolloverFeesUpdateBlock(\\n        uint pairIndex\\n    ) external view returns (uint) {\\n        return pairRolloverFees[pairIndex].lastUpdateBlock;\\n    }\\n\\n    function getAccFundingFeesLong(uint pairIndex) external view returns (int) {\\n        return pairFundingFees[pairIndex].accPerOiLong;\\n    }\\n\\n    function getAccFundingFeesShort(\\n        uint pairIndex\\n    ) external view returns (int) {\\n        return pairFundingFees[pairIndex].accPerOiShort;\\n    }\\n\\n    function getAccFundingFeesUpdateBlock(\\n        uint pairIndex\\n    ) external view returns (uint) {\\n        return pairFundingFees[pairIndex].lastUpdateBlock;\\n    }\\n\\n    function getTradeInitialAccRolloverFeesPerCollateral(\\n        address trader,\\n        uint pairIndex,\\n        uint index\\n    ) external view returns (uint) {\\n        return tradeInitialAccFees[trader][pairIndex][index].rollover;\\n    }\\n\\n    function getTradeInitialAccFundingFeesPerOi(\\n        address trader,\\n        uint pairIndex,\\n        uint index\\n    ) external view returns (int) {\\n        return tradeInitialAccFees[trader][pairIndex][index].funding;\\n    }\\n\\n    function getTradeOpenedAfterUpdate(\\n        address trader,\\n        uint pairIndex,\\n        uint index\\n    ) external view returns (bool) {\\n        return tradeInitialAccFees[trader][pairIndex][index].openedAfterUpdate;\\n    }\\n}\\n\",\"keccak256\":\"0x38e51adbed8e5b9876fe28a9e80553346846a6c85a5b00617fa6aac31e062382\",\"license\":\"MIT\"},\"contracts/interfaces/ChainlinkFeedInterfaceV5.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\ninterface ChainlinkFeedInterfaceV5 {\\n    function latestRoundData()\\n        external\\n        view\\n        returns (uint80, int, uint, uint, uint80);\\n}\\n\",\"keccak256\":\"0xd13756cf435ea7e26ec8dbceed69f93553b142029e3c1753367769dde6d9cfd7\",\"license\":\"MIT\"},\"contracts/interfaces/IGToken.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\npragma abicoder v2;\\n\\ninterface IGToken {\\n    function manager() external view returns (address);\\n\\n    function admin() external view returns (address);\\n\\n    function currentEpoch() external view returns (uint);\\n\\n    function currentEpochStart() external view returns (uint);\\n\\n    function currentEpochPositiveOpenPnl() external view returns (uint);\\n\\n    function updateAccPnlPerTokenUsed(\\n        uint prevPositiveOpenPnl,\\n        uint newPositiveOpenPnl\\n    ) external returns (uint);\\n\\n    struct LockedDeposit {\\n        address owner;\\n        uint shares; // 1e18\\n        uint assetsDeposited; // 1e18\\n        uint assetsDiscount; // 1e18\\n        uint atTimestamp; // timestamp\\n        uint lockDuration; // timestamp\\n    }\\n\\n    function getLockedDeposit(\\n        uint depositId\\n    ) external view returns (LockedDeposit memory);\\n\\n    function sendAssets(uint assets, address receiver) external;\\n\\n    function receiveAssets(uint assets, address user) external;\\n\\n    function distributeReward(uint assets) external;\\n\\n    function currentBalanceDai() external view returns (uint);\\n\\n    function tvl() external view returns (uint);\\n\\n    function marketCap() external view returns (uint);\\n\\n    function getPendingAccBlockWeightedMarketCap(\\n        uint currentBlock\\n    ) external view returns (uint);\\n}\\n\",\"keccak256\":\"0x1fd411df874a31e89b8a26375446f6bf9d14279a1e02ee1e6541f0f2a1bec9da\",\"license\":\"MIT\"},\"contracts/interfaces/NftInterfaceV5.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\ninterface NftInterfaceV5 {\\n    function balanceOf(address) external view returns (uint);\\n\\n    function ownerOf(uint) external view returns (address);\\n\\n    function transferFrom(address, address, uint) external;\\n\\n    function tokenOfOwnerByIndex(address, uint) external view returns (uint);\\n}\\n\",\"keccak256\":\"0x17570efd5c6708b7adc07cd3fdb11a5983bc5db9f7b3d0bf0f50b34f95ea6358\",\"license\":\"MIT\"},\"contracts/interfaces/PairsStorageInterfaceV6.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\ninterface PairsStorageInterfaceV6 {\\n    enum FeedCalculation {\\n        DEFAULT,\\n        INVERT,\\n        COMBINE\\n    } // FEED 1, 1 / (FEED 1), (FEED 1)/(FEED 2)\\n    struct Feed {\\n        address feed1;\\n        address feed2;\\n        FeedCalculation feedCalculation;\\n        uint maxDeviationP;\\n    } // PRECISION (%)\\n\\n    function incrementCurrentOrderId() external returns (uint);\\n\\n    function updateGroupCollateral(uint, uint, bool, bool) external;\\n\\n    function pairJob(\\n        uint\\n    ) external returns (string memory, string memory, bytes32, uint);\\n\\n    function pairFeed(uint) external view returns (Feed memory);\\n\\n    function pairSpreadP(uint) external view returns (uint);\\n\\n    function pairMinLeverage(uint) external view returns (uint);\\n\\n    function pairMaxLeverage(uint) external view returns (uint);\\n\\n    function groupMaxCollateral(uint) external view returns (uint);\\n\\n    function groupCollateral(uint, bool) external view returns (uint);\\n\\n    function guaranteedSlEnabled(uint) external view returns (bool);\\n\\n    function pairOpenFeeP(uint) external view returns (uint);\\n\\n    function pairCloseFeeP(uint) external view returns (uint);\\n\\n    function pairOracleFeeP(uint) external view returns (uint);\\n\\n    function pairNftLimitOrderFeeP(uint) external view returns (uint);\\n\\n    function pairReferralFeeP(uint) external view returns (uint);\\n\\n    function pairMinLevPosDai(uint) external view returns (uint);\\n\\n    function pairsCount() external view returns (uint);\\n}\\n\",\"keccak256\":\"0xd274cbab16c2f7a08cd33c1c59921fae308aef6dea851621c5f1540e8c7733f6\",\"license\":\"MIT\"},\"contracts/interfaces/StorageInterfaceV5.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\nimport \\\"./TokenInterfaceV5.sol\\\";\\nimport \\\"./NftInterfaceV5.sol\\\";\\nimport \\\"./IGToken.sol\\\";\\nimport \\\"./PairsStorageInterfaceV6.sol\\\";\\nimport \\\"./ChainlinkFeedInterfaceV5.sol\\\";\\n\\npragma solidity ^0.8.7;\\npragma abicoder v2;\\n\\ninterface PoolInterfaceV5 {\\n    function increaseAccTokensPerLp(uint) external;\\n}\\n\\ninterface PausableInterfaceV5 {\\n    function isPaused() external view returns (bool);\\n}\\n\\ninterface StorageInterfaceV5 {\\n    enum LimitOrder {\\n        TP,\\n        SL,\\n        LIQ,\\n        OPEN\\n    }\\n    struct Trade {\\n        address trader;\\n        uint pairIndex;\\n        uint index;\\n        uint initialPosToken; // 1e18\\n        uint positionSizeDai; // 1e18\\n        uint openPrice; // PRECISION\\n        bool buy;\\n        uint leverage;\\n        uint tp; // PRECISION\\n        uint sl; // PRECISION\\n    }\\n    struct TradeInfo {\\n        uint tokenId;\\n        uint tokenPriceDai; // PRECISION\\n        uint openInterestDai; // 1e18\\n        uint tpLastUpdated;\\n        uint slLastUpdated;\\n        bool beingMarketClosed;\\n    }\\n    struct OpenLimitOrder {\\n        address trader;\\n        uint pairIndex;\\n        uint index;\\n        uint positionSize; // 1e18 (DAI or GFARM2)\\n        uint spreadReductionP;\\n        bool buy;\\n        uint leverage;\\n        uint tp; // PRECISION (%)\\n        uint sl; // PRECISION (%)\\n        uint minPrice; // PRECISION\\n        uint maxPrice; // PRECISION\\n        uint block;\\n        uint tokenId; // index in supportedTokens\\n    }\\n    struct PendingMarketOrder {\\n        Trade trade;\\n        uint block;\\n        uint wantedPrice; // PRECISION\\n        uint slippageP; // PRECISION (%)\\n        uint spreadReductionP;\\n        uint tokenId; // index in supportedTokens\\n    }\\n    struct PendingNftOrder {\\n        address nftHolder;\\n        uint nftId;\\n        address trader;\\n        uint pairIndex;\\n        uint index;\\n        LimitOrder orderType;\\n    }\\n\\n    function PRECISION() external pure returns (uint);\\n\\n    function gov() external view returns (address);\\n\\n    function dev() external view returns (address);\\n\\n    function dai() external view returns (TokenInterfaceV5);\\n\\n    function token() external view returns (TokenInterfaceV5);\\n\\n    function linkErc677() external view returns (TokenInterfaceV5);\\n\\n    function priceAggregator() external view returns (AggregatorInterfaceV6_4);\\n\\n    function vault() external view returns (IGToken);\\n\\n    function trading() external view returns (address);\\n\\n    function callbacks() external view returns (address);\\n\\n    function handleTokens(address, uint, bool) external;\\n\\n    function transferDai(address, address, uint) external;\\n\\n    function transferLinkToAggregator(address, uint, uint) external;\\n\\n    function unregisterTrade(address, uint, uint) external;\\n\\n    function unregisterPendingMarketOrder(uint, bool) external;\\n\\n    function unregisterOpenLimitOrder(address, uint, uint) external;\\n\\n    function hasOpenLimitOrder(\\n        address,\\n        uint,\\n        uint\\n    ) external view returns (bool);\\n\\n    function storePendingMarketOrder(\\n        PendingMarketOrder memory,\\n        uint,\\n        bool\\n    ) external;\\n\\n    function openTrades(\\n        address,\\n        uint,\\n        uint\\n    ) external view returns (Trade memory);\\n\\n    function openTradesInfo(\\n        address,\\n        uint,\\n        uint\\n    ) external view returns (TradeInfo memory);\\n\\n    function updateSl(address, uint, uint, uint) external;\\n\\n    function updateTp(address, uint, uint, uint) external;\\n\\n    function getOpenLimitOrder(\\n        address,\\n        uint,\\n        uint\\n    ) external view returns (OpenLimitOrder memory);\\n\\n    function spreadReductionsP(uint) external view returns (uint);\\n\\n    function storeOpenLimitOrder(OpenLimitOrder memory) external;\\n\\n    function reqID_pendingMarketOrder(\\n        uint\\n    ) external view returns (PendingMarketOrder memory);\\n\\n    function storePendingNftOrder(PendingNftOrder memory, uint) external;\\n\\n    function updateOpenLimitOrder(OpenLimitOrder calldata) external;\\n\\n    function firstEmptyTradeIndex(address, uint) external view returns (uint);\\n\\n    function firstEmptyOpenLimitIndex(\\n        address,\\n        uint\\n    ) external view returns (uint);\\n\\n    function increaseNftRewards(uint, uint) external;\\n\\n    function nftSuccessTimelock() external view returns (uint);\\n\\n    function reqID_pendingNftOrder(\\n        uint\\n    ) external view returns (PendingNftOrder memory);\\n\\n    function updateTrade(Trade memory) external;\\n\\n    function nftLastSuccess(uint) external view returns (uint);\\n\\n    function unregisterPendingNftOrder(uint) external;\\n\\n    function handleDevGovFees(uint, uint, bool, bool) external returns (uint);\\n\\n    function distributeLpRewards(uint) external;\\n\\n    function storeTrade(Trade memory, TradeInfo memory) external;\\n\\n    function openLimitOrdersCount(address, uint) external view returns (uint);\\n\\n    function openTradesCount(address, uint) external view returns (uint);\\n\\n    function pendingMarketOpenCount(address, uint) external view returns (uint);\\n\\n    function pendingMarketCloseCount(\\n        address,\\n        uint\\n    ) external view returns (uint);\\n\\n    function maxTradesPerPair() external view returns (uint);\\n\\n    function pendingOrderIdsCount(address) external view returns (uint);\\n\\n    function maxPendingMarketOrders() external view returns (uint);\\n\\n    function openInterestDai(uint, uint) external view returns (uint);\\n\\n    function getPendingOrderIds(address) external view returns (uint[] memory);\\n\\n    function nfts(uint) external view returns (NftInterfaceV5);\\n\\n    function fakeBlockNumber() external view returns (uint); // Testing\\n}\\n\\ninterface IStateCopyUtils {\\n    function getOpenLimitOrders()\\n        external\\n        view\\n        returns (StorageInterfaceV5.OpenLimitOrder[] memory);\\n\\n    function nftRewards() external view returns (NftRewardsInterfaceV6_3_1);\\n}\\n\\ninterface NftRewardsInterfaceV6_3_1 {\\n    struct TriggeredLimitId {\\n        address trader;\\n        uint pairIndex;\\n        uint index;\\n        StorageInterfaceV5.LimitOrder order;\\n    }\\n    enum OpenLimitOrderType {\\n        LEGACY,\\n        REVERSAL,\\n        MOMENTUM\\n    }\\n\\n    function storeFirstToTrigger(\\n        TriggeredLimitId calldata,\\n        address,\\n        uint\\n    ) external;\\n\\n    function storeTriggerSameBlock(TriggeredLimitId calldata, address) external;\\n\\n    function unregisterTrigger(TriggeredLimitId calldata) external;\\n\\n    function distributeNftReward(\\n        TriggeredLimitId calldata,\\n        uint,\\n        uint\\n    ) external;\\n\\n    function openLimitOrderTypes(\\n        address,\\n        uint,\\n        uint\\n    ) external view returns (OpenLimitOrderType);\\n\\n    function setOpenLimitOrderType(\\n        address,\\n        uint,\\n        uint,\\n        OpenLimitOrderType\\n    ) external;\\n\\n    function triggered(TriggeredLimitId calldata) external view returns (bool);\\n\\n    function timedOut(TriggeredLimitId calldata) external view returns (bool);\\n\\n    function botInUse(bytes32) external view returns (bool);\\n\\n    function getNftBotHashes(\\n        uint,\\n        address,\\n        uint,\\n        address,\\n        uint,\\n        uint\\n    ) external pure returns (bytes32, bytes32);\\n\\n    function setNftBotInUse(bytes32, bytes32) external;\\n\\n    function nftBotInUse(bytes32, bytes32) external view returns (bool);\\n\\n    function linkToTokenRewards(uint, uint) external view returns (uint);\\n}\\n\\ninterface AggregatorInterfaceV6_4 {\\n    enum OrderType {\\n        MARKET_OPEN,\\n        MARKET_CLOSE,\\n        LIMIT_OPEN,\\n        LIMIT_CLOSE\\n    }\\n\\n    function pairsStorage() external view returns (PairsStorageInterfaceV6);\\n\\n    function getPrice(uint, OrderType, uint, uint) external returns (uint);\\n\\n    function tokenPriceDai() external returns (uint);\\n\\n    function linkFee(uint, uint) external view returns (uint);\\n\\n    function openFeeP(uint) external view returns (uint);\\n\\n    function linkPriceFeed() external view returns (ChainlinkFeedInterfaceV5);\\n\\n    function nodes(uint index) external view returns (address);\\n}\\n\\ninterface TradingCallbacksV6_4 {\\n    enum TradeType {\\n        MARKET,\\n        LIMIT\\n    }\\n    struct SimplifiedTradeId {\\n        address trader;\\n        uint pairIndex;\\n        uint index;\\n        TradeType tradeType;\\n    }\\n    struct LastUpdated {\\n        uint32 tp;\\n        uint32 sl;\\n        uint32 limit;\\n        uint32 created;\\n    }\\n    struct TradeData {\\n        uint40 maxSlippageP; // 1e10 (%)\\n        uint216 _placeholder; // for potential future data\\n    }\\n\\n    function tradeLastUpdated(\\n        address,\\n        uint,\\n        uint,\\n        TradeType\\n    ) external view returns (LastUpdated memory);\\n\\n    function setTradeLastUpdated(\\n        SimplifiedTradeId calldata,\\n        LastUpdated memory\\n    ) external;\\n\\n    function setTradeData(\\n        SimplifiedTradeId calldata,\\n        TradeData memory\\n    ) external;\\n\\n    function canExecuteTimeout() external view returns (uint);\\n\\n    function pairMaxLeverage(uint) external view returns (uint);\\n}\\n\",\"keccak256\":\"0x98174fe7932d5de018579977878f46b4c724df99d9ad38e0677218d9aef7b89a\",\"license\":\"MIT\"},\"contracts/interfaces/TokenInterfaceV5.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\ninterface TokenInterfaceV5 {\\n    function burn(address, uint256) external;\\n\\n    function mint(address, uint256) external;\\n\\n    function transfer(address, uint256) external returns (bool);\\n\\n    function transferFrom(address, address, uint256) external returns (bool);\\n\\n    function balanceOf(address) external view returns (uint256);\\n\\n    function hasRole(bytes32, address) external view returns (bool);\\n\\n    function approve(address, uint256) external returns (bool);\\n\\n    function allowance(address, address) external view returns (uint256);\\n}\\n\",\"keccak256\":\"0xc1ad2a4fa990051fb693928d91a6c3192cfd68604d12436e7459c4d9f96cccd5\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60a03461008857601f61205338819003918201601f19168301916001600160401b0383118484101761008d5780849260209460405283398101031261008857516001600160a01b038116810361008857645d21dba000600155608052604051611faf90816100a48239608051818181610395015281816107df01528181610a110152611b1b0152f35b600080fd5b634e487b7160e01b600052604160045260246000fdfe608060408181526004918236101561001657600080fd5b600092833560e01c9182630dd34f571461159e575081630e0052fc146115745781630e6bc39a146114945781630ea777701461118257816312b6566e1461115b57816312fdefd91461112857816321adc48f146110fd5781632b180a7d146110d25781632d15e4e0146110a757816331556d2f14610f0a578163338139ad14610ee0578163351533e714610dbb5781633df7fd7214610cff57816342dee1ad14610cb557816346dbab3614610c77578163481c6a7514610c4f57816358f796bc14610c1d5781635ed5804e14610bc25781636bc84d5914610b655781636bcbe86014610b2c5781636ceaca67146109b55781636f6af697146108fd5781637884274f146108a35781637ea95f321461078c57816380f6cfc21461076d5781639c625e1e146107365781639cf9c939146106f8578163a49e87881461063c578163a77e8e2a146105f5578163ab21a05c146105d5578163b74243ba1461056a578163bf1db1f614610539578163c22ff7bf14610509578163c2cc670d1461049f578163cfc23e9e14610477578163d0ebdbe71461035b578163ee52e5fe14610333578163f0270f3314610304578163f6960654146102a7578163f6c50efe14610261578163fcc37c8714610233575063fe3cfd8c146101f357600080fd5b3461022f5780602092610205366115fd565b6001600160a01b039092168352600586528383209083528552828220908252845220549051908152f35b5080fd5b9050823461025e57602036600319011261025e57506102529035611af7565b82519182526020820152f35b80fd5b50503461022f5760c036600319011261022f576020906102a06102826115e2565b61028a611627565b9060a43591608435916044359060243590611dbb565b9051908152f35b50503461022f576060600080516020611f63833981519152916102c9366117ad565b9192906102e060018060a01b0388541633146117fc565b8387526002602052826001838920838155015581519384526020840152820152a180f35b90503461032f57602036600319011261032f5781602093600392358152600285522001549051908152f35b8280fd5b90503461032f57602036600319011261032f5760209282913581526003845220549051908152f35b83833461022f576020908160031936011261032f576103786115e2565b81516312d43a5160e01b815290946001600160a01b0391848183817f000000000000000000000000000000000000000000000000000000000000000087165afa90811561046d579083918791610440575b50163303610412575083546001600160a01b031916941693841783555192835290917f2c1c11af44aa5608f1dca38c00275c30ea091e02417d36e70e9a1538689c433d9190a180f35b825162461bcd60e51b81529081018490526008602482015267474f565f4f4e4c5960c01b6044820152606490fd5b6104609150863d8811610466575b61045881836116ac565b8101906117dd565b886103c9565b503d61044e565b84513d88823e3d90fd5b90503461032f57602036600319011261032f5760209282913581526002845220549051908152f35b50503461022f57600080516020611f83833981519152906104bf366117c7565b6104d360018060a01b0386541633146117fc565b6104e2629896808211156118c1565b6104eb826119f3565b8185526002602052806003848720015582519182526020820152a180f35b82843461025e5760a036600319011261025e57506102a06020926084359060643590604435906024359035611ecc565b90503461032f57602036600319011261032f5791828293358252602052206001815491015482519182526020820152f35b50503461022f57600080516020611f238339815191529061058a366117c7565b61059e60018060a01b0386541633146117fc565b6105ae63017d78408211156118c1565b6105b7826118f8565b8185526002602052806002848720015582519182526020820152a180f35b82843461025e57602036600319011261025e57506102a060209235611976565b82843461025e57608036600319011261025e5750670de0b6b3a764000061063460209361062f6064359161062f6044359135602435611a51565b611a87565b059051908152f35b50503461022f5761064c36611767565b83549192916001600160a01b039061066790821633146117fc565b6106748451835114611837565b845b84518110156106f45780600080516020611f838339815191528561069d6106ef9489611897565b516106a88488611897565b516106b7878c541633146117fc565b6106c6629896808211156118c1565b6106cf826119f3565b818b528a81600385602093600285522001558351928352820152a1611872565b610676565b8580f35b90503461032f57602036600319011261032f576060928291358152600360205220805491600260018301549201549181519384526020840152820152f35b50503461022f57602090670de0b6b3a7640000610765610760610758366117ad565b929190611949565b611956565b049051908152f35b50503461022f578160031936011261022f576020906001549051908152f35b90503461032f57608036600319011261032f576024359060443590811515820361089f57811561089857845b84516328daca2160e01b815282810185905260ff91909116602482015260209384826044817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa91821561088e578792610859575b509495939461083c9487918515610848578152600287522054925b6064359235611cc5565b90918351928352820152f35b815260028752206001015492610832565b9091508481813d8311610887575b61087181836116ac565b8101031261088357519061083c610817565b8680fd5b503d610867565b86513d89823e3d90fd5b60016107b8565b8480fd5b90503461032f57602036600319011261032f577f5ba729b89796f40d260b117b8654dc301b1d9f7ec17a1e378ae31e4c70b6d2c09160209135906108f160018060a01b0386541633146117fc565b8160015551908152a180f35b50503461022f5761090d36611767565b83549192916001600160a01b039061092890821633146117fc565b6109358451835114611837565b845b84518110156106f45780600080516020611f238339815191528561095e6109b09489611897565b516109698488611897565b51610978878c541633146117fc565b61098863017d78408211156118c1565b610991826118f8565b818b528a816002856020938285522001558351928352820152a1611872565b610937565b9190503461032f5761010036600319011261032f576109d26115e2565b60243590604435906109e2611627565b845162b1278360e01b815260209791966084359460c4359360a435939192916001600160a01b0391908c8185817f000000000000000000000000000000000000000000000000000000000000000087165afa918215610b215791610b04575b50163303610ad057509181610a95879593878b60e09997610a827f3a484d35e7358ad950e494938ebbac2c1319c2b76d162112f51d66752244dde39c6119f3565b89610a8f8483838c611d36565b98611dbb565b93610aa560e43586868685611ecc565b99895196875215158b870152888601526060850152608084015260a083015260c0820152a151908152f35b875162461bcd60e51b81529081018a9052600e60248201526d43414c4c4241434b535f4f4e4c5960901b6044820152606490fd5b610b1b91508c8d3d106104665761045881836116ac565b38610a41565b8b51903d90823e3d90fd5b82843461025e5760c036600319011261025e57506102a0602092610b4e611636565b9060a4359160843591606435916044359135611e60565b50503461022f5760e036600319011261022f57610b806115e2565b6024356044359060843594851515860361025e575091602094916102a093610bb960a43591828660c4359583610a8f84838a978c611d36565b93606435611e60565b50503461022f5780606092610bd6366115fd565b9160018060a01b031683526005602052838320908352602052828220908252602052209081549160ff60026001830154920154169082519384526020840152151590820152f35b50503461022f57608036600319011261022f576020906102a0610c3e6115e2565b606435906044359060243590611d36565b50503461022f578160031936011261022f57905490516001600160a01b039091168152602090f35b50503461022f57600181602093610c8d366115fd565b91858060a01b0316835260058752838320908352865282822090825285522001549051908152f35b90503461032f57602036600319011261032f576080928291358152600260205220908154916001810154916003600283015492015492815194855260208501528301526060820152f35b90503461032f5760a036600319011261032f573590608036602319011261032f57600080516020611f4383398151915291610db78260a0935190610d4282611645565b60243582526020820160443581526003828401606435815260608501906084358252610d776001808b1b038c541633146117fc565b610d80886118f8565b610d89886119f3565b878b526002602052848b20938651855551600185015551600284015551910155519283526020830190611744565ba180f35b90503461032f5760609081600319360112610edc576001600160401b03928135848111610ed857610def90369084016116e6565b9360243581811161088357610e0790369085016116e6565b9260443591821161088357610e1e913691016116e6565b85546001600160a01b03929190610e3890841633146117fc565b610e4e8651855181149081610ecd575b50611837565b865b8651811015610ec95780600080516020611f6383398151915287610e77610ec4948b611897565b518b610e83858b611897565b5182610e8f878a611897565b5192610e9f8c82541633146117fc565b528d8260018b60209360028552208481550155895193845283015287820152a1611872565b610e50565b8780f35b905082511438610e48565b8580fd5b8380fd5b90503461032f57602036600319011261032f57816020936002923581528285522001549051908152f35b9190503461032f578060031936011261032f576001600160401b0390823582811161089f57610f3c90369085016116e6565b9260243592831161089f573660238401121561089f57820135610f5e816116cf565b92610f6b835194856116ac565b81845260209160248386019160071b830101913683116110a357602401905b82821061106157505085546001600160a01b03939150610fad90841633146117fc565b610fba8551855114611837565b85805b865181101561105d57600080516020611f4383398151915260a087611050611056956110048a610ff9888f81610ff291611897565b5196611897565b5192541633146117fc565b61100d836118f8565b611016836119f3565b828d528c88600291828c522090825182558a8301516001830155898301519082015560036060830151910155875192835288830190611744565ba1611872565b8690610fbd565b5080f35b6080823603126110a35783608091865161107a81611645565b843581528285013583820152878501358882015260608086013590820152815201910190610f8a565b8780fd5b90503461032f57602036600319011261032f5781602093600292358152600385522001549051908152f35b90503461032f57602036600319011261032f5781602093600192358152600285522001549051908152f35b90503461032f57602036600319011261032f5781602093600192358152600385522001549051908152f35b9050823461025e5760a036600319011261025e575061025290611149611636565b60843591606435916044359135611cc5565b90503461032f57602036600319011261032f57602092818392358252845220549051908152f35b82843461025e576020918260031936011261022f578335936001600160401b03851161032f576111b86111e095369083016116e6565b938451936111c5856116cf565b946111d2855196876116ac565b808652601f199788916116cf565b0182825b82811061146857505050855192876112136111fe866116cf565b9561120b885197886116ac565b8087526116cf565b0183835b828110611447575050508651976112456112308a6116cf565b9961123d88519b8c6116ac565b808b526116cf565b0183835b82811061142157505050815b875181101561133a57808661126d611335938b611897565b51808652600290818852828720908b6112b48686519261128c84611645565b855484526001978d898801549086015287870154908501526003809601546060850152611897565b526112bf858d611897565b508088528689528a8820848c51916112d683611676565b8054835201548a8201526112ea868c611897565b526112f5858b611897565b508752875288862089519261130984611691565b8154845281015488840152015488820152611324828c611897565b5261132f818b611897565b50611872565b611255565b5050939290869291805194606090818701828852815180915260809085828a019301918a905b8282106113f1575050505086810384880152838086519283815201950190885b8181106113d45750505085840382870152828086519586815201950196915b8483106113ac5786860387f35b875180518752808501518786015281015186820152968301969481019460019092019161139f565b825180518852860151878701529584019591850191600101611380565b9091929387828261140d9c9e9a9b9c600194899b9a9b51611744565b999d9b9a9997989701950193920190611360565b875161142c81611691565b8581528583820152858982015282828d010152018490611249565b875161145281611676565b8581528583820152828289010152018490611217565b865161147381611645565b8481528483820152848882015284606082015282828a0101520183906111e4565b50503461022f57608036600319011261022f5760a07f4e58eed9e01cebfd4256725d6d1ce9fa694faa7ac5312e75af02360f453d048e916114d36115e2565b602435906044356114e2611627565b916114ec846119f3565b600180871b03169384885260209360058552818920818a528552818920838a5285528189209461151b82611976565b808755941561155e57818a52600381526002838b2054965b87600182015501600160ff19825416179055825196875286015284015260608301526080820152a180f35b818a526003815260026001848c20015496611533565b90503461032f57602036600319011261032f57816020938260019335825285522001549051908152f35b8490843461032f57600260ff916020946115b7366115fd565b6001600160a01b03909216835260058852838320908352875282822090825286522001541615158152f35b600435906001600160a01b03821682036115f857565b600080fd5b60609060031901126115f8576004356001600160a01b03811681036115f857906024359060443590565b6064359081151582036115f857565b6024359081151582036115f857565b608081019081106001600160401b0382111761166057604052565b634e487b7160e01b600052604160045260246000fd5b604081019081106001600160401b0382111761166057604052565b606081019081106001600160401b0382111761166057604052565b601f909101601f19168101906001600160401b0382119082101761166057604052565b6001600160401b0381116116605760051b60200190565b81601f820112156115f8578035916116fd836116cf565b9261170b60405194856116ac565b808452602092838086019260051b8201019283116115f8578301905b828210611735575050505090565b81358152908301908301611727565b606080918051845260208101516020850152604081015160408501520151910152565b9060406003198301126115f8576001600160401b036004358181116115f85783611793916004016116e6565b926024359182116115f8576117aa916004016116e6565b90565b60609060031901126115f857600435906024359060443590565b60409060031901126115f8576004359060243590565b908160209103126115f857516001600160a01b03811681036115f85790565b1561180357565b60405162461bcd60e51b815260206004820152600c60248201526b4d414e414745525f4f4e4c5960a01b6044820152606490fd5b1561183e57565b60405162461bcd60e51b815260206004820152600c60248201526b0aea49e9c8ebe988a9c8ea8960a31b6044820152606490fd5b60001981146118815760010190565b634e487b7160e01b600052601160045260246000fd5b80518210156118ab5760209160051b010190565b634e487b7160e01b600052603260045260246000fd5b156118c857565b60405162461bcd60e51b81526020600482015260086024820152670a89e9ebe90928e960c31b6044820152606490fd5b60407f66ae41afb9d1762b0b5f1a431a9e5c767128a1bec9ecb20e1ef9dba7dc3663d6918060005260046020528160002061193282611976565b9081815560014391015582519182526020820152a1565b9190820391821161188157565b8181029291811591840414171561188157565b9190820180921161188157565b600081815260046020526119ae60408220926119986001855495015443611949565b9083526002602052600260408420015490611956565b90670de0b6b3a7640000918281029281840414901517156119df57509060646402540be4006117aa93040490611969565b634e487b7160e01b81526011600452602490fd5b60607fc08ace100a8e3b7186ad5fcb68a0b9e7e0bd60aa466cdba34932fa0513353c64918060005260036020526040600020611a2e82611af7565b9182600182015581815560024391015560405192835260208301526040820152a1565b8181039291600013801582851316918412161761188157565b90670de0b6b3a76400009182810292818405149015171561188157565b818102929160008212600160ff1b82141661188157818405149015171561188157565b8115611ac557600160ff1b8114600019831416611881570590565b634e487b7160e01b600052601260045260246000fd5b9190916000838201938412911290801582169115161761188157565b90600082815260206003815260409182812080549560018201549460018060a01b037f000000000000000000000000000000000000000000000000000000000000000016948151936328daca2160e01b80865284600487015286602487015282866044818b5afa958615611cbb578796611c8c575b50829060448551809a81938252886004830152600160248301525afa968715611c82578697611c4a575b509260036402540be400936002611bd894611bca606498611bc484611bbb8f8e611a51565b92015443611949565b90611a87565b948a52528720015490611a87565b050590828113611c2c575b50818313611bf2575b50505090565b611bfb90611a6a565b908181039180830560001914901517156119df5750611c249291611c1e91611aaa565b90611adb565b388080611bec565b95611c1e8297611c3e611c4394611a6a565b611aaa565b9438611be3565b909294965081818195933d8311611c7b575b611c6681836116ac565b81010312610ed8575195939092909184611b96565b503d611c5c565b83513d88823e3d90fd5b9095508281813d8311611cb4575b611ca481836116ac565b8101031261088357519482611b6c565b503d611c9a565b84513d89823e3d90fd5b929493949190918515611d2b5790611ce09160011c90611969565b6402540be400948582029180830487149015171561188157670de0b6b3a7640000606492040494611d118487611956565b04049015611d22576117aa91611969565b6117aa91611949565b505050915060009190565b6001600160a01b0316600090815260056020908152604080832084845282528083209483529390528281209251611d6c81611691565b60ff600285549586845260018101546020850152015416159060408215910152611db4575091610760611db092611dab670de0b6b3a764000095611976565b611949565b0490565b9250505090565b949392909160009560018060a01b03168652600560205260408620838752602052604086209086526020526040852091604051611df781611691565b8354815260ff600260018601549560208401968752015416159060408215910152611e5857670de0b6b3a76400009561062f93611e4d969593611e3c61062f94611af7565b92519350919015611e515750611a51565b0590565b9050611a51565b505050505090565b9490939291605a8102818104605a148215171561188157611e96611c3e93611e91611e9c976064611c3e9504611a51565b611a51565b87611a87565b9015611ebe57611eab91611a51565b600080821315611eb9575090565b905090565b611ec791611adb565b611eab565b939290611ef392611e9160646402540be400611eeb611e91958a611a87565b050587611adb565b91600a810290808205600a14901517156118815760649005821315611f1b57611eab91611a51565b505060009056fe048ce436ab4f2632f2aac62af26be3383ebdf5efc9a63f0bbeb6d6c9762d7089901e66575b0aecca6e394d488bfe990ff28995f6da67ef2fe1d6c900b6573a031daeaff85d4d7cfda495ef83720a04b81df77e38711ca570061e16efa6ffa275be762e88e6ff669d272010f163dfb3c6d389b16831c73e10f95860b2e4f15298a164736f6c6343000811000a",
+  "deployedBytecode": "0x608060408181526004918236101561001657600080fd5b600092833560e01c9182630dd34f571461159e575081630e0052fc146115745781630e6bc39a146114945781630ea777701461118257816312b6566e1461115b57816312fdefd91461112857816321adc48f146110fd5781632b180a7d146110d25781632d15e4e0146110a757816331556d2f14610f0a578163338139ad14610ee0578163351533e714610dbb5781633df7fd7214610cff57816342dee1ad14610cb557816346dbab3614610c77578163481c6a7514610c4f57816358f796bc14610c1d5781635ed5804e14610bc25781636bc84d5914610b655781636bcbe86014610b2c5781636ceaca67146109b55781636f6af697146108fd5781637884274f146108a35781637ea95f321461078c57816380f6cfc21461076d5781639c625e1e146107365781639cf9c939146106f8578163a49e87881461063c578163a77e8e2a146105f5578163ab21a05c146105d5578163b74243ba1461056a578163bf1db1f614610539578163c22ff7bf14610509578163c2cc670d1461049f578163cfc23e9e14610477578163d0ebdbe71461035b578163ee52e5fe14610333578163f0270f3314610304578163f6960654146102a7578163f6c50efe14610261578163fcc37c8714610233575063fe3cfd8c146101f357600080fd5b3461022f5780602092610205366115fd565b6001600160a01b039092168352600586528383209083528552828220908252845220549051908152f35b5080fd5b9050823461025e57602036600319011261025e57506102529035611af7565b82519182526020820152f35b80fd5b50503461022f5760c036600319011261022f576020906102a06102826115e2565b61028a611627565b9060a43591608435916044359060243590611dbb565b9051908152f35b50503461022f576060600080516020611f63833981519152916102c9366117ad565b9192906102e060018060a01b0388541633146117fc565b8387526002602052826001838920838155015581519384526020840152820152a180f35b90503461032f57602036600319011261032f5781602093600392358152600285522001549051908152f35b8280fd5b90503461032f57602036600319011261032f5760209282913581526003845220549051908152f35b83833461022f576020908160031936011261032f576103786115e2565b81516312d43a5160e01b815290946001600160a01b0391848183817f000000000000000000000000000000000000000000000000000000000000000087165afa90811561046d579083918791610440575b50163303610412575083546001600160a01b031916941693841783555192835290917f2c1c11af44aa5608f1dca38c00275c30ea091e02417d36e70e9a1538689c433d9190a180f35b825162461bcd60e51b81529081018490526008602482015267474f565f4f4e4c5960c01b6044820152606490fd5b6104609150863d8811610466575b61045881836116ac565b8101906117dd565b886103c9565b503d61044e565b84513d88823e3d90fd5b90503461032f57602036600319011261032f5760209282913581526002845220549051908152f35b50503461022f57600080516020611f83833981519152906104bf366117c7565b6104d360018060a01b0386541633146117fc565b6104e2629896808211156118c1565b6104eb826119f3565b8185526002602052806003848720015582519182526020820152a180f35b82843461025e5760a036600319011261025e57506102a06020926084359060643590604435906024359035611ecc565b90503461032f57602036600319011261032f5791828293358252602052206001815491015482519182526020820152f35b50503461022f57600080516020611f238339815191529061058a366117c7565b61059e60018060a01b0386541633146117fc565b6105ae63017d78408211156118c1565b6105b7826118f8565b8185526002602052806002848720015582519182526020820152a180f35b82843461025e57602036600319011261025e57506102a060209235611976565b82843461025e57608036600319011261025e5750670de0b6b3a764000061063460209361062f6064359161062f6044359135602435611a51565b611a87565b059051908152f35b50503461022f5761064c36611767565b83549192916001600160a01b039061066790821633146117fc565b6106748451835114611837565b845b84518110156106f45780600080516020611f838339815191528561069d6106ef9489611897565b516106a88488611897565b516106b7878c541633146117fc565b6106c6629896808211156118c1565b6106cf826119f3565b818b528a81600385602093600285522001558351928352820152a1611872565b610676565b8580f35b90503461032f57602036600319011261032f576060928291358152600360205220805491600260018301549201549181519384526020840152820152f35b50503461022f57602090670de0b6b3a7640000610765610760610758366117ad565b929190611949565b611956565b049051908152f35b50503461022f578160031936011261022f576020906001549051908152f35b90503461032f57608036600319011261032f576024359060443590811515820361089f57811561089857845b84516328daca2160e01b815282810185905260ff91909116602482015260209384826044817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa91821561088e578792610859575b509495939461083c9487918515610848578152600287522054925b6064359235611cc5565b90918351928352820152f35b815260028752206001015492610832565b9091508481813d8311610887575b61087181836116ac565b8101031261088357519061083c610817565b8680fd5b503d610867565b86513d89823e3d90fd5b60016107b8565b8480fd5b90503461032f57602036600319011261032f577f5ba729b89796f40d260b117b8654dc301b1d9f7ec17a1e378ae31e4c70b6d2c09160209135906108f160018060a01b0386541633146117fc565b8160015551908152a180f35b50503461022f5761090d36611767565b83549192916001600160a01b039061092890821633146117fc565b6109358451835114611837565b845b84518110156106f45780600080516020611f238339815191528561095e6109b09489611897565b516109698488611897565b51610978878c541633146117fc565b61098863017d78408211156118c1565b610991826118f8565b818b528a816002856020938285522001558351928352820152a1611872565b610937565b9190503461032f5761010036600319011261032f576109d26115e2565b60243590604435906109e2611627565b845162b1278360e01b815260209791966084359460c4359360a435939192916001600160a01b0391908c8185817f000000000000000000000000000000000000000000000000000000000000000087165afa918215610b215791610b04575b50163303610ad057509181610a95879593878b60e09997610a827f3a484d35e7358ad950e494938ebbac2c1319c2b76d162112f51d66752244dde39c6119f3565b89610a8f8483838c611d36565b98611dbb565b93610aa560e43586868685611ecc565b99895196875215158b870152888601526060850152608084015260a083015260c0820152a151908152f35b875162461bcd60e51b81529081018a9052600e60248201526d43414c4c4241434b535f4f4e4c5960901b6044820152606490fd5b610b1b91508c8d3d106104665761045881836116ac565b38610a41565b8b51903d90823e3d90fd5b82843461025e5760c036600319011261025e57506102a0602092610b4e611636565b9060a4359160843591606435916044359135611e60565b50503461022f5760e036600319011261022f57610b806115e2565b6024356044359060843594851515860361025e575091602094916102a093610bb960a43591828660c4359583610a8f84838a978c611d36565b93606435611e60565b50503461022f5780606092610bd6366115fd565b9160018060a01b031683526005602052838320908352602052828220908252602052209081549160ff60026001830154920154169082519384526020840152151590820152f35b50503461022f57608036600319011261022f576020906102a0610c3e6115e2565b606435906044359060243590611d36565b50503461022f578160031936011261022f57905490516001600160a01b039091168152602090f35b50503461022f57600181602093610c8d366115fd565b91858060a01b0316835260058752838320908352865282822090825285522001549051908152f35b90503461032f57602036600319011261032f576080928291358152600260205220908154916001810154916003600283015492015492815194855260208501528301526060820152f35b90503461032f5760a036600319011261032f573590608036602319011261032f57600080516020611f4383398151915291610db78260a0935190610d4282611645565b60243582526020820160443581526003828401606435815260608501906084358252610d776001808b1b038c541633146117fc565b610d80886118f8565b610d89886119f3565b878b526002602052848b20938651855551600185015551600284015551910155519283526020830190611744565ba180f35b90503461032f5760609081600319360112610edc576001600160401b03928135848111610ed857610def90369084016116e6565b9360243581811161088357610e0790369085016116e6565b9260443591821161088357610e1e913691016116e6565b85546001600160a01b03929190610e3890841633146117fc565b610e4e8651855181149081610ecd575b50611837565b865b8651811015610ec95780600080516020611f6383398151915287610e77610ec4948b611897565b518b610e83858b611897565b5182610e8f878a611897565b5192610e9f8c82541633146117fc565b528d8260018b60209360028552208481550155895193845283015287820152a1611872565b610e50565b8780f35b905082511438610e48565b8580fd5b8380fd5b90503461032f57602036600319011261032f57816020936002923581528285522001549051908152f35b9190503461032f578060031936011261032f576001600160401b0390823582811161089f57610f3c90369085016116e6565b9260243592831161089f573660238401121561089f57820135610f5e816116cf565b92610f6b835194856116ac565b81845260209160248386019160071b830101913683116110a357602401905b82821061106157505085546001600160a01b03939150610fad90841633146117fc565b610fba8551855114611837565b85805b865181101561105d57600080516020611f4383398151915260a087611050611056956110048a610ff9888f81610ff291611897565b5196611897565b5192541633146117fc565b61100d836118f8565b611016836119f3565b828d528c88600291828c522090825182558a8301516001830155898301519082015560036060830151910155875192835288830190611744565ba1611872565b8690610fbd565b5080f35b6080823603126110a35783608091865161107a81611645565b843581528285013583820152878501358882015260608086013590820152815201910190610f8a565b8780fd5b90503461032f57602036600319011261032f5781602093600292358152600385522001549051908152f35b90503461032f57602036600319011261032f5781602093600192358152600285522001549051908152f35b90503461032f57602036600319011261032f5781602093600192358152600385522001549051908152f35b9050823461025e5760a036600319011261025e575061025290611149611636565b60843591606435916044359135611cc5565b90503461032f57602036600319011261032f57602092818392358252845220549051908152f35b82843461025e576020918260031936011261022f578335936001600160401b03851161032f576111b86111e095369083016116e6565b938451936111c5856116cf565b946111d2855196876116ac565b808652601f199788916116cf565b0182825b82811061146857505050855192876112136111fe866116cf565b9561120b885197886116ac565b8087526116cf565b0183835b828110611447575050508651976112456112308a6116cf565b9961123d88519b8c6116ac565b808b526116cf565b0183835b82811061142157505050815b875181101561133a57808661126d611335938b611897565b51808652600290818852828720908b6112b48686519261128c84611645565b855484526001978d898801549086015287870154908501526003809601546060850152611897565b526112bf858d611897565b508088528689528a8820848c51916112d683611676565b8054835201548a8201526112ea868c611897565b526112f5858b611897565b508752875288862089519261130984611691565b8154845281015488840152015488820152611324828c611897565b5261132f818b611897565b50611872565b611255565b5050939290869291805194606090818701828852815180915260809085828a019301918a905b8282106113f1575050505086810384880152838086519283815201950190885b8181106113d45750505085840382870152828086519586815201950196915b8483106113ac5786860387f35b875180518752808501518786015281015186820152968301969481019460019092019161139f565b825180518852860151878701529584019591850191600101611380565b9091929387828261140d9c9e9a9b9c600194899b9a9b51611744565b999d9b9a9997989701950193920190611360565b875161142c81611691565b8581528583820152858982015282828d010152018490611249565b875161145281611676565b8581528583820152828289010152018490611217565b865161147381611645565b8481528483820152848882015284606082015282828a0101520183906111e4565b50503461022f57608036600319011261022f5760a07f4e58eed9e01cebfd4256725d6d1ce9fa694faa7ac5312e75af02360f453d048e916114d36115e2565b602435906044356114e2611627565b916114ec846119f3565b600180871b03169384885260209360058552818920818a528552818920838a5285528189209461151b82611976565b808755941561155e57818a52600381526002838b2054965b87600182015501600160ff19825416179055825196875286015284015260608301526080820152a180f35b818a526003815260026001848c20015496611533565b90503461032f57602036600319011261032f57816020938260019335825285522001549051908152f35b8490843461032f57600260ff916020946115b7366115fd565b6001600160a01b03909216835260058852838320908352875282822090825286522001541615158152f35b600435906001600160a01b03821682036115f857565b600080fd5b60609060031901126115f8576004356001600160a01b03811681036115f857906024359060443590565b6064359081151582036115f857565b6024359081151582036115f857565b608081019081106001600160401b0382111761166057604052565b634e487b7160e01b600052604160045260246000fd5b604081019081106001600160401b0382111761166057604052565b606081019081106001600160401b0382111761166057604052565b601f909101601f19168101906001600160401b0382119082101761166057604052565b6001600160401b0381116116605760051b60200190565b81601f820112156115f8578035916116fd836116cf565b9261170b60405194856116ac565b808452602092838086019260051b8201019283116115f8578301905b828210611735575050505090565b81358152908301908301611727565b606080918051845260208101516020850152604081015160408501520151910152565b9060406003198301126115f8576001600160401b036004358181116115f85783611793916004016116e6565b926024359182116115f8576117aa916004016116e6565b90565b60609060031901126115f857600435906024359060443590565b60409060031901126115f8576004359060243590565b908160209103126115f857516001600160a01b03811681036115f85790565b1561180357565b60405162461bcd60e51b815260206004820152600c60248201526b4d414e414745525f4f4e4c5960a01b6044820152606490fd5b1561183e57565b60405162461bcd60e51b815260206004820152600c60248201526b0aea49e9c8ebe988a9c8ea8960a31b6044820152606490fd5b60001981146118815760010190565b634e487b7160e01b600052601160045260246000fd5b80518210156118ab5760209160051b010190565b634e487b7160e01b600052603260045260246000fd5b156118c857565b60405162461bcd60e51b81526020600482015260086024820152670a89e9ebe90928e960c31b6044820152606490fd5b60407f66ae41afb9d1762b0b5f1a431a9e5c767128a1bec9ecb20e1ef9dba7dc3663d6918060005260046020528160002061193282611976565b9081815560014391015582519182526020820152a1565b9190820391821161188157565b8181029291811591840414171561188157565b9190820180921161188157565b600081815260046020526119ae60408220926119986001855495015443611949565b9083526002602052600260408420015490611956565b90670de0b6b3a7640000918281029281840414901517156119df57509060646402540be4006117aa93040490611969565b634e487b7160e01b81526011600452602490fd5b60607fc08ace100a8e3b7186ad5fcb68a0b9e7e0bd60aa466cdba34932fa0513353c64918060005260036020526040600020611a2e82611af7565b9182600182015581815560024391015560405192835260208301526040820152a1565b8181039291600013801582851316918412161761188157565b90670de0b6b3a76400009182810292818405149015171561188157565b818102929160008212600160ff1b82141661188157818405149015171561188157565b8115611ac557600160ff1b8114600019831416611881570590565b634e487b7160e01b600052601260045260246000fd5b9190916000838201938412911290801582169115161761188157565b90600082815260206003815260409182812080549560018201549460018060a01b037f000000000000000000000000000000000000000000000000000000000000000016948151936328daca2160e01b80865284600487015286602487015282866044818b5afa958615611cbb578796611c8c575b50829060448551809a81938252886004830152600160248301525afa968715611c82578697611c4a575b509260036402540be400936002611bd894611bca606498611bc484611bbb8f8e611a51565b92015443611949565b90611a87565b948a52528720015490611a87565b050590828113611c2c575b50818313611bf2575b50505090565b611bfb90611a6a565b908181039180830560001914901517156119df5750611c249291611c1e91611aaa565b90611adb565b388080611bec565b95611c1e8297611c3e611c4394611a6a565b611aaa565b9438611be3565b909294965081818195933d8311611c7b575b611c6681836116ac565b81010312610ed8575195939092909184611b96565b503d611c5c565b83513d88823e3d90fd5b9095508281813d8311611cb4575b611ca481836116ac565b8101031261088357519482611b6c565b503d611c9a565b84513d89823e3d90fd5b929493949190918515611d2b5790611ce09160011c90611969565b6402540be400948582029180830487149015171561188157670de0b6b3a7640000606492040494611d118487611956565b04049015611d22576117aa91611969565b6117aa91611949565b505050915060009190565b6001600160a01b0316600090815260056020908152604080832084845282528083209483529390528281209251611d6c81611691565b60ff600285549586845260018101546020850152015416159060408215910152611db4575091610760611db092611dab670de0b6b3a764000095611976565b611949565b0490565b9250505090565b949392909160009560018060a01b03168652600560205260408620838752602052604086209086526020526040852091604051611df781611691565b8354815260ff600260018601549560208401968752015416159060408215910152611e5857670de0b6b3a76400009561062f93611e4d969593611e3c61062f94611af7565b92519350919015611e515750611a51565b0590565b9050611a51565b505050505090565b9490939291605a8102818104605a148215171561188157611e96611c3e93611e91611e9c976064611c3e9504611a51565b611a51565b87611a87565b9015611ebe57611eab91611a51565b600080821315611eb9575090565b905090565b611ec791611adb565b611eab565b939290611ef392611e9160646402540be400611eeb611e91958a611a87565b050587611adb565b91600a810290808205600a14901517156118815760649005821315611f1b57611eab91611a51565b505060009056fe048ce436ab4f2632f2aac62af26be3383ebdf5efc9a63f0bbeb6d6c9762d7089901e66575b0aecca6e394d488bfe990ff28995f6da67ef2fe1d6c900b6573a031daeaff85d4d7cfda495ef83720a04b81df77e38711ca570061e16efa6ffa275be762e88e6ff669d272010f163dfb3c6d389b16831c73e10f95860b2e4f15298a164736f6c6343000811000a",
+  "libraries": {},
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 17169,
+        "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+        "label": "manager",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 17180,
+        "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+        "label": "maxNegativePnlOnOpenP",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 17194,
+        "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+        "label": "pairParams",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_uint256,t_struct(PairParams)17189_storage)"
+      },
+      {
+        "astId": 17206,
+        "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+        "label": "pairFundingFees",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_uint256,t_struct(PairFundingFees)17201_storage)"
+      },
+      {
+        "astId": 17216,
+        "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+        "label": "pairRolloverFees",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_uint256,t_struct(PairRolloverFees)17211_storage)"
+      },
+      {
+        "astId": 17232,
+        "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+        "label": "tradeInitialAccFees",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(TradeInitialAccFees)17223_storage)))"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_int256": {
+        "encoding": "inplace",
+        "label": "int256",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(TradeInitialAccFees)17223_storage)))": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => mapping(uint256 => mapping(uint256 => struct GNSPairInfosV6_1.TradeInitialAccFees)))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(TradeInitialAccFees)17223_storage))"
+      },
+      "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(TradeInitialAccFees)17223_storage))": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => mapping(uint256 => struct GNSPairInfosV6_1.TradeInitialAccFees))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_uint256,t_struct(TradeInitialAccFees)17223_storage)"
+      },
+      "t_mapping(t_uint256,t_struct(PairFundingFees)17201_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct GNSPairInfosV6_1.PairFundingFees)",
+        "numberOfBytes": "32",
+        "value": "t_struct(PairFundingFees)17201_storage"
+      },
+      "t_mapping(t_uint256,t_struct(PairParams)17189_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct GNSPairInfosV6_1.PairParams)",
+        "numberOfBytes": "32",
+        "value": "t_struct(PairParams)17189_storage"
+      },
+      "t_mapping(t_uint256,t_struct(PairRolloverFees)17211_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct GNSPairInfosV6_1.PairRolloverFees)",
+        "numberOfBytes": "32",
+        "value": "t_struct(PairRolloverFees)17211_storage"
+      },
+      "t_mapping(t_uint256,t_struct(TradeInitialAccFees)17223_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct GNSPairInfosV6_1.TradeInitialAccFees)",
+        "numberOfBytes": "32",
+        "value": "t_struct(TradeInitialAccFees)17223_storage"
+      },
+      "t_struct(PairFundingFees)17201_storage": {
+        "encoding": "inplace",
+        "label": "struct GNSPairInfosV6_1.PairFundingFees",
+        "members": [
+          {
+            "astId": 17196,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "accPerOiLong",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_int256"
+          },
+          {
+            "astId": 17198,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "accPerOiShort",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_int256"
+          },
+          {
+            "astId": 17200,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "lastUpdateBlock",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_struct(PairParams)17189_storage": {
+        "encoding": "inplace",
+        "label": "struct GNSPairInfosV6_1.PairParams",
+        "members": [
+          {
+            "astId": 17182,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "onePercentDepthAbove",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 17184,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "onePercentDepthBelow",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 17186,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "rolloverFeePerBlockP",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 17188,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "fundingFeePerBlockP",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_struct(PairRolloverFees)17211_storage": {
+        "encoding": "inplace",
+        "label": "struct GNSPairInfosV6_1.PairRolloverFees",
+        "members": [
+          {
+            "astId": 17208,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "accPerCollateral",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 17210,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "lastUpdateBlock",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_struct(TradeInitialAccFees)17223_storage": {
+        "encoding": "inplace",
+        "label": "struct GNSPairInfosV6_1.TradeInitialAccFees",
+        "members": [
+          {
+            "astId": 17218,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "rollover",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 17220,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "funding",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_int256"
+          },
+          {
+            "astId": 17222,
+            "contract": "contracts/contracts/GNSPairInfosV6_1.sol:GNSPairInfosV6_1",
+            "label": "openedAfterUpdate",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

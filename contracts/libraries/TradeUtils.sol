@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 import "../interfaces/StorageInterfaceV5.sol";
 
@@ -20,9 +20,23 @@ library TradeUtils {
         )
     {
         TradingCallbacksV6_4 callbacks = TradingCallbacksV6_4(_callbacks);
-        TradingCallbacksV6_4.LastUpdated memory l = callbacks.tradeLastUpdated(trader, pairIndex, index, _type);
+        TradingCallbacksV6_4.LastUpdated memory l = callbacks.tradeLastUpdated(
+            trader,
+            pairIndex,
+            index,
+            _type
+        );
 
-        return (callbacks, l, TradingCallbacksV6_4.SimplifiedTradeId(trader, pairIndex, index, _type));
+        return (
+            callbacks,
+            l,
+            TradingCallbacksV6_4.SimplifiedTradeId(
+                trader,
+                pairIndex,
+                index,
+                _type
+            )
+        );
     }
 
     function setTradeLastUpdated(
@@ -36,7 +50,12 @@ library TradeUtils {
         uint32 b = uint32(blockNumber);
         TradingCallbacksV6_4 callbacks = TradingCallbacksV6_4(_callbacks);
         callbacks.setTradeLastUpdated(
-            TradingCallbacksV6_4.SimplifiedTradeId(trader, pairIndex, index, _type),
+            TradingCallbacksV6_4.SimplifiedTradeId(
+                trader,
+                pairIndex,
+                index,
+                _type
+            ),
             TradingCallbacksV6_4.LastUpdated(b, b, b, b)
         );
     }
@@ -88,7 +107,12 @@ library TradeUtils {
         require(maxSlippageP <= type(uint40).max, "OVERFLOW");
         TradingCallbacksV6_4 callbacks = TradingCallbacksV6_4(_callbacks);
         callbacks.setTradeData(
-            TradingCallbacksV6_4.SimplifiedTradeId(trader, pairIndex, index, _type),
+            TradingCallbacksV6_4.SimplifiedTradeId(
+                trader,
+                pairIndex,
+                index,
+                _type
+            ),
             TradingCallbacksV6_4.TradeData(uint40(maxSlippageP), 0)
         );
     }

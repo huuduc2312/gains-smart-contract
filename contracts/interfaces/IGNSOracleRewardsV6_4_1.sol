@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 import {StorageInterfaceV5} from "./StorageInterfaceV5.sol";
 
@@ -22,9 +22,18 @@ interface IGNSOracleRewardsV6_4_1 {
 
     function distributeOracleReward(TriggeredLimitId calldata, uint) external;
 
-    function openLimitOrderTypes(address, uint, uint) external view returns (OpenLimitOrderType);
+    function openLimitOrderTypes(
+        address,
+        uint,
+        uint
+    ) external view returns (OpenLimitOrderType);
 
-    function setOpenLimitOrderType(address, uint, uint, OpenLimitOrderType) external;
+    function setOpenLimitOrderType(
+        address,
+        uint,
+        uint,
+        OpenLimitOrderType
+    ) external;
 
     function triggered(TriggeredLimitId calldata) external view returns (bool);
 

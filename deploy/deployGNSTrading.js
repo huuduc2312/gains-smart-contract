@@ -22,23 +22,17 @@ const func = createDeployFunction({
   afterDeploy: async ({ deployments, deployedContract, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
 
-    return addTradingContract(
-      deployments,
-      deployer,
-      'GNSTradingV6_4_1',
-      deployedContract.address,
-      {
-        param: 'trading',
-        method: 'setTrading',
-      }
-    );
+    return addTradingContract(deployments, deployer, 'GNSTradingV6_4_1', {
+      param: 'trading',
+      method: 'setTrading',
+    });
   },
   getDeployArgs: ({ dependencyContracts }) => [
     ...constructorContracts.map(
       (contract) => dependencyContracts[contract].address
     ),
-    '100000000000000000000000',
-    30,
+    '100000000000000000000000', // _maxPosDai
+    30, // _marketOrdersTimeout
   ],
 });
 

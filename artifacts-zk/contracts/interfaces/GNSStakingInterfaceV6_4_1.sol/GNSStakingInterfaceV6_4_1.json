@@ -1,0 +1,276 @@
+{
+  "_format": "hh-zksolc-artifact-1",
+  "contractName": "GNSStakingInterfaceV6_4_1",
+  "sourceName": "contracts/interfaces/GNSStakingInterfaceV6_4_1.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "totalTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint48",
+              "name": "start",
+              "type": "uint48"
+            },
+            {
+              "internalType": "uint48",
+              "name": "duration",
+              "type": "uint48"
+            },
+            {
+              "internalType": "bool",
+              "name": "revocable",
+              "type": "bool"
+            },
+            {
+              "internalType": "enum GNSStakingInterfaceV6_4_1.UnlockType",
+              "name": "unlockType",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct GNSStakingInterfaceV6_4_1.UnlockScheduleInput",
+          "name": "schedule",
+          "type": "tuple"
+        },
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "createUnlockSchedule",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "distributeRewardDai",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUnlockSchedules",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "totalTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "claimedTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "debtDai",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint48",
+              "name": "start",
+              "type": "uint48"
+            },
+            {
+              "internalType": "uint48",
+              "name": "duration",
+              "type": "uint48"
+            },
+            {
+              "internalType": "bool",
+              "name": "revocable",
+              "type": "bool"
+            },
+            {
+              "internalType": "enum GNSStakingInterfaceV6_4_1.UnlockType",
+              "name": "unlockType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "__placeholder",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct GNSStakingInterfaceV6_4_1.UnlockSchedule[]",
+          "name": "schedules",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "govFund",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "totalTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "claimedTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "debtDai",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint48",
+              "name": "start",
+              "type": "uint48"
+            },
+            {
+              "internalType": "uint48",
+              "name": "duration",
+              "type": "uint48"
+            },
+            {
+              "internalType": "bool",
+              "name": "revocable",
+              "type": "bool"
+            },
+            {
+              "internalType": "enum GNSStakingInterfaceV6_4_1.UnlockType",
+              "name": "unlockType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "__placeholder",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct GNSStakingInterfaceV6_4_1.UnlockSchedule",
+          "name": "v",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint48",
+          "name": "timestamp",
+          "type": "uint48"
+        }
+      ],
+      "name": "releasable",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "amount",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "totalTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "claimedTokens",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "debtDai",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint48",
+              "name": "start",
+              "type": "uint48"
+            },
+            {
+              "internalType": "uint48",
+              "name": "duration",
+              "type": "uint48"
+            },
+            {
+              "internalType": "bool",
+              "name": "revocable",
+              "type": "bool"
+            },
+            {
+              "internalType": "enum GNSStakingInterfaceV6_4_1.UnlockType",
+              "name": "unlockType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "__placeholder",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct GNSStakingInterfaceV6_4_1.UnlockSchedule",
+          "name": "v",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint48",
+          "name": "timestamp",
+          "type": "uint48"
+        }
+      ],
+      "name": "unlockedAmount",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "amount",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "factoryDeps": {}
+}

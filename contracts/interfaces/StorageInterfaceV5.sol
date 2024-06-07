@@ -5,7 +5,7 @@ import "./IGToken.sol";
 import "./PairsStorageInterfaceV6.sol";
 import "./ChainlinkFeedInterfaceV5.sol";
 
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 pragma abicoder v2;
 
 interface PoolInterfaceV5 {
@@ -107,25 +107,47 @@ interface StorageInterfaceV5 {
 
     function unregisterOpenLimitOrder(address, uint, uint) external;
 
-    function hasOpenLimitOrder(address, uint, uint) external view returns (bool);
+    function hasOpenLimitOrder(
+        address,
+        uint,
+        uint
+    ) external view returns (bool);
 
-    function storePendingMarketOrder(PendingMarketOrder memory, uint, bool) external;
+    function storePendingMarketOrder(
+        PendingMarketOrder memory,
+        uint,
+        bool
+    ) external;
 
-    function openTrades(address, uint, uint) external view returns (Trade memory);
+    function openTrades(
+        address,
+        uint,
+        uint
+    ) external view returns (Trade memory);
 
-    function openTradesInfo(address, uint, uint) external view returns (TradeInfo memory);
+    function openTradesInfo(
+        address,
+        uint,
+        uint
+    ) external view returns (TradeInfo memory);
 
     function updateSl(address, uint, uint, uint) external;
 
     function updateTp(address, uint, uint, uint) external;
 
-    function getOpenLimitOrder(address, uint, uint) external view returns (OpenLimitOrder memory);
+    function getOpenLimitOrder(
+        address,
+        uint,
+        uint
+    ) external view returns (OpenLimitOrder memory);
 
     function spreadReductionsP(uint) external view returns (uint);
 
     function storeOpenLimitOrder(OpenLimitOrder memory) external;
 
-    function reqID_pendingMarketOrder(uint) external view returns (PendingMarketOrder memory);
+    function reqID_pendingMarketOrder(
+        uint
+    ) external view returns (PendingMarketOrder memory);
 
     function storePendingNftOrder(PendingNftOrder memory, uint) external;
 
@@ -133,13 +155,18 @@ interface StorageInterfaceV5 {
 
     function firstEmptyTradeIndex(address, uint) external view returns (uint);
 
-    function firstEmptyOpenLimitIndex(address, uint) external view returns (uint);
+    function firstEmptyOpenLimitIndex(
+        address,
+        uint
+    ) external view returns (uint);
 
     function increaseNftRewards(uint, uint) external;
 
     function nftSuccessTimelock() external view returns (uint);
 
-    function reqID_pendingNftOrder(uint) external view returns (PendingNftOrder memory);
+    function reqID_pendingNftOrder(
+        uint
+    ) external view returns (PendingNftOrder memory);
 
     function updateTrade(Trade memory) external;
 
@@ -159,7 +186,10 @@ interface StorageInterfaceV5 {
 
     function pendingMarketOpenCount(address, uint) external view returns (uint);
 
-    function pendingMarketCloseCount(address, uint) external view returns (uint);
+    function pendingMarketCloseCount(
+        address,
+        uint
+    ) external view returns (uint);
 
     function maxTradesPerPair() external view returns (uint);
 
@@ -177,7 +207,10 @@ interface StorageInterfaceV5 {
 }
 
 interface IStateCopyUtils {
-    function getOpenLimitOrders() external view returns (StorageInterfaceV5.OpenLimitOrder[] memory);
+    function getOpenLimitOrders()
+        external
+        view
+        returns (StorageInterfaceV5.OpenLimitOrder[] memory);
 
     function nftRewards() external view returns (NftRewardsInterfaceV6_3_1);
 }
@@ -195,17 +228,34 @@ interface NftRewardsInterfaceV6_3_1 {
         MOMENTUM
     }
 
-    function storeFirstToTrigger(TriggeredLimitId calldata, address, uint) external;
+    function storeFirstToTrigger(
+        TriggeredLimitId calldata,
+        address,
+        uint
+    ) external;
 
     function storeTriggerSameBlock(TriggeredLimitId calldata, address) external;
 
     function unregisterTrigger(TriggeredLimitId calldata) external;
 
-    function distributeNftReward(TriggeredLimitId calldata, uint, uint) external;
+    function distributeNftReward(
+        TriggeredLimitId calldata,
+        uint,
+        uint
+    ) external;
 
-    function openLimitOrderTypes(address, uint, uint) external view returns (OpenLimitOrderType);
+    function openLimitOrderTypes(
+        address,
+        uint,
+        uint
+    ) external view returns (OpenLimitOrderType);
 
-    function setOpenLimitOrderType(address, uint, uint, OpenLimitOrderType) external;
+    function setOpenLimitOrderType(
+        address,
+        uint,
+        uint,
+        OpenLimitOrderType
+    ) external;
 
     function triggered(TriggeredLimitId calldata) external view returns (bool);
 
@@ -213,7 +263,14 @@ interface NftRewardsInterfaceV6_3_1 {
 
     function botInUse(bytes32) external view returns (bool);
 
-    function getNftBotHashes(uint, address, uint, address, uint, uint) external pure returns (bytes32, bytes32);
+    function getNftBotHashes(
+        uint,
+        address,
+        uint,
+        address,
+        uint,
+        uint
+    ) external pure returns (bytes32, bytes32);
 
     function setNftBotInUse(bytes32, bytes32) external;
 
@@ -267,11 +324,22 @@ interface TradingCallbacksV6_4 {
         uint216 _placeholder; // for potential future data
     }
 
-    function tradeLastUpdated(address, uint, uint, TradeType) external view returns (LastUpdated memory);
+    function tradeLastUpdated(
+        address,
+        uint,
+        uint,
+        TradeType
+    ) external view returns (LastUpdated memory);
 
-    function setTradeLastUpdated(SimplifiedTradeId calldata, LastUpdated memory) external;
+    function setTradeLastUpdated(
+        SimplifiedTradeId calldata,
+        LastUpdated memory
+    ) external;
 
-    function setTradeData(SimplifiedTradeId calldata, TradeData memory) external;
+    function setTradeData(
+        SimplifiedTradeId calldata,
+        TradeData memory
+    ) external;
 
     function canExecuteTimeout() external view returns (uint);
 

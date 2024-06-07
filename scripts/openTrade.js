@@ -1,4 +1,4 @@
-const { deployments, getNamedAccounts } = require('hardhat');
+const { deployments, getNamedAccounts } = require("hardhat");
 
 async function main() {
   const { deployer } = await getNamedAccounts();
@@ -15,35 +15,13 @@ async function main() {
   // );
   // await hre.ethers.provider.waitForTransaction(approve.hash);
 
-  const currentPriceResp = await fetch('http://localhost:8080/single-price');
-  const currentPrice = BigInt((await currentPriceResp.json()).result);
-  console.log('currentPrice:', currentPrice);
+  // const currentPriceResp = await fetch('http://localhost:8080/single-price');
+  // const currentPrice = BigInt((await currentPriceResp.json()).result);
+  // console.log('currentPrice:', currentPrice);
 
-  console.info('submitting openTrade tx...');
+  console.info("submitting openTrade tx...");
 
   // limit
-  const tx = await execute(
-    'GNSTradingV6_4_1',
-    { from: deployer },
-    'openTrade',
-    [
-      deployer,
-      0,
-      0,
-      0,
-      '50000000000000000000',
-      currentPrice,
-      true,
-      36,
-      840375000000000,
-      0,
-    ],
-    1,
-    10000000000,
-    '0x0000000000000000000000000000000000000000'
-  );
-
-  // market
   // const tx = await execute(
   //   'GNSTradingV6_4_1',
   //   { from: deployer },
@@ -54,16 +32,38 @@ async function main() {
   //     0,
   //     0,
   //     '50000000000000000000',
-  //     currentPrice,
+  //     '660000000000000',
   //     true,
-  //     31,
-  //     '876686451612903',
+  //     36,
+  //     '840375000000000',
   //     0,
   //   ],
-  //   0,
-  //   10400000000,
+  //   1,
+  //   10000000000,
   //   '0x0000000000000000000000000000000000000000'
   // );
+
+  // market
+  const tx = await execute(
+    "GNSTradingV6_4_1",
+    { from: deployer },
+    "openTrade",
+    [
+      deployer,
+      0,
+      0,
+      0,
+      "50000000000000000000",
+      "660000000000000",
+      true,
+      31,
+      "876686451612903",
+      0,
+    ],
+    0,
+    10400000000,
+    "0x0000000000000000000000000000000000000000"
+  );
 
   console.info(`tx completed. txhash: ${tx.transactionHash}`);
 

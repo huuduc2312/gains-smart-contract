@@ -4,7 +4,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "../interfaces/GNSStakingInterfaceV6_4_1.sol";
 import "../interfaces/TokenInterfaceV5.sol";
 
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
     // Constants
@@ -37,11 +37,24 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
     event TokensUnstaked(address indexed user, uint128 amount);
     event TokensClaimed(address indexed user, uint[] ids, uint128 amount);
 
-    event UnlockScheduled(address indexed user, uint indexed index, UnlockSchedule schedule);
+    event UnlockScheduled(
+        address indexed user,
+        uint indexed index,
+        UnlockSchedule schedule
+    );
     event UnlockScheduleRevoked(address indexed user, uint indexed index);
 
-    function initialize(address _govFund, TokenInterfaceV5 _token, TokenInterfaceV5 _dai) external initializer {
-        require(_govFund != address(0) && address(_token) != address(0) && address(_dai) != address(0), "WRONG_PARAMS");
+    function initialize(
+        address _govFund,
+        TokenInterfaceV5 _token,
+        TokenInterfaceV5 _dai
+    ) external initializer {
+        require(
+            _govFund != address(0) &&
+                address(_token) != address(0) &&
+                address(_dai) != address(0),
+            "WRONG_PARAMS"
+        );
 
         govFund = _govFund;
         token = _token;
@@ -58,7 +71,12 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
     }
 
     modifier onlyAuthorizedUnlockManager(address user) {
-        require(user == msg.sender || msg.sender == govFund || unlockManagers[msg.sender], "NO_AUTH");
+        require(
+            user == msg.sender ||
+                msg.sender == govFund ||
+                unlockManagers[msg.sender],
+            "NO_AUTH"
+        );
         _;
     }
 
@@ -74,7 +92,10 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         emit GovFundUpdated(value);
     }
 
-    function setUnlockManager(address manager, bool authorized) external onlyGov {
+    function setUnlockManager(
+        address manager,
+        bool authorized
+    ) external onlyGov {
         unlockManagers[manager] = authorized;
 
         emit UnlockManagerUpdated(manager, authorized);
@@ -88,11 +109,16 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         return uint128((uint(staked) * accDaiPerToken) / 1e18);
     }
 
-    function _pendingDai(uint128 staked, uint128 debtDai) internal view returns (uint128) {
+    function _pendingDai(
+        uint128 staked,
+        uint128 debtDai
+    ) internal view returns (uint128) {
         return _currentDebtDai(staked) - debtDai;
     }
 
-    function _pendingDai(UnlockSchedule memory v) internal view returns (uint128) {
+    function _pendingDai(
+        UnlockSchedule memory v
+    ) internal view returns (uint128) {
         return _currentDebtDai(v.totalTokens - v.claimedTokens) - v.debtDai;
     }
 
@@ -100,17 +126,24 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
     // Public view functions
     //
 
-    function unlockedAmount(UnlockSchedule memory v, uint48 timestamp) public pure override returns (uint128) {
+    function unlockedAmount(
+        UnlockSchedule memory v,
+        uint48 timestamp
+    ) public pure override returns (uint128) {
         // if unlock schedule has ended return totalTokens
         if (timestamp >= v.start + v.duration) return v.totalTokens;
 
         // if unlock hasn't started or it's a cliff unlock return 0
         if (timestamp < v.start || v.unlockType == UnlockType.CLIFF) return 0;
 
-        return uint128((uint(v.totalTokens) * (timestamp - v.start)) / v.duration);
+        return
+            uint128((uint(v.totalTokens) * (timestamp - v.start)) / v.duration);
     }
 
-    function releasable(UnlockSchedule memory v, uint48 timestamp) public override pure returns (uint128) {
+    function releasable(
+        UnlockSchedule memory v,
+        uint48 timestamp
+    ) public pure override returns (uint128) {
         return unlockedAmount(v, timestamp) - v.claimedTokens;
     }
 
@@ -127,7 +160,9 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         for (uint i; i < ids.length; ) {
             UnlockSchedule storage v = unlockSchedules[user][ids[i]];
 
-            uint128 newDebtDai = _currentDebtDai(v.totalTokens - v.claimedTokens);
+            uint128 newDebtDai = _currentDebtDai(
+                v.totalTokens - v.claimedTokens
+            );
             uint128 newRewardsDai = newDebtDai - v.debtDai;
 
             pendingDai += newRewardsDai;
@@ -143,7 +178,11 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         emit DaiHarvestedFromUnlock(user, pendingDai);
     }
 
-    function _claimUnlockedTokens(address user, uint48 timestamp, uint[] memory ids) internal {
+    function _claimUnlockedTokens(
+        address user,
+        uint48 timestamp,
+        uint[] memory ids
+    ) internal {
         uint128 claimed;
 
         _harvestFromUnlock(user, ids);
@@ -172,7 +211,7 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
     // Public/External interaction functions
     //
 
-    function distributeRewardDai(uint amount) override external {
+    function distributeRewardDai(uint amount) external override {
         dai.transferFrom(msg.sender, address(this), amount);
 
         if (tokenBalance > 0) {
@@ -241,8 +280,14 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         UnlockScheduleInput memory input,
         address user
     ) external override onlyAuthorizedUnlockManager(user) {
-        require(input.duration > 0 && input.duration <= MAX_UNLOCK_DURATION, "INCORRECT_DURATION");
-        require(input.totalTokens >= MIN_UNLOCK_TOKEN_AMOUNT, "INCORRECT_AMOUNT");
+        require(
+            input.duration > 0 && input.duration <= MAX_UNLOCK_DURATION,
+            "INCORRECT_DURATION"
+        );
+        require(
+            input.totalTokens >= MIN_UNLOCK_TOKEN_AMOUNT,
+            "INCORRECT_AMOUNT"
+        );
         require(user != address(0), "ADDRESS_0");
 
         uint128 totalTokens = input.totalTokens;
@@ -307,7 +352,9 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         return _pendingDai(u.stakedTokens, u.debtDai);
     }
 
-    function pendingRewardDaiFromUnlocks(address user) external view returns (uint128) {
+    function pendingRewardDaiFromUnlocks(
+        address user
+    ) external view returns (uint128) {
         uint128 pending;
         UnlockSchedule[] memory userUnlocks = unlockSchedules[user];
 
@@ -322,7 +369,10 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         return pending;
     }
 
-    function pendingRewardDaiFromUnlocks(address user, uint[] memory ids) external view returns (uint128) {
+    function pendingRewardDaiFromUnlocks(
+        address user,
+        uint[] memory ids
+    ) external view returns (uint128) {
         uint128 pending;
 
         for (uint i; i < ids.length; ) {
@@ -352,7 +402,9 @@ contract GNSStakingV6_4_1 is Initializable, GNSStakingInterfaceV6_4_1 {
         return totalGns;
     }
 
-    function getUnlockSchedules(address user) external override view returns (UnlockSchedule[] memory) {
+    function getUnlockSchedules(
+        address user
+    ) external view override returns (UnlockSchedule[] memory) {
         return unlockSchedules[user];
     }
 }

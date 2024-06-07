@@ -1,0 +1,168 @@
+{
+  "address": "0x3482Cd41A41a7E28aBA6a9fEaFA07D1ad9fAd39f",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "bitLengths",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "pack",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "packed",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "packed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "bitLengths",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "unpack",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "packed",
+          "type": "uint256"
+        }
+      ],
+      "name": "unpack256To64",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "b",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "c",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "d",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "packed",
+          "type": "uint256"
+        }
+      ],
+      "name": "unpackExecuteNftOrder",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "b",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "c",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "d",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "e",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "f",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xc5100ceffe08e4f82fdfe6dcd31d5d4729dd5b8d00232577a8f0f833dce8d00e",
+  "receipt": {
+    "to": null,
+    "from": "0xd7D1dCba2c678ee7e049BD55176354E7C5bBdcCA",
+    "contractAddress": "0x3482Cd41A41a7E28aBA6a9fEaFA07D1ad9fAd39f",
+    "transactionIndex": 83,
+    "gasUsed": "350772",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x4ce0ed3007b01341c4a1519efbdec84d3e26a3b2234b7292469594297a23fd0f",
+    "transactionHash": "0xc5100ceffe08e4f82fdfe6dcd31d5d4729dd5b8d00232577a8f0f833dce8d00e",
+    "logs": [],
+    "blockNumber": 6030636,
+    "cumulativeGasUsed": "12441976",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "edab1d0feb7ffa5be1c95101a46d74db",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"values\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"bitLengths\",\"type\":\"uint256[]\"}],\"name\":\"pack\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"packed\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"packed\",\"type\":\"uint256\"},{\"internalType\":\"uint256[]\",\"name\":\"bitLengths\",\"type\":\"uint256[]\"}],\"name\":\"unpack\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"values\",\"type\":\"uint256[]\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"packed\",\"type\":\"uint256\"}],\"name\":\"unpack256To64\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"a\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"b\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"c\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"d\",\"type\":\"uint64\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"packed\",\"type\":\"uint256\"}],\"name\":\"unpackExecuteNftOrder\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"a\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"b\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"c\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"d\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"e\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"f\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/libraries/PackingUtils.sol\":\"PackingUtils\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1},\"remappings\":[],\"viaIR\":true},\"sources\":{\"contracts/libraries/PackingUtils.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\nlibrary PackingUtils {\\n    function pack(\\n        uint256[] memory values,\\n        uint256[] memory bitLengths\\n    ) external pure returns (uint256 packed) {\\n        require(\\n            values.length == bitLengths.length,\\n            \\\"Mismatch in the lengths of values and bitLengths arrays\\\"\\n        );\\n\\n        uint256 currentShift;\\n\\n        for (uint256 i; i < values.length; i++) {\\n            require(\\n                currentShift + bitLengths[i] <= 256,\\n                \\\"Packed value exceeds 256 bits\\\"\\n            );\\n\\n            uint256 maxValue = (1 << bitLengths[i]) - 1;\\n            require(\\n                values[i] <= maxValue,\\n                \\\"Value too large for specified bit length\\\"\\n            );\\n\\n            uint256 maskedValue = values[i] & maxValue;\\n            packed |= maskedValue << currentShift;\\n            currentShift += bitLengths[i];\\n        }\\n    }\\n\\n    function unpack(\\n        uint256 packed,\\n        uint256[] memory bitLengths\\n    ) external pure returns (uint256[] memory values) {\\n        values = new uint256[](bitLengths.length);\\n\\n        uint256 currentShift;\\n        for (uint256 i; i < bitLengths.length; i++) {\\n            require(\\n                currentShift + bitLengths[i] <= 256,\\n                \\\"Unpacked value exceeds 256 bits\\\"\\n            );\\n\\n            uint256 maxValue = (1 << bitLengths[i]) - 1;\\n            uint256 mask = maxValue << currentShift;\\n            values[i] = (packed & mask) >> currentShift;\\n\\n            currentShift += bitLengths[i];\\n        }\\n    }\\n\\n    function unpack256To64(\\n        uint256 packed\\n    ) external pure returns (uint64 a, uint64 b, uint64 c, uint64 d) {\\n        a = uint64(packed);\\n        b = uint64(packed >> 64);\\n        c = uint64(packed >> 128);\\n        d = uint64(packed >> 192);\\n    }\\n\\n    // Function-specific unpacking utils\\n    function unpackExecuteNftOrder(\\n        uint256 packed\\n    )\\n        external\\n        pure\\n        returns (\\n            uint256 a,\\n            address b,\\n            uint256 c,\\n            uint256 d,\\n            uint256 e,\\n            uint256 f\\n        )\\n    {\\n        a = packed & 0xFF; // 8 bits\\n        b = address(uint160(packed >> 8)); // 160 bits\\n        c = (packed >> 168) & 0xFFFF; // 16 bits\\n        d = (packed >> 184) & 0xFFFF; // 16 bits\\n        e = (packed >> 200) & 0xFFFF; // 16 bits\\n        f = (packed >> 216) & 0xFFFF; // 16 bits\\n    }\\n}\\n\",\"keccak256\":\"0x84ab3d66240a3bd097e62c47d48fbe0c373aa34a30ab30cd54fb081510a7ef99\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6080806040523461001a576105609081610020823930815050f35b600080fdfe6040608081526004908136101561001557600080fd5b600091823560e01c80635e1f9758146102e0578063acc482d2146100e9578063c6bc0c3a146100ac5763cefbb3bd1461004d57600080fd5b60203660031901126100a85760c09250359080519160ff8116835260018060a01b038160081c16602084015261ffff91828260a81c1690840152818160b81c166060840152818160c81c16608084015260d81c1660a0820152f35b8280fd5b5060203660031901126100a857608092503581519160018060401b0380831684528083831c16602085015282851c169083015260c01c6060820152f35b508290826003193601126102dc576001600160401b039181358381116102dc57610116903690840161049c565b60249384359081116100a85761012f903690850161049c565b918091805184510361027a57819492949282955b82518710156102705761010061016361015c898961051c565b5187610546565b1161022e576001610174888861051c565b511b600019810190811161021c578061018d898661051c565b51116101c9576101c2916101bc916101a58a8761051c565b5116871b17956101b5898961051c565b5190610546565b966104f7565b9593610143565b895162461bcd60e51b81526020818501526028818b01527f56616c756520746f6f206c6172676520666f72207370656369666965642062696044820152670e840d8cadccee8d60c31b6064820152608490fd5b634e487b7160e01b8552601183528885fd5b885162461bcd60e51b8152602081840152601d818a01527f5061636b65642076616c756520657863656564732032353620626974730000006044820152606490fd5b6020908951908152f35b865162461bcd60e51b81526020818701526037818801527f4d69736d6174636820696e20746865206c656e67746873206f662076616c75656044820152767320616e64206269744c656e677468732061727261797360481b6064820152608490fd5b5080fd5b508290826003193601126102dc576024813581356001600160401b0381116104465761030f903690850161049c565b9283519261033061032761032286610485565b61044a565b94808652610485565b60208581019791601f1901368937819882995b88518b10156104055761010061036361035c8d8c61051c565b5183610546565b116103c35760016103748c8b61051c565b511b60001981019081116103b1576103ab916103a591811b8916811c61039a8e8c61051c565b526101b58d8c61051c565b9a6104f7565b99610343565b634e487b7160e01b8552601187528585fd5b815162461bcd60e51b8152808701849052601f818701527f556e7061636b65642076616c75652065786365656473203235362062697473006044820152606490fd5b50819089848983519485948186019282875251809352850193925b82811061042f57505050500390f35b835185528695509381019392810192600101610420565b8480fd5b6040519190601f01601f191682016001600160401b0381118382101761046f57604052565b634e487b7160e01b600052604160045260246000fd5b6001600160401b03811161046f5760051b60200190565b9080601f830112156104f2578135906104b761032283610485565b9182938184526020808095019260051b8201019283116104f2578301905b8282106104e3575050505090565b813581529083019083016104d5565b600080fd5b60001981146105065760010190565b634e487b7160e01b600052601160045260246000fd5b80518210156105305760209160051b010190565b634e487b7160e01b600052603260045260246000fd5b919082018092116105065756fea164736f6c6343000811000a",
+  "deployedBytecode": "0x6040608081526004908136101561001557600080fd5b600091823560e01c80635e1f9758146102e0578063acc482d2146100e9578063c6bc0c3a146100ac5763cefbb3bd1461004d57600080fd5b60203660031901126100a85760c09250359080519160ff8116835260018060a01b038160081c16602084015261ffff91828260a81c1690840152818160b81c166060840152818160c81c16608084015260d81c1660a0820152f35b8280fd5b5060203660031901126100a857608092503581519160018060401b0380831684528083831c16602085015282851c169083015260c01c6060820152f35b508290826003193601126102dc576001600160401b039181358381116102dc57610116903690840161049c565b60249384359081116100a85761012f903690850161049c565b918091805184510361027a57819492949282955b82518710156102705761010061016361015c898961051c565b5187610546565b1161022e576001610174888861051c565b511b600019810190811161021c578061018d898661051c565b51116101c9576101c2916101bc916101a58a8761051c565b5116871b17956101b5898961051c565b5190610546565b966104f7565b9593610143565b895162461bcd60e51b81526020818501526028818b01527f56616c756520746f6f206c6172676520666f72207370656369666965642062696044820152670e840d8cadccee8d60c31b6064820152608490fd5b634e487b7160e01b8552601183528885fd5b885162461bcd60e51b8152602081840152601d818a01527f5061636b65642076616c756520657863656564732032353620626974730000006044820152606490fd5b6020908951908152f35b865162461bcd60e51b81526020818701526037818801527f4d69736d6174636820696e20746865206c656e67746873206f662076616c75656044820152767320616e64206269744c656e677468732061727261797360481b6064820152608490fd5b5080fd5b508290826003193601126102dc576024813581356001600160401b0381116104465761030f903690850161049c565b9283519261033061032761032286610485565b61044a565b94808652610485565b60208581019791601f1901368937819882995b88518b10156104055761010061036361035c8d8c61051c565b5183610546565b116103c35760016103748c8b61051c565b511b60001981019081116103b1576103ab916103a591811b8916811c61039a8e8c61051c565b526101b58d8c61051c565b9a6104f7565b99610343565b634e487b7160e01b8552601187528585fd5b815162461bcd60e51b8152808701849052601f818701527f556e7061636b65642076616c75652065786365656473203235362062697473006044820152606490fd5b50819089848983519485948186019282875251809352850193925b82811061042f57505050500390f35b835185528695509381019392810192600101610420565b8480fd5b6040519190601f01601f191682016001600160401b0381118382101761046f57604052565b634e487b7160e01b600052604160045260246000fd5b6001600160401b03811161046f5760051b60200190565b9080601f830112156104f2578135906104b761032283610485565b9182938184526020808095019260051b8201019283116104f2578301905b8282106104e3575050505090565b813581529083019083016104d5565b600080fd5b60001981146105065760010190565b634e487b7160e01b600052601160045260246000fd5b80518210156105305760209160051b010190565b634e487b7160e01b600052603260045260246000fd5b919082018092116105065756fea164736f6c6343000811000a",
+  "libraries": {},
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

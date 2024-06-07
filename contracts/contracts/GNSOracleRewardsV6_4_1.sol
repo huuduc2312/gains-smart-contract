@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 import "../libraries/Initializable.sol";
 
@@ -45,7 +45,8 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
     mapping(address => uint) public pendingRewardsGns;
     mapping(address => mapping(uint => mapping(uint => mapping(StorageInterfaceV5.LimitOrder => uint))))
         public triggeredLimits;
-    mapping(address => mapping(uint => mapping(uint => OpenLimitOrderType))) public openLimitOrderTypes;
+    mapping(address => mapping(uint => mapping(uint => OpenLimitOrderType)))
+        public openLimitOrderTypes;
 
     bool public stateCopied;
 
@@ -57,13 +58,29 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
 
     event TriggeredFirst(TriggeredLimitId id);
     event TriggerUnregistered(TriggeredLimitId id);
-    event TriggerRewarded(TriggeredLimitId id, uint rewardGns, uint rewardGnsPerOracle, uint oraclesCount);
+    event TriggerRewarded(
+        TriggeredLimitId id,
+        uint rewardGns,
+        uint rewardGnsPerOracle,
+        uint oraclesCount
+    );
     event RewardsClaimed(address oracle, uint amountGns);
-    event OpenLimitOrderTypeSet(address trader, uint pairIndex, uint index, OpenLimitOrderType value);
+    event OpenLimitOrderTypeSet(
+        address trader,
+        uint pairIndex,
+        uint index,
+        OpenLimitOrderType value
+    );
 
-    function initialize(StorageInterfaceV5 _storageT, uint _triggerTimeout, uint _oraclesCount) external initializer {
+    function initialize(
+        StorageInterfaceV5 _storageT,
+        uint _triggerTimeout,
+        uint _oraclesCount
+    ) external initializer {
         require(
-            address(_storageT) != address(0) && _triggerTimeout >= MIN_TRIGGER_TIMEOUT && _oraclesCount > 0,
+            address(_storageT) != address(0) &&
+                _triggerTimeout >= MIN_TRIGGER_TIMEOUT &&
+                _oraclesCount > 0,
             "WRONG_PARAMS"
         );
 
@@ -76,7 +93,7 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
 
         _updateOracles(_oraclesCount);
     }
-    
+
     // Modifiers
     modifier onlyGov() {
         require(msg.sender == storageT.gov(), "GOV_ONLY");
@@ -146,8 +163,11 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
         delete oracles;
 
         for (uint i; i < _oraclesCount; ) {
-            require(address(storageT.priceAggregator()) != address(0), "AGGREGATOR_MISSING");
-            
+            require(
+                address(storageT.priceAggregator()) != address(0),
+                "AGGREGATOR_MISSING"
+            );
+
             oracles.push(storageT.priceAggregator().nodes(i));
             unchecked {
                 ++i;
@@ -163,19 +183,26 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
 
     // Triggers
     function storeTrigger(TriggeredLimitId calldata _id) external onlyTrading {
-        triggeredLimits[_id.trader][_id.pairIndex][_id.index][_id.order] = ChainUtils.getBlockNumber();
+        triggeredLimits[_id.trader][_id.pairIndex][_id.index][
+            _id.order
+        ] = ChainUtils.getBlockNumber();
 
         emit TriggeredFirst(_id);
     }
 
-    function unregisterTrigger(TriggeredLimitId calldata _id) external onlyCallbacks {
+    function unregisterTrigger(
+        TriggeredLimitId calldata _id
+    ) external onlyCallbacks {
         delete triggeredLimits[_id.trader][_id.pairIndex][_id.index][_id.order];
 
         emit TriggerUnregistered(_id);
     }
 
     // Distribute oracle rewards
-    function distributeOracleReward(TriggeredLimitId calldata _id, uint _reward) external onlyCallbacks {
+    function distributeOracleReward(
+        TriggeredLimitId calldata _id,
+        uint _reward
+    ) external onlyCallbacks {
         require(triggered(_id), "NOT_TRIGGERED");
 
         uint oraclesCount = oracles.length;
@@ -199,7 +226,10 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
         IGNSOracle _o = IGNSOracle(_oracle);
 
         // msg.sender must either be the oracle owner or an authorized fulfiller
-        require(_o.owner() == msg.sender || _o.getAuthorizationStatus(msg.sender), "NOT_AUTHORIZED");
+        require(
+            _o.owner() == msg.sender || _o.getAuthorizationStatus(msg.sender),
+            "NOT_AUTHORIZED"
+        );
 
         uint amountGns = pendingRewardsGns[_oracle];
 
@@ -222,14 +252,24 @@ contract GNSOracleRewardsV6_4_1 is Initializable {
     }
 
     // Getters
-    function triggered(TriggeredLimitId calldata _id) public view returns (bool) {
-        return triggeredLimits[_id.trader][_id.pairIndex][_id.index][_id.order] > 0;
+    function triggered(
+        TriggeredLimitId calldata _id
+    ) public view returns (bool) {
+        return
+            triggeredLimits[_id.trader][_id.pairIndex][_id.index][_id.order] >
+            0;
     }
 
-    function timedOut(TriggeredLimitId calldata _id) external view returns (bool) {
-        uint triggerBlock = triggeredLimits[_id.trader][_id.pairIndex][_id.index][_id.order];
+    function timedOut(
+        TriggeredLimitId calldata _id
+    ) external view returns (bool) {
+        uint triggerBlock = triggeredLimits[_id.trader][_id.pairIndex][
+            _id.index
+        ][_id.order];
 
-        return triggerBlock > 0 && ChainUtils.getBlockNumber() - triggerBlock >= triggerTimeout;
+        return
+            triggerBlock > 0 &&
+            ChainUtils.getBlockNumber() - triggerBlock >= triggerTimeout;
     }
 
     function getOracles() external view returns (address[] memory) {

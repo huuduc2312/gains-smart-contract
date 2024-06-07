@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
-import "./ERC20Capped.sol";
-import  "./AccessControlEnumerable.sol";
-
+pragma solidity ^0.8.7;
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
 contract GainsNetworkToken is ERC20Capped, AccessControlEnumerable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -10,7 +9,9 @@ contract GainsNetworkToken is ERC20Capped, AccessControlEnumerable {
 
     bool public initialized = false;
 
-    constructor(address admin) ERC20Capped(100_000_000e18) ERC20("Gains Network", "GNS") {
+    constructor(
+        address admin
+    ) ERC20Capped(100_000_000e18) ERC20("Zyncas Perp", "zPERP") {
         _setupRole(DEFAULT_ADMIN_ROLE, admin);
     }
 
@@ -21,10 +22,17 @@ contract GainsNetworkToken is ERC20Capped, AccessControlEnumerable {
         address trading,
         address callbacks,
         address vault
-    ) external onlyRole(DEFAULT_ADMIN_ROLE){
-        require(tradingStorage != address(0) && nftRewards != address(0) && referralRewards != address(0)
-            && trading != address(0) && callbacks != address(0) && vault != address(0), "WRONG_ADDRESSES");
-        
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(
+            tradingStorage != address(0) &&
+                nftRewards != address(0) &&
+                referralRewards != address(0) &&
+                trading != address(0) &&
+                callbacks != address(0) &&
+                vault != address(0),
+            "WRONG_ADDRESSES"
+        );
+
         require(initialized == false, "INITIALIZED");
         initialized = true;
 
@@ -35,7 +43,7 @@ contract GainsNetworkToken is ERC20Capped, AccessControlEnumerable {
         _setupRole(MINTER_ROLE, referralRewards);
         _setupRole(MINTER_ROLE, trading);
         _setupRole(MINTER_ROLE, callbacks);
-        
+
         _setupRole(MINTER_ROLE, vault);
         _setupRole(BURNER_ROLE, vault);
     }

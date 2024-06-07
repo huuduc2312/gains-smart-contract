@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 import "../libraries/Initializable.sol";
 
@@ -20,12 +20,20 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
     // State
     mapping(uint16 => Group) public groups;
     mapping(uint => Pair) public pairs;
-    mapping(address => mapping(uint => mapping(uint => InitialAccFees))) public initialAccFees;
+    mapping(address => mapping(uint => mapping(uint => InitialAccFees)))
+        public initialAccFees;
     mapping(uint => PairOi) public pairOis;
     mapping(uint => uint48) public groupFeeExponents;
 
-    function initialize(StorageInterfaceV5 _storageT, GNSPairInfosInterfaceV6 _pairInfos) external initializer {
-        require(address(_storageT) != address(0) && address(_pairInfos) != address(0), "WRONG_PARAMS");
+    function initialize(
+        StorageInterfaceV5 _storageT,
+        GNSPairInfosInterfaceV6 _pairInfos
+    ) external initializer {
+        require(
+            address(_storageT) != address(0) &&
+                address(_pairInfos) != address(0),
+            "WRONG_PARAMS"
+        );
 
         storageT = _storageT;
         pairInfos = _pairInfos;
@@ -43,11 +51,17 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
     }
 
     // Manage pair params
-    function setPairParams(uint pairIndex, PairParams calldata value) external onlyManager {
+    function setPairParams(
+        uint pairIndex,
+        PairParams calldata value
+    ) external onlyManager {
         _setPairParams(pairIndex, value);
     }
 
-    function setPairParamsArray(uint[] calldata indices, PairParams[] calldata values) external onlyManager {
+    function setPairParamsArray(
+        uint[] calldata indices,
+        PairParams[] calldata values
+    ) external onlyManager {
         uint len = indices.length;
         require(len == values.length, "WRONG_LENGTH");
 
@@ -60,7 +74,10 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
     }
 
     function _setPairParams(uint pairIndex, PairParams calldata value) private {
-        require(value.feeExponent >= 1 && value.feeExponent <= 3, "WRONG_EXPONENT");
+        require(
+            value.feeExponent >= 1 && value.feeExponent <= 3,
+            "WRONG_EXPONENT"
+        );
 
         Pair storage p = pairs[pairIndex];
 
@@ -109,15 +126,27 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         p.feeExponent = value.feeExponent;
         pairOis[pairIndex].max = value.maxOi;
 
-        emit PairParamsUpdated(pairIndex, value.groupIndex, value.feePerBlock, value.feeExponent, value.maxOi);
+        emit PairParamsUpdated(
+            pairIndex,
+            value.groupIndex,
+            value.feePerBlock,
+            value.feeExponent,
+            value.maxOi
+        );
     }
 
     // Manage group params
-    function setGroupParams(uint16 groupIndex, GroupParams calldata value) external onlyManager {
+    function setGroupParams(
+        uint16 groupIndex,
+        GroupParams calldata value
+    ) external onlyManager {
         _setGroupParams(groupIndex, value);
     }
 
-    function setGroupParamsArray(uint16[] calldata indices, GroupParams[] calldata values) external onlyManager {
+    function setGroupParamsArray(
+        uint16[] calldata indices,
+        GroupParams[] calldata values
+    ) external onlyManager {
         uint len = indices.length;
         require(len == values.length, "WRONG_LENGTH");
 
@@ -129,9 +158,15 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         }
     }
 
-    function _setGroupParams(uint16 groupIndex, GroupParams calldata value) private {
+    function _setGroupParams(
+        uint16 groupIndex,
+        GroupParams calldata value
+    ) private {
         require(groupIndex > 0, "GROUP_0");
-        require(value.feeExponent >= 1 && value.feeExponent <= 3, "WRONG_EXPONENT");
+        require(
+            value.feeExponent >= 1 && value.feeExponent <= 3,
+            "WRONG_EXPONENT"
+        );
 
         _setGroupPendingAccFees(groupIndex, ChainUtils.getBlockNumber());
 
@@ -140,7 +175,12 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         g.maxOi = uint80(value.maxOi);
         groupFeeExponents[groupIndex] = value.feeExponent;
 
-        emit GroupUpdated(groupIndex, value.feePerBlock, value.maxOi, value.feeExponent);
+        emit GroupUpdated(
+            groupIndex,
+            value.feePerBlock,
+            value.maxOi,
+            value.feeExponent
+        );
     }
 
     // Group OI setter
@@ -162,37 +202,65 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
             if (long) {
                 group.oiLong = increase
                     ? group.oiLong + amountFinal
-                    : group.oiLong - (group.oiLong > amountFinal ? amountFinal : group.oiLong);
+                    : group.oiLong -
+                        (
+                            group.oiLong > amountFinal
+                                ? amountFinal
+                                : group.oiLong
+                        );
             } else {
                 group.oiShort = increase
                     ? group.oiShort + amountFinal
-                    : group.oiShort - (group.oiShort > amountFinal ? amountFinal : group.oiShort);
+                    : group.oiShort -
+                        (
+                            group.oiShort > amountFinal
+                                ? amountFinal
+                                : group.oiShort
+                        );
             }
         }
 
-        emit GroupOiUpdated(groupIndex, long, increase, amountFinal, group.oiLong, group.oiShort);
+        emit GroupOiUpdated(
+            groupIndex,
+            long,
+            increase,
+            amountFinal,
+            group.oiLong,
+            group.oiShort
+        );
     }
 
     // Acc fees getters for pairs and groups
     function getPendingAccFees(
         PendingAccFeesInput memory input
-    ) public pure returns (uint64 newAccFeeLong, uint64 newAccFeeShort, uint64 delta) {
+    )
+        public
+        pure
+        returns (uint64 newAccFeeLong, uint64 newAccFeeShort, uint64 delta)
+    {
         require(input.currentBlock >= input.accLastUpdatedBlock, "BLOCK_ORDER");
 
         bool moreShorts = input.oiLong < input.oiShort;
-        uint netOi = moreShorts ? input.oiShort - input.oiLong : input.oiLong - input.oiShort;
+        uint netOi = moreShorts
+            ? input.oiShort - input.oiLong
+            : input.oiLong - input.oiShort;
 
         uint _delta = input.maxOi > 0 && input.feeExponent > 0
             ? ((input.currentBlock - input.accLastUpdatedBlock) *
                 input.feePerBlock *
-                ((netOi * 1e10) / input.maxOi) ** input.feeExponent) / (1e18 ** input.feeExponent)
+                ((netOi * 1e10) / input.maxOi) ** input.feeExponent) /
+                (1e18 ** input.feeExponent)
             : 0; // 1e10 (%)
 
         require(_delta <= type(uint64).max, "OVERFLOW");
         delta = uint64(_delta);
 
-        newAccFeeLong = moreShorts ? input.accFeeLong : input.accFeeLong + delta;
-        newAccFeeShort = moreShorts ? input.accFeeShort + delta : input.accFeeShort;
+        newAccFeeLong = moreShorts
+            ? input.accFeeLong
+            : input.accFeeLong + delta;
+        newAccFeeShort = moreShorts
+            ? input.accFeeShort + delta
+            : input.accFeeShort;
     }
 
     function getPairGroupAccFeesDeltas(
@@ -202,14 +270,22 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint pairIndex,
         bool long,
         uint currentBlock
-    ) public view returns (uint64 deltaGroup, uint64 deltaPair, bool beforeTradeOpen) {
+    )
+        public
+        view
+        returns (uint64 deltaGroup, uint64 deltaPair, bool beforeTradeOpen)
+    {
         PairGroup memory group = pairGroups[i];
 
         beforeTradeOpen = group.block < initialFees.block;
 
         if (i == pairGroups.length - 1) {
             // Last active group
-            deltaGroup = getGroupPendingAccFee(group.groupIndex, currentBlock, long);
+            deltaGroup = getGroupPendingAccFee(
+                group.groupIndex,
+                currentBlock,
+                long
+            );
             deltaPair = getPairPendingAccFee(pairIndex, currentBlock, long);
         } else {
             // Previous groups
@@ -220,15 +296,21 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
                 return (0, 0, beforeTradeOpen);
             }
 
-            deltaGroup = long ? nextGroup.prevGroupAccFeeLong : nextGroup.prevGroupAccFeeShort;
-            deltaPair = long ? nextGroup.pairAccFeeLong : nextGroup.pairAccFeeShort;
+            deltaGroup = long
+                ? nextGroup.prevGroupAccFeeLong
+                : nextGroup.prevGroupAccFeeShort;
+            deltaPair = long
+                ? nextGroup.pairAccFeeLong
+                : nextGroup.pairAccFeeShort;
         }
 
         if (beforeTradeOpen) {
             deltaGroup -= initialFees.accGroupFee;
             deltaPair -= initialFees.accPairFee;
         } else {
-            deltaGroup -= (long ? group.initialAccFeeLong : group.initialAccFeeShort);
+            deltaGroup -= (
+                long ? group.initialAccFeeLong : group.initialAccFeeShort
+            );
             deltaPair -= (long ? group.pairAccFeeLong : group.pairAccFeeShort);
         }
     }
@@ -237,7 +319,11 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
     function getPairPendingAccFees(
         uint pairIndex,
         uint currentBlock
-    ) public view returns (uint64 accFeeLong, uint64 accFeeShort, uint64 pairAccFeeDelta) {
+    )
+        public
+        view
+        returns (uint64 accFeeLong, uint64 accFeeShort, uint64 pairAccFeeDelta)
+    {
         Pair memory pair = pairs[pairIndex];
 
         (uint pairOiLong, uint pairOiShort) = getPairOpenInterestDai(pairIndex);
@@ -257,8 +343,15 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         );
     }
 
-    function getPairPendingAccFee(uint pairIndex, uint currentBlock, bool long) public view returns (uint64 accFee) {
-        (uint64 accFeeLong, uint64 accFeeShort, ) = getPairPendingAccFees(pairIndex, currentBlock);
+    function getPairPendingAccFee(
+        uint pairIndex,
+        uint currentBlock,
+        bool long
+    ) public view returns (uint64 accFee) {
+        (uint64 accFeeLong, uint64 accFeeShort, ) = getPairPendingAccFees(
+            pairIndex,
+            currentBlock
+        );
         return long ? accFeeLong : accFeeShort;
     }
 
@@ -266,21 +359,35 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint pairIndex,
         uint currentBlock
     ) private returns (uint64 accFeeLong, uint64 accFeeShort) {
-        (accFeeLong, accFeeShort, ) = getPairPendingAccFees(pairIndex, currentBlock);
+        (accFeeLong, accFeeShort, ) = getPairPendingAccFees(
+            pairIndex,
+            currentBlock
+        );
 
         Pair storage pair = pairs[pairIndex];
 
         (pair.accFeeLong, pair.accFeeShort) = (accFeeLong, accFeeShort);
-        pair.accLastUpdatedBlock = ChainUtils.getUint48BlockNumber(currentBlock);
+        pair.accLastUpdatedBlock = ChainUtils.getUint48BlockNumber(
+            currentBlock
+        );
 
-        emit PairAccFeesUpdated(pairIndex, currentBlock, pair.accFeeLong, pair.accFeeShort);
+        emit PairAccFeesUpdated(
+            pairIndex,
+            currentBlock,
+            pair.accFeeLong,
+            pair.accFeeShort
+        );
     }
 
     // Group acc fees helpers
     function getGroupPendingAccFees(
         uint16 groupIndex,
         uint currentBlock
-    ) public view returns (uint64 accFeeLong, uint64 accFeeShort, uint64 groupAccFeeDelta) {
+    )
+        public
+        view
+        returns (uint64 accFeeLong, uint64 accFeeShort, uint64 groupAccFeeDelta)
+    {
         Group memory group = groups[groupIndex];
 
         (accFeeLong, accFeeShort, groupAccFeeDelta) = getPendingAccFees(
@@ -303,7 +410,10 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint currentBlock,
         bool long
     ) public view returns (uint64 accFee) {
-        (uint64 accFeeLong, uint64 accFeeShort, ) = getGroupPendingAccFees(groupIndex, currentBlock);
+        (uint64 accFeeLong, uint64 accFeeShort, ) = getGroupPendingAccFees(
+            groupIndex,
+            currentBlock
+        );
         return long ? accFeeLong : accFeeShort;
     }
 
@@ -311,14 +421,24 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint16 groupIndex,
         uint currentBlock
     ) private returns (uint64 accFeeLong, uint64 accFeeShort) {
-        (accFeeLong, accFeeShort, ) = getGroupPendingAccFees(groupIndex, currentBlock);
+        (accFeeLong, accFeeShort, ) = getGroupPendingAccFees(
+            groupIndex,
+            currentBlock
+        );
 
         Group storage group = groups[groupIndex];
 
         (group.accFeeLong, group.accFeeShort) = (accFeeLong, accFeeShort);
-        group.accLastUpdatedBlock = ChainUtils.getUint48BlockNumber(currentBlock);
+        group.accLastUpdatedBlock = ChainUtils.getUint48BlockNumber(
+            currentBlock
+        );
 
-        emit GroupAccFeesUpdated(groupIndex, currentBlock, group.accFeeLong, group.accFeeShort);
+        emit GroupAccFeesUpdated(
+            groupIndex,
+            currentBlock,
+            group.accFeeLong,
+            group.accFeeShort
+        );
     }
 
     // Interaction with callbacks
@@ -333,8 +453,14 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint16 groupIndex = getPairGroupIndex(pairIndex);
         uint currentBlock = ChainUtils.getBlockNumber();
 
-        (uint64 pairAccFeeLong, uint64 pairAccFeeShort) = _setPairPendingAccFees(pairIndex, currentBlock);
-        (uint64 groupAccFeeLong, uint64 groupAccFeeShort) = _setGroupPendingAccFees(groupIndex, currentBlock);
+        (
+            uint64 pairAccFeeLong,
+            uint64 pairAccFeeShort
+        ) = _setPairPendingAccFees(pairIndex, currentBlock);
+        (
+            uint64 groupAccFeeLong,
+            uint64 groupAccFeeShort
+        ) = _setGroupPendingAccFees(groupIndex, currentBlock);
 
         _setGroupOi(groupIndex, long, open, positionSizeDai);
 
@@ -348,15 +474,32 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
 
             initialAccFees[trader][pairIndex][index] = initialFees;
 
-            emit TradeInitialAccFeesStored(trader, pairIndex, index, initialFees.accPairFee, initialFees.accGroupFee);
+            emit TradeInitialAccFeesStored(
+                trader,
+                pairIndex,
+                index,
+                initialFees.accPairFee,
+                initialFees.accGroupFee
+            );
         }
 
-        emit TradeActionHandled(trader, pairIndex, index, open, long, positionSizeDai);
+        emit TradeActionHandled(
+            trader,
+            pairIndex,
+            index,
+            open,
+            long,
+            positionSizeDai
+        );
     }
 
     // Important trade getters
-    function getTradeBorrowingFee(BorrowingFeeInput memory input) public view override returns (uint fee) {
-        InitialAccFees memory initialFees = initialAccFees[input.trader][input.pairIndex][input.index];
+    function getTradeBorrowingFee(
+        BorrowingFeeInput memory input
+    ) public view override returns (uint fee) {
+        InitialAccFees memory initialFees = initialAccFees[input.trader][
+            input.pairIndex
+        ][input.index];
         PairGroup[] memory pairGroups = pairs[input.pairIndex].groups;
 
         uint currentBlock = ChainUtils.getBlockNumber();
@@ -367,24 +510,38 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         }
 
         // If pair has had no group after trade was opened, initialize with pair borrowing fee
-        if (pairGroups.length == 0 || firstPairGroup.block > initialFees.block) {
+        if (
+            pairGroups.length == 0 || firstPairGroup.block > initialFees.block
+        ) {
             fee = ((
                 pairGroups.length == 0
-                    ? getPairPendingAccFee(input.pairIndex, currentBlock, input.long)
-                    : (input.long ? firstPairGroup.pairAccFeeLong : firstPairGroup.pairAccFeeShort)
+                    ? getPairPendingAccFee(
+                        input.pairIndex,
+                        currentBlock,
+                        input.long
+                    )
+                    : (
+                        input.long
+                            ? firstPairGroup.pairAccFeeLong
+                            : firstPairGroup.pairAccFeeShort
+                    )
             ) - initialFees.accPairFee);
         }
 
         // Sum of max(pair fee, group fee) for all groups the pair was in while trade was open
         for (uint i = pairGroups.length; i > 0; ) {
-            (uint64 deltaGroup, uint64 deltaPair, bool beforeTradeOpen) = getPairGroupAccFeesDeltas(
-                i - 1,
-                pairGroups,
-                initialFees,
-                input.pairIndex,
-                input.long,
-                currentBlock
-            );
+            (
+                uint64 deltaGroup,
+                uint64 deltaPair,
+                bool beforeTradeOpen
+            ) = getPairGroupAccFeesDeltas(
+                    i - 1,
+                    pairGroups,
+                    initialFees,
+                    input.pairIndex,
+                    input.long,
+                    currentBlock
+                );
 
             fee += (deltaGroup > deltaPair ? deltaGroup : deltaPair);
 
@@ -398,14 +555,21 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         fee = (input.collateral * input.leverage * fee) / P_1 / 100; // 1e18 (DAI)
     }
 
-    function getTradeLiquidationPrice(LiqPriceInput calldata input) external view override returns (uint)  {
+    function getTradeLiquidationPrice(
+        LiqPriceInput calldata input
+    ) external view override returns (uint) {
         return
             pairInfos.getTradeLiquidationPricePure(
                 input.openPrice,
                 input.long,
                 input.collateral,
                 input.leverage,
-                pairInfos.getTradeRolloverFee(input.trader, input.pairIndex, input.index, input.collateral) +
+                pairInfos.getTradeRolloverFee(
+                    input.trader,
+                    input.pairIndex,
+                    input.index,
+                    input.collateral
+                ) +
                     getTradeBorrowingFee(
                         BorrowingFeeInput(
                             input.trader,
@@ -428,13 +592,23 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
     }
 
     // Public getters
-    function getPairOpenInterestDai(uint pairIndex) public view returns (uint, uint) {
-        return (storageT.openInterestDai(pairIndex, 0), storageT.openInterestDai(pairIndex, 1));
+    function getPairOpenInterestDai(
+        uint pairIndex
+    ) public view returns (uint, uint) {
+        return (
+            storageT.openInterestDai(pairIndex, 0),
+            storageT.openInterestDai(pairIndex, 1)
+        );
     }
 
-    function getPairGroupIndex(uint pairIndex) public view returns (uint16 groupIndex) {
+    function getPairGroupIndex(
+        uint pairIndex
+    ) public view returns (uint16 groupIndex) {
         PairGroup[] memory pairGroups = pairs[pairIndex].groups;
-        return pairGroups.length == 0 ? 0 : pairGroups[pairGroups.length - 1].groupIndex;
+        return
+            pairGroups.length == 0
+                ? 0
+                : pairGroups[pairGroups.length - 1].groupIndex;
     }
 
     // External getters
@@ -444,18 +618,29 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         uint positionSizeDai // 1e18
     ) external view override returns (bool) {
         Group memory g = groups[getPairGroupIndex(pairIndex)];
-        return (g.maxOi == 0) || ((long ? g.oiLong : g.oiShort) + (positionSizeDai * P_1) / 1e18 <= g.maxOi);
+        return
+            (g.maxOi == 0) ||
+            ((long ? g.oiLong : g.oiShort) + (positionSizeDai * P_1) / 1e18 <=
+                g.maxOi);
     }
 
-    function getGroup(uint16 groupIndex) external view returns (Group memory, uint48) {
+    function getGroup(
+        uint16 groupIndex
+    ) external view returns (Group memory, uint48) {
         return (groups[groupIndex], groupFeeExponents[groupIndex]);
     }
 
-    function getPair(uint pairIndex) external view returns (Pair memory, PairOi memory) {
+    function getPair(
+        uint pairIndex
+    ) external view returns (Pair memory, PairOi memory) {
         return (pairs[pairIndex], pairOis[pairIndex]);
     }
 
-    function getAllPairs() external view returns (Pair[] memory, PairOi[] memory) {
+    function getAllPairs()
+        external
+        view
+        returns (Pair[] memory, PairOi[] memory)
+    {
         uint len = storageT.priceAggregator().pairsStorage().pairsCount();
         Pair[] memory p = new Pair[](len);
         PairOi[] memory pairOi = new PairOi[](len);
@@ -471,7 +656,9 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
         return (p, pairOi);
     }
 
-    function getGroups(uint16[] calldata indices) external view returns (Group[] memory, uint48[] memory) {
+    function getGroups(
+        uint16[] calldata indices
+    ) external view returns (Group[] memory, uint48[] memory) {
         Group[] memory g = new Group[](indices.length);
         uint48[] memory e = new uint48[](indices.length);
         uint len = indices.length;
@@ -494,13 +681,18 @@ contract GNSBorrowingFeesV6_4 is Initializable, GNSBorrowingFeesInterfaceV6_4 {
     )
         external
         view
-        returns (InitialAccFees memory borrowingFees, GNSPairInfosInterfaceV6.TradeInitialAccFees memory otherFees)
+        returns (
+            InitialAccFees memory borrowingFees,
+            GNSPairInfosInterfaceV6.TradeInitialAccFees memory otherFees
+        )
     {
         borrowingFees = initialAccFees[trader][pairIndex][index];
         otherFees = pairInfos.tradeInitialAccFees(trader, pairIndex, index);
     }
 
-    function getPairMaxOi(uint pairIndex) external view override returns (uint)  {
+    function getPairMaxOi(
+        uint pairIndex
+    ) external view override returns (uint) {
         return pairOis[pairIndex].max;
     }
 }

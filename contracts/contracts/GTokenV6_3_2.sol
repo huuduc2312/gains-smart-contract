@@ -11,9 +11,15 @@ import "../interfaces/INft.sol";
 import "../interfaces/IOpenTradesPnlFeed.sol";
 import "../libraries/ChainUtils.sol";
 
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
-contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable, OwnableUpgradeable, IGToken {
+contract GTokenV6_3_2 is
+    IERC20Upgradeable,
+    ERC20Upgradeable,
+    ERC4626Upgradeable,
+    OwnableUpgradeable,
+    IGToken
+{
     using MathUpgradeable for uint;
 
     // Contracts & Addresses (constant)
@@ -125,7 +131,12 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         uint indexed unlockEpoch
     );
 
-    event DepositLocked(address indexed sender, address indexed owner, uint depositId, LockedDeposit d);
+    event DepositLocked(
+        address indexed sender,
+        address indexed owner,
+        uint depositId,
+        LockedDeposit d
+    );
     event DepositUnlocked(
         address indexed sender,
         address indexed receiver,
@@ -136,8 +147,17 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     event RewardDistributed(address indexed sender, uint assets);
 
-    event AssetsSent(address indexed sender, address indexed receiver, uint assets);
-    event AssetsReceived(address indexed sender, address indexed user, uint assets, uint assetsLessDeplete);
+    event AssetsSent(
+        address indexed sender,
+        address indexed receiver,
+        uint assets
+    );
+    event AssetsReceived(
+        address indexed sender,
+        address indexed user,
+        uint assets,
+        uint assetsLessDeplete
+    );
 
     event Depleted(address indexed sender, uint assets, uint amountGns);
     event Refilled(address indexed sender, uint assets, uint amountGns);
@@ -210,7 +230,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         manager = _contractAddresses.manager;
         admin = _contractAddresses.admin;
         pnlHandler = _contractAddresses.pnlHandler;
-        openTradesPnlFeed = IOpenTradesPnlFeed(_contractAddresses.openTradesPnlFeed);
+        openTradesPnlFeed = IOpenTradesPnlFeed(
+            _contractAddresses.openTradesPnlFeed
+        );
         gnsPriceProvider = _contractAddresses.gnsPriceProvider;
 
         MIN_LOCK_DURATION = _MIN_LOCK_DURATION;
@@ -255,7 +277,10 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     // Manage addresses
     function transferOwnership(address newOwner) public override onlyOwner {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        require(
+            newOwner != address(0),
+            "Ownable: new owner is the zero address"
+        );
         require(newOwner != manager && newOwner != admin, "WRONG_VALUE");
         _transferOwnership(newOwner);
     }
@@ -280,7 +305,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         emit AddressParamUpdated("pnlHandler", newValue);
     }
 
-    function updateGnsPriceProvider(GnsPriceProvider memory newValue) external onlyManager {
+    function updateGnsPriceProvider(
+        GnsPriceProvider memory newValue
+    ) external onlyManager {
         require(newValue.addr != address(0), "ADDRESS_0");
         require(newValue.signature.length > 0, "BYTES_0");
         gnsPriceProvider = newValue;
@@ -305,7 +332,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         emit NumberParamUpdated("maxDailyAccPnlDelta", newValue);
     }
 
-    function updateWithdrawLockThresholdsP(uint[2] memory newValue) external onlyOwner {
+    function updateWithdrawLockThresholdsP(
+        uint[2] memory newValue
+    ) external onlyOwner {
         require(newValue[1] > newValue[0], "WRONG_VALUES");
         withdrawLockThresholdsP = newValue;
         emit WithdrawLockThresholdsPUpdated(newValue);
@@ -362,7 +391,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     function gnsTokenToAssetsPrice() public view returns (uint price) {
         // GNS_PRECISION
-        (bool success, bytes memory result) = gnsPriceProvider.addr.staticcall(gnsPriceProvider.signature);
+        (bool success, bytes memory result) = gnsPriceProvider.addr.staticcall(
+            gnsPriceProvider.signature
+        );
 
         require(success == true, "GNS_PRICE_CALL_FAILED");
         (price) = abi.decode(result, (uint));
@@ -372,45 +403,65 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     function withdrawEpochsTimelock() public view returns (uint) {
         uint collatP = collateralizationP();
-        uint overCollatP = (collatP - MathUpgradeable.min(collatP, 100 * PRECISION));
+        uint overCollatP = (collatP -
+            MathUpgradeable.min(collatP, 100 * PRECISION));
 
         return
             overCollatP > withdrawLockThresholdsP[1]
                 ? WITHDRAW_EPOCHS_LOCKS[2]
-                : (overCollatP > withdrawLockThresholdsP[0] ? WITHDRAW_EPOCHS_LOCKS[1] : WITHDRAW_EPOCHS_LOCKS[0]);
+                : (
+                    overCollatP > withdrawLockThresholdsP[0]
+                        ? WITHDRAW_EPOCHS_LOCKS[1]
+                        : WITHDRAW_EPOCHS_LOCKS[0]
+                );
     }
 
-    function lockDiscountP(uint collatP, uint lockDuration) public view returns (uint) {
+    function lockDiscountP(
+        uint collatP,
+        uint lockDuration
+    ) public view returns (uint) {
         return
             ((
                 collatP <= 100 * PRECISION
                     ? maxDiscountP
                     : (
                         collatP <= maxDiscountThresholdP
-                            ? (maxDiscountP * (maxDiscountThresholdP - collatP)) /
+                            ? (maxDiscountP *
+                                (maxDiscountThresholdP - collatP)) /
                                 (maxDiscountThresholdP - 100 * PRECISION)
                             : 0
                     )
             ) * lockDuration) / MAX_LOCK_DURATION;
     }
 
-    function totalSharesBeingWithdrawn(address owner) public view returns (uint shares) {
-        for (uint i = currentEpoch; i <= currentEpoch + WITHDRAW_EPOCHS_LOCKS[0]; i++) {
+    function totalSharesBeingWithdrawn(
+        address owner
+    ) public view returns (uint shares) {
+        for (
+            uint i = currentEpoch;
+            i <= currentEpoch + WITHDRAW_EPOCHS_LOCKS[0];
+            i++
+        ) {
             shares += withdrawRequests[owner][i];
         }
     }
 
-    function getPendingAccBlockWeightedMarketCap(uint currentBlock) public view override returns (uint) {
+    function getPendingAccBlockWeightedMarketCap(
+        uint currentBlock
+    ) public view override returns (uint) {
         return
             accBlockWeightedMarketCap +
-            ((currentBlock - accBlockWeightedMarketCapLastStored) * PRECISION_2) /
+            ((currentBlock - accBlockWeightedMarketCapLastStored) *
+                PRECISION_2) /
             MathUpgradeable.max(marketCap(), 1);
     }
 
     // Public helper functions
     function tryUpdateCurrentMaxSupply() public {
         if (block.timestamp - lastMaxSupplyUpdate >= 24 hours) {
-            currentMaxSupply = (totalSupply() * (PRECISION * 100 + maxSupplyIncreaseDailyP)) / (PRECISION * 100);
+            currentMaxSupply =
+                (totalSupply() * (PRECISION * 100 + maxSupplyIncreaseDailyP)) /
+                (PRECISION * 100);
             lastMaxSupplyUpdate = block.timestamp;
 
             emit CurrentMaxSupplyUpdated(currentMaxSupply);
@@ -428,7 +479,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     function tryNewOpenPnlRequestOrEpoch() public {
         // Fault tolerance so that activity can continue anyway
-        (bool success, ) = address(openTradesPnlFeed).call(abi.encodeWithSignature("newOpenPnlRequestOrEpoch()"));
+        (bool success, ) = address(openTradesPnlFeed).call(
+            abi.encodeWithSignature("newOpenPnlRequestOrEpoch()")
+        );
         if (!success) {
             emit OpenTradesPnlFeedCallFailed();
         }
@@ -436,7 +489,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
     function storeAccBlockWeightedMarketCap() public {
         uint currentBlock = ChainUtils.getBlockNumber();
-        accBlockWeightedMarketCap = getPendingAccBlockWeightedMarketCap(currentBlock);
+        accBlockWeightedMarketCap = getPendingAccBlockWeightedMarketCap(
+            currentBlock
+        );
         accBlockWeightedMarketCapLastStored = currentBlock;
 
         emit AccBlockWeightedMarketCapStored(accBlockWeightedMarketCap);
@@ -446,7 +501,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     function updateShareToAssetsPrice() private {
         storeAccBlockWeightedMarketCap();
 
-        shareToAssetsPrice = maxAccPnlPerToken() - (accPnlPerTokenUsed > 0 ? uint(accPnlPerTokenUsed) : uint(0)); // PRECISION
+        shareToAssetsPrice =
+            maxAccPnlPerToken() -
+            (accPnlPerTokenUsed > 0 ? uint(accPnlPerTokenUsed) : uint(0)); // PRECISION
         emit ShareToAssetsPriceUpdated(shareToAssetsPrice);
     }
 
@@ -455,9 +512,15 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     }
 
     // Override ERC-20 functions (prevent sending to address that is withdrawing)
-    function transfer(address to, uint amount) public override(IERC20Upgradeable, ERC20Upgradeable) returns (bool) {
+    function transfer(
+        address to,
+        uint amount
+    ) public override(IERC20Upgradeable, ERC20Upgradeable) returns (bool) {
         address sender = _msgSender();
-        require(totalSharesBeingWithdrawn(sender) <= balanceOf(sender) - amount, "PENDING_WITHDRAWAL");
+        require(
+            totalSharesBeingWithdrawn(sender) <= balanceOf(sender) - amount,
+            "PENDING_WITHDRAWAL"
+        );
         _transfer(sender, to, amount);
         return true;
     }
@@ -467,14 +530,22 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         address to,
         uint amount
     ) public override(IERC20Upgradeable, ERC20Upgradeable) returns (bool) {
-        require(totalSharesBeingWithdrawn(from) <= balanceOf(from) - amount, "PENDING_WITHDRAWAL");
+        require(
+            totalSharesBeingWithdrawn(from) <= balanceOf(from) - amount,
+            "PENDING_WITHDRAWAL"
+        );
         _spendAllowance(from, _msgSender(), amount);
         _transfer(from, to, amount);
         return true;
     }
 
     // Override ERC-4626 view functions
-    function decimals() public view override(ERC20Upgradeable, ERC4626Upgradeable) returns (uint8) {
+    function decimals()
+        public
+        view
+        override(ERC20Upgradeable, ERC4626Upgradeable)
+        returns (uint8)
+    {
         return ERC4626Upgradeable.decimals();
     }
 
@@ -499,7 +570,8 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     function maxMint(address) public view override returns (uint) {
         return
             accPnlPerTokenUsed > 0
-                ? currentMaxSupply - MathUpgradeable.min(currentMaxSupply, totalSupply())
+                ? currentMaxSupply -
+                    MathUpgradeable.min(currentMaxSupply, totalSupply())
                 : type(uint).max;
     }
 
@@ -510,17 +582,27 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     function maxRedeem(address owner) public view override returns (uint) {
         return
             openTradesPnlFeed.nextEpochValuesRequestCount() == 0
-                ? MathUpgradeable.min(withdrawRequests[owner][currentEpoch], totalSupply() - 1)
+                ? MathUpgradeable.min(
+                    withdrawRequests[owner][currentEpoch],
+                    totalSupply() - 1
+                )
                 : 0;
     }
 
     function maxWithdraw(address owner) public view override returns (uint) {
-        return _convertToAssets(maxRedeem(owner), MathUpgradeable.Rounding.Down);
+        return
+            _convertToAssets(maxRedeem(owner), MathUpgradeable.Rounding.Down);
     }
 
     // Override ERC-4626 interactions (call scaleVariables on every deposit / withdrawal)
-    function deposit(uint assets, address receiver) public override checks(assets) returns (uint) {
-        require(assets <= maxDeposit(receiver), "ERC4626: deposit more than max");
+    function deposit(
+        uint assets,
+        address receiver
+    ) public override checks(assets) returns (uint) {
+        require(
+            assets <= maxDeposit(receiver),
+            "ERC4626: deposit more than max"
+        );
 
         uint shares = previewDeposit(assets);
         scaleVariables(shares, assets, true);
@@ -529,7 +611,10 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         return shares;
     }
 
-    function mint(uint shares, address receiver) public override checks(shares) returns (uint) {
+    function mint(
+        uint shares,
+        address receiver
+    ) public override checks(shares) returns (uint) {
         require(shares <= maxMint(receiver), "ERC4626: mint more than max");
 
         uint assets = previewMint(shares);
@@ -539,8 +624,15 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         return assets;
     }
 
-    function withdraw(uint assets, address receiver, address owner) public override checks(assets) returns (uint) {
-        require(assets <= maxWithdraw(owner), "ERC4626: withdraw more than max");
+    function withdraw(
+        uint assets,
+        address receiver,
+        address owner
+    ) public override checks(assets) returns (uint) {
+        require(
+            assets <= maxWithdraw(owner),
+            "ERC4626: withdraw more than max"
+        );
 
         uint shares = previewWithdraw(assets);
         withdrawRequests[owner][currentEpoch] -= shares;
@@ -551,7 +643,11 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         return shares;
     }
 
-    function redeem(uint shares, address receiver, address owner) public override checks(shares) returns (uint) {
+    function redeem(
+        uint shares,
+        address receiver,
+        address owner
+    ) public override checks(shares) returns (uint) {
         require(shares <= maxRedeem(owner), "ERC4626: redeem more than max");
 
         withdrawRequests[owner][currentEpoch] -= shares;
@@ -567,38 +663,69 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         uint supply = totalSupply();
 
         if (accPnlPerToken < 0) {
-            accPnlPerToken = (accPnlPerToken * int(supply)) / (isDeposit ? int(supply + shares) : int(supply - shares));
+            accPnlPerToken =
+                (accPnlPerToken * int(supply)) /
+                (isDeposit ? int(supply + shares) : int(supply - shares));
         } else if (accPnlPerToken > 0) {
-            totalLiability += ((int(shares) * totalLiability) / int(supply)) * (isDeposit ? int(1) : int(-1));
+            totalLiability +=
+                ((int(shares) * totalLiability) / int(supply)) *
+                (isDeposit ? int(1) : int(-1));
         }
 
-        totalDeposited = isDeposit ? totalDeposited + assets : totalDeposited - assets;
+        totalDeposited = isDeposit
+            ? totalDeposited + assets
+            : totalDeposited - assets;
 
         storeAccBlockWeightedMarketCap();
     }
 
     // Withdraw requests (need to be done before calling 'withdraw' / 'redeem')
     function makeWithdrawRequest(uint shares, address owner) external {
-        require(openTradesPnlFeed.nextEpochValuesRequestCount() == 0, "END_OF_EPOCH");
+        require(
+            openTradesPnlFeed.nextEpochValuesRequestCount() == 0,
+            "END_OF_EPOCH"
+        );
 
         address sender = _msgSender();
         uint allowance = allowance(owner, sender);
-        require(sender == owner || (allowance > 0 && allowance >= shares), "NOT_ALLOWED");
+        require(
+            sender == owner || (allowance > 0 && allowance >= shares),
+            "NOT_ALLOWED"
+        );
 
-        require(totalSharesBeingWithdrawn(owner) + shares <= balanceOf(owner), "MORE_THAN_BALANCE");
+        require(
+            totalSharesBeingWithdrawn(owner) + shares <= balanceOf(owner),
+            "MORE_THAN_BALANCE"
+        );
 
         uint unlockEpoch = currentEpoch + withdrawEpochsTimelock();
         withdrawRequests[owner][unlockEpoch] += shares;
 
-        emit WithdrawRequested(sender, owner, shares, currentEpoch, unlockEpoch);
+        emit WithdrawRequested(
+            sender,
+            owner,
+            shares,
+            currentEpoch,
+            unlockEpoch
+        );
     }
 
-    function cancelWithdrawRequest(uint shares, address owner, uint unlockEpoch) external {
-        require(shares <= withdrawRequests[owner][unlockEpoch], "MORE_THAN_WITHDRAW_AMOUNT");
+    function cancelWithdrawRequest(
+        uint shares,
+        address owner,
+        uint unlockEpoch
+    ) external {
+        require(
+            shares <= withdrawRequests[owner][unlockEpoch],
+            "MORE_THAN_WITHDRAW_AMOUNT"
+        );
 
         address sender = _msgSender();
         uint allowance = allowance(owner, sender);
-        require(sender == owner || (allowance > 0 && allowance >= shares), "NOT_ALLOWED");
+        require(
+            sender == owner || (allowance > 0 && allowance >= shares),
+            "NOT_ALLOWED"
+        );
 
         withdrawRequests[owner][unlockEpoch] -= shares;
 
@@ -611,13 +738,25 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         uint lockDuration,
         address receiver
     ) external checks(assets) validDiscount(lockDuration) returns (uint) {
-        uint simulatedAssets = (assets * (PRECISION * 100 + lockDiscountP(collateralizationP(), lockDuration))) /
+        uint simulatedAssets = (assets *
+            (PRECISION *
+                100 +
+                lockDiscountP(collateralizationP(), lockDuration))) /
             (PRECISION * 100);
 
-        require(simulatedAssets <= maxDeposit(receiver), "DEPOSIT_MORE_THAN_MAX");
+        require(
+            simulatedAssets <= maxDeposit(receiver),
+            "DEPOSIT_MORE_THAN_MAX"
+        );
 
         return
-            _executeDiscountAndLock(simulatedAssets, assets, previewDeposit(simulatedAssets), lockDuration, receiver);
+            _executeDiscountAndLock(
+                simulatedAssets,
+                assets,
+                previewDeposit(simulatedAssets),
+                lockDuration,
+                receiver
+            );
     }
 
     function mintWithDiscountAndLock(
@@ -631,7 +770,10 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         return
             _executeDiscountAndLock(
                 assets,
-                (assets * (PRECISION * 100)) / (PRECISION * 100 + lockDiscountP(collateralizationP(), lockDuration)),
+                (assets * (PRECISION * 100)) /
+                    (PRECISION *
+                        100 +
+                        lockDiscountP(collateralizationP(), lockDuration)),
                 shares,
                 lockDuration,
                 receiver
@@ -683,12 +825,24 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
                 lockedDepositNft.isApprovedForAll(owner, sender),
             "NOT_ALLOWED"
         );
-        require(block.timestamp >= d.atTimestamp + d.lockDuration, "NOT_UNLOCKED");
+        require(
+            block.timestamp >= d.atTimestamp + d.lockDuration,
+            "NOT_UNLOCKED"
+        );
 
-        int accPnlDelta = int(d.assetsDiscount.mulDiv(PRECISION, totalSupply(), MathUpgradeable.Rounding.Up));
+        int accPnlDelta = int(
+            d.assetsDiscount.mulDiv(
+                PRECISION,
+                totalSupply(),
+                MathUpgradeable.Rounding.Up
+            )
+        );
 
         accPnlPerToken += accPnlDelta;
-        require(accPnlPerToken <= int(maxAccPnlPerToken()), "NOT_ENOUGH_ASSETS");
+        require(
+            accPnlPerToken <= int(maxAccPnlPerToken()),
+            "NOT_ENOUGH_ASSETS"
+        );
 
         lockedDepositNft.burn(depositId);
 
@@ -704,9 +858,14 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     }
 
     // Distributes a reward evenly to all stakers of the vault
-    function distributeReward(uint assets) override external {
+    function distributeReward(uint assets) external override {
         address sender = _msgSender();
-        SafeERC20Upgradeable.safeTransferFrom(_assetIERC20(), sender, address(this), assets);
+        SafeERC20Upgradeable.safeTransferFrom(
+            _assetIERC20(),
+            sender,
+            address(this),
+            assets
+        );
 
         accRewardsPerToken += (assets * PRECISION) / totalSupply();
         updateShareToAssetsPrice();
@@ -718,14 +877,19 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     }
 
     // PnL interactions (happens often, so also used to trigger other actions)
-    function sendAssets(uint assets, address receiver) override external {
+    function sendAssets(uint assets, address receiver) external override {
         address sender = _msgSender();
         require(sender == pnlHandler, "ONLY_TRADING_PNL_HANDLER");
 
-        int accPnlDelta = int(assets.mulDiv(PRECISION, totalSupply(), MathUpgradeable.Rounding.Up));
+        int accPnlDelta = int(
+            assets.mulDiv(PRECISION, totalSupply(), MathUpgradeable.Rounding.Up)
+        );
 
         accPnlPerToken += accPnlDelta;
-        require(accPnlPerToken <= int(maxAccPnlPerToken()), "NOT_ENOUGH_ASSETS");
+        require(
+            accPnlPerToken <= int(maxAccPnlPerToken()),
+            "NOT_ENOUGH_ASSETS"
+        );
 
         tryResetDailyAccPnlDelta();
         dailyAccPnlDelta += accPnlDelta;
@@ -742,9 +906,14 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         emit AssetsSent(sender, receiver, assets);
     }
 
-    function receiveAssets(uint assets, address user) override external {
+    function receiveAssets(uint assets, address user) external override {
         address sender = _msgSender();
-        SafeERC20Upgradeable.safeTransferFrom(_assetIERC20(), sender, address(this), assets);
+        SafeERC20Upgradeable.safeTransferFrom(
+            _assetIERC20(),
+            sender,
+            address(this),
+            assets
+        );
 
         uint assetsLessDeplete = assets;
 
@@ -785,10 +954,18 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
         require(accPnlPerTokenUsed > 0, "NOT_UNDER_COLLATERALIZED");
 
         uint supply = totalSupply();
-        require(assets <= (uint(accPnlPerTokenUsed) * supply) / PRECISION, "AMOUNT_TOO_BIG");
+        require(
+            assets <= (uint(accPnlPerTokenUsed) * supply) / PRECISION,
+            "AMOUNT_TOO_BIG"
+        );
 
         address sender = _msgSender();
-        SafeERC20Upgradeable.safeTransferFrom(_assetIERC20(), sender, address(this), assets);
+        SafeERC20Upgradeable.safeTransferFrom(
+            _assetIERC20(),
+            sender,
+            address(this),
+            assets
+        );
 
         int accPnlDelta = int((assets * PRECISION) / supply);
         accPnlPerToken -= accPnlDelta;
@@ -812,7 +989,8 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
 
         int maxDelta = int(
             MathUpgradeable.min(
-                (uint(int(maxAccPnlPerToken()) - accPnlPerToken) * supply) / PRECISION,
+                (uint(int(maxAccPnlPerToken()) - accPnlPerToken) * supply) /
+                    PRECISION,
                 (maxAccOpenPnlDelta * supply) / PRECISION
             )
         ); // 1e18
@@ -844,7 +1022,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     }
 
     // Getters
-    function getLockedDeposit(uint depositId) external view override returns (LockedDeposit memory) {
+    function getLockedDeposit(
+        uint depositId
+    ) external view override returns (LockedDeposit memory) {
         return lockedDeposits[depositId];
     }
 
@@ -853,7 +1033,9 @@ contract GTokenV6_3_2 is IERC20Upgradeable, ERC20Upgradeable, ERC4626Upgradeable
     }
 
     function availableAssets() public view returns (uint) {
-        return (uint(int(maxAccPnlPerToken()) - accPnlPerTokenUsed) * totalSupply()) / PRECISION; // 1e18
+        return
+            (uint(int(maxAccPnlPerToken()) - accPnlPerTokenUsed) *
+                totalSupply()) / PRECISION; // 1e18
     }
 
     // To be compatible with old pairs storage contract v6 (to be used only with gDAI vault)

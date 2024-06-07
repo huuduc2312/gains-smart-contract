@@ -1,0 +1,32 @@
+{
+  "_format": "hh-zksolc-artifact-1",
+  "contractName": "IOpenTradesPnlFeed",
+  "sourceName": "contracts/interfaces/IOpenTradesPnlFeed.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "newOpenPnlRequestOrEpoch",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextEpochValuesRequestCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "factoryDeps": {}
+}

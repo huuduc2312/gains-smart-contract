@@ -1,0 +1,13 @@
+{
+    "sepolia": {
+        "uniswapV3Factory": "0x0227628f3F023bb0B980b67D528571c95c6DaC1c",
+        "uniswapV3Router": "0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD",
+        "gns": "0x20F16AAd14b69FB7aeab936060bc71De2B202a31",
+        "dai": "0x0d9080e677505d29be4da1ddd855c6b523f1d38d",
+        "uniswapV3Pool": "0xeA4eFC71C1b73A643d6f710477efD9c59f9EeDE9",
+        "linkToken": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+        "priceFeed": "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43",
+        "chainlinkNode": "0x5d8cAA6Ea75b6317359eD2238d35ceA4FbdbAd0d",
+        "priceAggregatorJob": "0x3531646336616261313936653432313562643338626435336562663561643365"
+    }
+}
