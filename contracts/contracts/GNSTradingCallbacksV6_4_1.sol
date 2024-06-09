@@ -64,7 +64,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
     struct Values {
         uint posDai;
         uint levPosDai;
-        uint tokenPriceDai;
+        // uint tokenPriceDai;
         int profitP;
         uint price;
         uint liqPrice;
@@ -375,7 +375,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
     // Callbacks
     function openTradeMarketCallback(
         AggregatorAnswer memory a
-    ) external onlyPriceAggregator notDone {
+    ) external /*onlyPriceAggregator*/ notDone {
         StorageInterfaceV5.PendingMarketOrder memory o = _getPendingMarketOrder(
             a.orderId
         );
@@ -410,8 +410,9 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
 
         if (cancelReason == CancelReason.NONE) {
             (
-                StorageInterfaceV5.Trade memory finalTrade,
-                uint tokenPriceDai
+                StorageInterfaceV5.Trade
+                    memory finalTrade /*, uint tokenPriceDai */,
+
             ) = _registerTrade(t, false, 0);
 
             emit MarketExecuted(
@@ -420,7 +421,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
                 true,
                 finalTrade.openPrice,
                 priceImpactP,
-                (finalTrade.initialPosToken * tokenPriceDai) / PRECISION,
+                finalTrade.positionSizeDai,
                 0,
                 0
             );
@@ -478,10 +479,11 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             AggregatorInterfaceV6_4 aggregator = storageT.priceAggregator();
 
             Values memory v;
-            v.levPosDai =
-                (t.initialPosToken * i.tokenPriceDai * t.leverage) /
-                PRECISION;
-            v.tokenPriceDai = aggregator.tokenPriceDai();
+            // v.levPosDai =
+            //     (t.initialPosToken * i.tokenPriceDai * t.leverage) /
+            //     PRECISION;
+            v.levPosDai = t.positionSizeDai * t.leverage;
+            // v.tokenPriceDai = aggregator.tokenPriceDai();
 
             if (cancelReason == CancelReason.NONE) {
                 v.profitP = _currentPercentProfit(
@@ -522,13 +524,13 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
                 );
             } else {
                 // Gov fee to pay for oracle cost
-                uint govFee = _handleGovFees(
-                    t.trader,
-                    t.pairIndex,
-                    v.levPosDai,
-                    t.positionSizeDai > 0
-                );
-                t.initialPosToken -= (govFee * PRECISION) / i.tokenPriceDai;
+                // uint govFee = _handleGovFees(
+                //     t.trader,
+                //     t.pairIndex,
+                //     v.levPosDai,
+                //     t.positionSizeDai > 0
+                // );
+                // t.initialPosToken -= (govFee * PRECISION) / i.tokenPriceDai;
 
                 storageT.updateTrade(t);
             }
@@ -609,14 +611,15 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
 
             if (cancelReason == CancelReason.NONE) {
                 (
-                    StorageInterfaceV5.Trade memory finalTrade,
-                    uint tokenPriceDai
+                    StorageInterfaceV5.Trade
+                        memory finalTrade /*, uint tokenPriceDai */,
+
                 ) = _registerTrade(
                         StorageInterfaceV5.Trade(
                             o.trader,
                             o.pairIndex,
                             0,
-                            0,
+                            // 0,
                             o.positionSize,
                             priceAfterImpact,
                             o.buy,
@@ -642,7 +645,8 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
                     StorageInterfaceV5.LimitOrder.OPEN,
                     finalTrade.openPrice,
                     priceImpactP,
-                    (finalTrade.initialPosToken * tokenPriceDai) / PRECISION,
+                    // (finalTrade.initialPosToken * tokenPriceDai) / PRECISION,
+                    finalTrade.positionSizeDai,
                     0,
                     0,
                     exactExecution
@@ -659,14 +663,14 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             );
         }
 
-        nftRewards.unregisterTrigger(
-            IGNSOracleRewardsV6_4_1.TriggeredLimitId(
-                n.trader,
-                n.pairIndex,
-                n.index,
-                n.orderType
-            )
-        );
+        // nftRewards.unregisterTrigger(
+        //     IGNSOracleRewardsV6_4_1.TriggeredLimitId(
+        //         n.trader,
+        //         n.pairIndex,
+        //         n.index,
+        //         n.orderType
+        //     )
+        // );
 
         storageT.unregisterPendingNftOrder(a.orderId);
     }
@@ -705,10 +709,12 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             PairsStorageInterfaceV6 pairsStored = aggregator.pairsStorage();
 
             Values memory v;
-            v.levPosDai =
-                (t.initialPosToken * i.tokenPriceDai * t.leverage) /
-                PRECISION;
-            v.posDai = v.levPosDai / t.leverage;
+            // v.levPosDai =
+            //     (t.initialPosToken * i.tokenPriceDai * t.leverage) /
+            //     PRECISION;
+            v.levPosDai = t.positionSizeDai * t.leverage;
+            // v.posDai = v.levPosDai / t.leverage;
+            v.posDai = t.positionSizeDai;
 
             if (o.orderType == StorageInterfaceV5.LimitOrder.LIQ) {
                 v.liqPrice = borrowingFees.getTradeLiquidationPrice(
@@ -782,7 +788,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
                     t.buy,
                     t.leverage
                 );
-                v.tokenPriceDai = aggregator.tokenPriceDai();
+                // v.tokenPriceDai = aggregator.tokenPriceDai();
 
                 v.daiSentToTrader = _unregisterTrade(
                     t,
@@ -799,12 +805,12 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
                     v.reward1
                 );
 
-                _handleOracleRewards(
-                    triggeredLimitId,
-                    t.trader,
-                    (v.reward1 * 2) / 10,
-                    v.tokenPriceDai
-                );
+                // _handleOracleRewards(
+                //     triggeredLimitId,
+                //     t.trader,
+                //     (v.reward1 * 2) / 10,
+                //     v.tokenPriceDai
+                // );
 
                 emit LimitExecuted(
                     a.orderId,
@@ -831,7 +837,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             );
         }
 
-        nftRewards.unregisterTrigger(triggeredLimitId);
+        // nftRewards.unregisterTrigger(triggeredLimitId);
         storageT.unregisterPendingNftOrder(a.orderId);
     }
 
@@ -847,32 +853,32 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         Values memory v;
 
         v.levPosDai = trade.positionSizeDai * trade.leverage;
-        v.tokenPriceDai = aggregator.tokenPriceDai();
+        // v.tokenPriceDai = aggregator.tokenPriceDai();
 
         // 1. Charge referral fee (if applicable) and send DAI amount to vault
-        if (referrals.getTraderReferrer(trade.trader) != address(0)) {
-            // Use this variable to store lev pos dai for dev/gov fees after referral fees
-            // and before volumeReferredDai increases
-            v.posDai =
-                (v.levPosDai *
-                    (100 *
-                        PRECISION -
-                        referrals.getPercentOfOpenFeeP(trade.trader))) /
-                100 /
-                PRECISION;
+        // if (referrals.getTraderReferrer(trade.trader) != address(0)) {
+        //     // Use this variable to store lev pos dai for dev/gov fees after referral fees
+        //     // and before volumeReferredDai increases
+        //     v.posDai =
+        //         (v.levPosDai *
+        //             (100 *
+        //                 PRECISION -
+        //                 referrals.getPercentOfOpenFeeP(trade.trader))) /
+        //         100 /
+        //         PRECISION;
 
-            v.reward1 = referrals.distributePotentialReward(
-                trade.trader,
-                v.levPosDai,
-                pairsStored.pairOpenFeeP(trade.pairIndex),
-                v.tokenPriceDai
-            );
+        //     v.reward1 = referrals.distributePotentialReward(
+        //         trade.trader,
+        //         v.levPosDai,
+        //         pairsStored.pairOpenFeeP(trade.pairIndex),
+        //         v.tokenPriceDai
+        //     );
 
-            _sendToVault(v.reward1, trade.trader);
-            trade.positionSizeDai -= v.reward1;
+        //     _sendToVault(v.reward1, trade.trader);
+        //     trade.positionSizeDai -= v.reward1;
 
-            emit ReferralFeeCharged(trade.trader, v.reward1);
-        }
+        //     emit ReferralFeeCharged(trade.trader, v.reward1);
+        // }
 
         // 2. Calculate gov fee (- referral fee if applicable)
         uint govFee = _handleGovFees(
@@ -897,17 +903,17 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             v.reward3 = (v.reward2 * 2) / 10; // 20% of limit fees
             _sendToVault(v.reward3, trade.trader);
 
-            _handleOracleRewards(
-                IGNSOracleRewardsV6_4_1.TriggeredLimitId(
-                    trade.trader,
-                    trade.pairIndex,
-                    limitIndex,
-                    StorageInterfaceV5.LimitOrder.OPEN
-                ),
-                trade.trader,
-                v.reward3,
-                v.tokenPriceDai
-            );
+            // _handleOracleRewards(
+            //     IGNSOracleRewardsV6_4_1.TriggeredLimitId(
+            //         trade.trader,
+            //         trade.pairIndex,
+            //         limitIndex,
+            //         StorageInterfaceV5.LimitOrder.OPEN
+            //     ),
+            //     trade.trader,
+            //     v.reward3,
+            //     v.tokenPriceDai
+            // );
         }
 
         // 3.3 Distribute SSS fee (previous dev fee + market/limit fee - oracle reward)
@@ -921,9 +927,9 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             trade.trader,
             trade.pairIndex
         );
-        trade.initialPosToken =
-            (trade.positionSizeDai * PRECISION) /
-            v.tokenPriceDai;
+        // trade.initialPosToken =
+        //     (trade.positionSizeDai * PRECISION) /
+        //     v.tokenPriceDai;
 
         trade.tp = _correctTp(
             trade.openPrice,
@@ -965,7 +971,7 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
             trade,
             StorageInterfaceV5.TradeInfo(
                 0,
-                v.tokenPriceDai,
+                // v.tokenPriceDai,
                 trade.positionSizeDai * trade.leverage,
                 0,
                 0,
@@ -982,7 +988,11 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         lastUpdated.sl = currBlock;
         lastUpdated.created = currBlock;
 
-        return (trade, v.tokenPriceDai);
+        return (
+            trade,
+            //  v.tokenPriceDai
+            0
+        );
     }
 
     function _unregisterTrade(
@@ -1333,18 +1343,18 @@ contract GNSTradingCallbacksV6_4_1 is Initializable {
         storageT.transferDai(address(storageT), to, amountDai);
     }
 
-    function _handleOracleRewards(
-        IGNSOracleRewardsV6_4_1.TriggeredLimitId memory triggeredLimitId,
-        address trader,
-        uint oracleRewardDai,
-        uint tokenPriceDai
-    ) private {
-        uint oracleRewardToken = ((oracleRewardDai * PRECISION) /
-            tokenPriceDai);
-        nftRewards.distributeOracleReward(triggeredLimitId, oracleRewardToken);
+    // function _handleOracleRewards(
+    //     IGNSOracleRewardsV6_4_1.TriggeredLimitId memory triggeredLimitId,
+    //     address trader,
+    //     uint oracleRewardDai,
+    //     uint tokenPriceDai
+    // ) private {
+    //     uint oracleRewardToken = ((oracleRewardDai * PRECISION) /
+    //         tokenPriceDai);
+    //     nftRewards.distributeOracleReward(triggeredLimitId, oracleRewardToken);
 
-        emit TriggerFeeCharged(trader, oracleRewardDai);
-    }
+    //     emit TriggerFeeCharged(trader, oracleRewardDai);
+    // }
 
     function _handleGovFees(
         address trader,

@@ -3,11 +3,7 @@ const { timeout } = require("../utils/delay");
 const { createDeployFunction } = require("../utils/deploy");
 const config = require("../config.json");
 
-const constructorContracts = [
-  "GFarmTradingStorageV5",
-  "GNSPairsStorageV6",
-  "Operator",
-];
+const constructorContracts = ["GFarmTradingStorageV5", "GNSPairsStorageV6"];
 
 const func = createDeployFunction({
   contractName: "GNSPriceAggregatorV6_4",
@@ -21,18 +17,18 @@ const func = createDeployFunction({
       throw new Error(`Network configuration not found for: ${networkName}`);
     }
 
-    const { linkToken, uniswapV3Pool, priceFeed, priceAggregatorJob } =
+    const { linkToken, chainlinkOperator, priceFeed, priceAggregatorJob } =
       networkConfig;
 
     return [
       linkToken, // _linkToken
-      uniswapV3Pool, // uniswapV3Pool
-      100, // _twapInterval
+      // uniswapV3Pool
+      // 100, // _twapInterval
       dependencyContracts["GFarmTradingStorageV5"].address,
       dependencyContracts["GNSPairsStorageV6"].address,
       priceFeed, // _linkPriceFeed
       1, // _minAnswers
-      [dependencyContracts["Operator"].address], // _nodes
+      [chainlinkOperator], // _nodes
       [priceAggregatorJob, priceAggregatorJob], // _jobIds
     ];
   },

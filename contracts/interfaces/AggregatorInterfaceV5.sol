@@ -11,7 +11,7 @@ interface AggregatorInterfaceV5 {
 
     function getPrice(uint, OrderType, uint) external returns (uint);
 
-    function tokenPriceDai() external view returns (uint);
+    // function tokenPriceDai() external view returns (uint);
 
     function pairMinOpenLimitSlippageP(uint) external view returns (uint);
 

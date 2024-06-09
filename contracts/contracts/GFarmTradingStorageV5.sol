@@ -75,7 +75,7 @@ contract GFarmTradingStorageV5 {
         address trader;
         uint pairIndex;
         uint index;
-        uint initialPosToken; // 1e18
+        // uint initialPosToken; // 1e18
         uint positionSizeDai; // 1e18
         uint openPrice; // PRECISION
         bool buy;
@@ -85,7 +85,7 @@ contract GFarmTradingStorageV5 {
     }
     struct TradeInfo {
         uint tokenId;
-        uint tokenPriceDai; // PRECISION
+        // uint tokenPriceDai; // PRECISION
         uint openInterestDai; // 1e18
         uint tpLastUpdated;
         uint slLastUpdated;
@@ -566,7 +566,7 @@ contract GFarmTradingStorageV5 {
         if (t.leverage == 0) {
             return;
         }
-        t.initialPosToken = _t.initialPosToken;
+        // t.initialPosToken = _t.initialPosToken;
         t.positionSizeDai = _t.positionSizeDai;
         t.openPrice = _t.openPrice;
         t.leverage = _t.leverage;

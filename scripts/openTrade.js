@@ -1,17 +1,18 @@
 const { deployments, getNamedAccounts } = require("hardhat");
+const config = require("../config.json");
 
 async function main() {
   const { deployer } = await getNamedAccounts();
   const { execute } = deployments;
 
   // const dai = await hre.ethers.getContractAt(
-  //   'ERC20',
-  //   '0x04B2A6E51272c82932ecaB31A5Ab5aC32AE168C3',
+  //   "ERC20",
+  //   "0x04B2A6E51272c82932ecaB31A5Ab5aC32AE168C3",
   //   deployer
   // );
   // const approve = await dai.approve(
   //   tradingStorageAddr,
-  //   '1000000000000000000000000'
+  //   "1000000000000000000000000"
   // );
   // await hre.ethers.provider.waitForTransaction(approve.hash);
 
@@ -52,7 +53,7 @@ async function main() {
       deployer,
       0,
       0,
-      0,
+      // 0,
       "50000000000000000000",
       "660000000000000",
       true,

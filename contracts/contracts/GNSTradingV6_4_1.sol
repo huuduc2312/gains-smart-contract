@@ -298,7 +298,7 @@ contract GNSTradingV6_4_1 is Delegatable {
                         sender,
                         t.pairIndex,
                         0,
-                        0,
+                        // 0,
                         t.positionSizeDai,
                         0,
                         t.buy,
@@ -351,7 +351,8 @@ contract GNSTradingV6_4_1 is Delegatable {
         uint orderId = storageT.priceAggregator().getPrice(
             pairIndex,
             AggregatorInterfaceV6_4.OrderType.MARKET_CLOSE,
-            (t.initialPosToken * i.tokenPriceDai * t.leverage) / PRECISION,
+            // (t.initialPosToken * i.tokenPriceDai * t.leverage) / PRECISION,
+            t.positionSizeDai * t.leverage,
             ChainUtils.getBlockNumber()
         );
 
@@ -361,7 +362,7 @@ contract GNSTradingV6_4_1 is Delegatable {
                     sender,
                     pairIndex,
                     index,
-                    0,
+                    // 0,
                     0,
                     0,
                     false,
@@ -603,14 +604,15 @@ contract GNSTradingV6_4_1 is Delegatable {
                             t.index,
                             t.openPrice,
                             t.buy,
-                            (t.initialPosToken *
-                                storageT
-                                    .openTradesInfo(
-                                        t.trader,
-                                        t.pairIndex,
-                                        t.index
-                                    )
-                                    .tokenPriceDai) / PRECISION,
+                            // (t.initialPosToken *
+                            //     storageT
+                            //         .openTradesInfo(
+                            //             t.trader,
+                            //             t.pairIndex,
+                            //             t.index
+                            //         )
+                            //         .tokenPriceDai) / PRECISION,
+                            t.positionSizeDai,
                             t.leverage
                         )
                     );
@@ -659,12 +661,14 @@ contract GNSTradingV6_4_1 is Delegatable {
             }
         } else if (!byPassesLinkCost) {
             leveragedPosDai =
-                (t.initialPosToken *
-                    storageT
-                        .openTradesInfo(trader, pairIndex, index)
-                        .tokenPriceDai *
-                    t.leverage) /
-                PRECISION;
+                // (t.initialPosToken *
+                //     storageT
+                //         .openTradesInfo(trader, pairIndex, index)
+                //         .tokenPriceDai *
+                //     t.leverage) /
+                // PRECISION;
+                t.positionSizeDai *
+                t.leverage;
         }
 
         if (leveragedPosDai > 0) {

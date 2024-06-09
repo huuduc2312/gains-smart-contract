@@ -2,7 +2,7 @@ const setPairParams = require("../utils/setPairParams.js");
 const addPair = require("./addPair.js");
 
 async function main() {
-  // await addPair();
+  await addPair();
   await setPairParams();
   // await setupRoles();
 

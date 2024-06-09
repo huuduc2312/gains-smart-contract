@@ -4,9 +4,9 @@ async function setPairParams() {
   const { deployer } = await getNamedAccounts();
   const { execute } = deployments;
 
-  console.info("Executing GNSPairInfosV6_1.setManager...");
-  await execute("GNSPairInfosV6_1", { from: deployer }, "setManager", deployer);
-  console.info("Done GNSPairInfosV6_1.setManager");
+  // console.info("Executing GNSPairInfosV6_1.setManager...");
+  // await execute("GNSPairInfosV6_1", { from: deployer }, "setManager", deployer);
+  // console.info("Done GNSPairInfosV6_1.setManager");
 
   // console.info("Executing GNSPairInfosV6_1.setPairParams...");
   // await execute(
@@ -18,20 +18,20 @@ async function setPairParams() {
   // );
   // console.info("Done GNSPairInfosV6_1.setPairParams");
 
-  let tx = await execute(
-    "GNSBorrowingFeesV6_4",
-    { from: deployer },
-    "setGroupParams",
-    1,
-    [91987, 24660540000000000n, 1]
-  );
-  console.info(
-    "Executing GNSBorrowingFeesV6_4.setGroupParams. Tx:",
-    tx.transactionHash
-  );
-  await ethers.provider.waitForTransaction(tx.transactionHash);
+  // let tx = await execute(
+  //   "GNSBorrowingFeesV6_4",
+  //   { from: deployer },
+  //   "setGroupParams",
+  //   1,
+  //   [91987, 24660540000000000n, 1]
+  // );
+  // console.info(
+  //   "Executing GNSBorrowingFeesV6_4.setGroupParams. Tx:",
+  //   tx.transactionHash
+  // );
+  // await ethers.provider.waitForTransaction(tx.transactionHash);
 
-  console.info("Done GNSBorrowingFeesV6_4.setGroupParams");
+  // console.info("Done GNSBorrowingFeesV6_4.setGroupParams");
 
   tx = await execute(
     "GNSBorrowingFeesV6_4",
@@ -48,4 +48,4 @@ async function setPairParams() {
   console.info("Done GNSBorrowingFeesV6_4.setPairParams");
 }
 
-module.exports = setPairParams;
+module.exports = { setPairParams };

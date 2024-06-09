@@ -27,7 +27,7 @@ interface StorageInterfaceV5 {
         address trader;
         uint pairIndex;
         uint index;
-        uint initialPosToken; // 1e18
+        // uint initialPosToken; // 1e18
         uint positionSizeDai; // 1e18
         uint openPrice; // PRECISION
         bool buy;
@@ -37,7 +37,7 @@ interface StorageInterfaceV5 {
     }
     struct TradeInfo {
         uint tokenId;
-        uint tokenPriceDai; // PRECISION
+        // uint tokenPriceDai; // PRECISION
         uint openInterestDai; // 1e18
         uint tpLastUpdated;
         uint slLastUpdated;
@@ -291,7 +291,7 @@ interface AggregatorInterfaceV6_4 {
 
     function getPrice(uint, OrderType, uint, uint) external returns (uint);
 
-    function tokenPriceDai() external returns (uint);
+    // function tokenPriceDai() external returns (uint);
 
     function linkFee(uint, uint) external view returns (uint);
 
