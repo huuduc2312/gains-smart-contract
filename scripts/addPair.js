@@ -18,12 +18,12 @@ async function addPair() {
   console.info("Executing addFee...");
   await execute("GNSPairsStorageV6", { from: deployer }, "addFee", [
     "crypto",
-    300000000,
-    600000000,
-    60000000,
-    200000000,
-    1,
-    "1500000000000000000000",
+    300000000, // openFeeP
+    600000000, // closeFeeP
+    60000000, // oracleFeeP
+    200000000, // nftLimitOrderFeeP
+    1, // referralFeeP
+    "1500000000000000000000", // minLevPosDai
   ]);
   console.info("Done addFee");
 
